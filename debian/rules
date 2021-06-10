@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+include /usr/share/dpkg/default.mk
+export QT_SELECT=qt5
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	qmake
+	dh_auto_configure -- \
+    -- VERSION=$(VERSION) LIB_INSTALL_DIR=/usr/lib/$(DEB_HOST_MULTIARCH) DEFINES+="VERSION=$(DEB_VERSION_UPSTREAM)"
+
