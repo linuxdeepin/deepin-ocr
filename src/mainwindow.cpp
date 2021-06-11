@@ -30,6 +30,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
     if (!m_mainWidget) {
         m_mainWidget = new MainWidget(this);
     }

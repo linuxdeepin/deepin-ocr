@@ -30,7 +30,9 @@ MainWidget::MainWidget(QWidget *parent) :
 MainWidget::~MainWidget()
 {
 //    m_mainGridLayout->addLayout(m_buttonHorizontalLayout, 1, 0, 1, 1);
-    m_mainGridLayout->removeItem(m_buttonHorizontalLayout);
+    if (m_mainGridLayout && m_buttonHorizontalLayout) {
+        m_mainGridLayout->removeItem(m_buttonHorizontalLayout);
+    }
     if (m_imageview) {
         m_imageview->deleteLater();
         m_imageview = nullptr;
@@ -107,7 +109,7 @@ void MainWidget::setupUi(QWidget *Widget)
     m_buttonHorizontalLayout = new QHBoxLayout(Widget);
     m_buttonHorizontalLayout->setContentsMargins(20, 0, 59, 0); //表示控件与窗体的左右边距
 //    m_buttonHorizontalLayout->setSpacing(30);
-    m_buttonHorizontalLayout->setObjectName(QStringLiteral("horizontalLayout_2"));
+
 
     m_tipHorizontalLayout = new QHBoxLayout(Widget);
 
@@ -122,7 +124,7 @@ void MainWidget::setupUi(QWidget *Widget)
     m_tipHorizontalLayout->addWidget(m_tiplabel);
 
     m_buttonHorizontalLayout->addLayout(m_tipHorizontalLayout);
-    QSpacerItem *horizontalSpacer = new QSpacerItem(159, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);    m_buttonHorizontalLayout->addItem(horizontalSpacer);
+    QSpacerItem *horizontalSpacer = new QSpacerItem(159, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
     m_buttonHorizontalLayout->addItem(horizontalSpacer);
 
     m_copyBtn = new DIconButton(Widget);
@@ -178,11 +180,13 @@ void MainWidget::createLoadingUi()
     m_loadingWidget->show();
     m_loadingTip = new DLabel(tr("Recognizing"), this);
     m_loadingTip->show();
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::DarkType) {
-        m_imageview->setForegroundBrush(QColor(0, 0, 0, 150)); //设置场景的前景色，类似于遮罩
-    } else {
-        m_imageview->setForegroundBrush(QColor(255, 255, 255, 150)); //设置场景的前景色，类似于遮罩
+    if (m_imageview) {
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::DarkType) {
+            m_imageview->setForegroundBrush(QColor(0, 0, 0, 150)); //设置场景的前景色，类似于遮罩
+        } else {
+            m_imageview->setForegroundBrush(QColor(255, 255, 255, 150)); //设置场景的前景色，类似于遮罩
+        }
     }
 }
 
@@ -212,17 +216,22 @@ void MainWidget::loadingUi()
 
 void MainWidget::openImage(const QString &path)
 {
-    QImage img(path);
-    m_imageview->openFilterImage(img);
-    m_imageview->fitWindow();
-    m_imgName = path;
+    if (m_imageview) {
+        QImage img(path);
+        m_imageview->openFilterImage(img);
+        m_imageview->fitWindow();
+        m_imgName = path;
+    }
+
 }
 
 void MainWidget::openImage(const QImage &img)
 {
-    m_imageview->openFilterImage(img);
-    m_imageview->fitWindow();
-    m_imgName = "";
+    if (m_imageview) {
+        m_imageview->openFilterImage(img);
+        m_imageview->fitWindow();
+        m_imgName = "";
+    }
 }
 
 void MainWidget::resizeEvent(QResizeEvent *event)
@@ -272,43 +281,53 @@ void MainWidget::slotExport()
 void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
 {
     if (themeType == DGuiApplicationHelper::DarkType) {
-        m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_dark.svg"));
-        m_tipIconLabel->setFixedSize(QSize(14, 14));
+        if (m_tipIconLabel) {
+            m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_dark.svg"));
+            m_tipIconLabel->setFixedSize(QSize(14, 14));
+        }
 
-        m_copyBtn->setIcon(QIcon(":/assets/copy_dark.svg"));
-        m_copyBtn->setIconSize(QSize(36, 36));
-        m_copyBtn->setFlat(true);
-
-        m_exportBtn->setIcon(QIcon(":/assets/download_dark.svg"));
-        m_exportBtn->setIconSize(QSize(36, 36));
-        m_exportBtn->setFlat(true);
+        if (m_copyBtn) {
+            m_copyBtn->setIcon(QIcon(":/assets/copy_dark.svg"));
+            m_copyBtn->setIconSize(QSize(36, 36));
+            m_copyBtn->setFlat(true);
+        }
+        if (m_exportBtn) {
+            m_exportBtn->setIcon(QIcon(":/assets/download_dark.svg"));
+            m_exportBtn->setIconSize(QSize(36, 36));
+            m_exportBtn->setFlat(true);
+        }
 
         App->setWindowIcon(QIcon(":/assets/appicon_dark.svg"));
         DMainWindow *mainWindow = static_cast<DMainWindow *>(this->parent());
         if (mainWindow) {
             mainWindow->titlebar()->setIcon(QIcon(":/assets/appicon_dark.svg"));
         }
-        if (m_isLoading) {
+        if (m_isLoading && m_imageview) {
             m_imageview->setForegroundBrush(QColor(0, 0, 0, 150)); //设置场景的前景色，类似于遮罩
         }
     } else {
-        m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_light.svg"));
-        m_tipIconLabel->setFixedSize(QSize(14, 14));
+        if (m_tipIconLabel) {
+            m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_light.svg"));
+            m_tipIconLabel->setFixedSize(QSize(14, 14));
+        }
 
-        m_copyBtn->setIcon(QIcon(":/assets/copy_light.svg"));
-        m_copyBtn->setIconSize(QSize(36, 36));
-        m_copyBtn->setFlat(true);
-
-        m_exportBtn->setIcon(QIcon(":/assets/download_light.svg"));
-        m_exportBtn->setIconSize(QSize(36, 36));
-        m_exportBtn->setFlat(true);
+        if (m_copyBtn) {
+            m_copyBtn->setIcon(QIcon(":/assets/copy_light.svg"));
+            m_copyBtn->setIconSize(QSize(36, 36));
+            m_copyBtn->setFlat(true);
+        }
+        if (m_exportBtn) {
+            m_exportBtn->setIcon(QIcon(":/assets/download_light.svg"));
+            m_exportBtn->setIconSize(QSize(36, 36));
+            m_exportBtn->setFlat(true);
+        }
 
         App->setWindowIcon(QIcon(":/assets/appicon_light.svg"));
         DMainWindow *mainWindow = static_cast<DMainWindow *>(this->parent());
         if (mainWindow) {
             mainWindow->titlebar()->setIcon(QIcon(":/assets/appicon_light.svg"));
         }
-        if (m_isLoading) {
+        if (m_isLoading && m_imageview) {
             m_imageview->setForegroundBrush(QColor(255, 255, 255, 150)); //设置场景的前景色，类似于遮罩
         }
     }
