@@ -24,7 +24,8 @@ HEADERS += src/mainwindow.h \
     src/mainwidget.h \
     src/resulttextview.h \
     src/textloadwidget.h \
-    src/view/imageview.h
+    src/view/imageview.h \
+    src/tessocrutils/tessocrutils.h
 
 SOURCES += src/main.cpp \
            src/mainwindow.cpp \
@@ -34,8 +35,10 @@ SOURCES += src/main.cpp \
     src/mainwidget.cpp \
     src/textloadwidget.cpp \
     src/resulttextview.cpp \
-    src/view/imageview.cpp
+    src/view/imageview.cpp \
+    src/tessocrutils/tessocrutils.cpp
 
+LIBS +=  -llept -ltesseract \
 
 QT += dtkgui
 QT += dtkwidget
@@ -57,8 +60,11 @@ translations.files=$$TRANSLATIONS_COMPILED
 dbus_service.path=/usr/share/dbus-1/services
 dbus_service.files=./com.deepin.Ocr.service
 
+#Tesseract-ocr识别语言包
+tesslangs.path=/usr/share/deepin-ocr/tesslangs
+tesslangs.files=./assets/tesslangs/chi_sim.traineddata ./assets/tesslangs/chi_tra.traineddata ./assets/tesslangs/eng.traineddata
 
-INSTALLS += target dbus_service translations
+INSTALLS += target dbus_service translations tesslangs
 
 RESOURCES += \
     resource.qrc
