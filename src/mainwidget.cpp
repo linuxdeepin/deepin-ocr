@@ -11,6 +11,7 @@
 #include <QFileInfo>
 #include <QThread>
 #include <QMutexLocker>
+#include <QSplitter>
 
 #include <DGuiApplicationHelper>
 #include <DMainWindow>
@@ -95,13 +96,24 @@ void MainWidget::setupUi(QWidget *Widget)
 
     m_plainTextEdit = new ResultTextView(Widget);
     m_plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
+    connect(m_plainTextEdit, &ResultTextView::sigChangeSize, [ = ] {
+        loadingUi();
+    });
 
     if (!m_imageview) {
         m_imageview = new ImageView();
     }
-
-    m_horizontalLayout->addWidget(m_imageview);
-    m_horizontalLayout->addWidget(m_plainTextEdit);
+    QSplitter *mainSplitter = new QSplitter(Qt::Horizontal); //新建水平分割器
+    mainSplitter->setHandleWidth(1);//分割线的宽度
+    mainSplitter->setChildrenCollapsible(false);//不允许把分割出的子窗口拖小到0，最小值被限定为sizeHint或maxSize/minSize
+    mainSplitter->addWidget(m_imageview);//把ui中拖出的各个控件拿走，放到分割器里面
+    mainSplitter->addWidget(m_plainTextEdit);
+    QList<int> list;
+    list << 600 << 250;
+    mainSplitter->setSizes(list);
+//    m_horizontalLayout->addWidget(m_imageview);
+//    m_horizontalLayout->addWidget(m_plainTextEdit);
+    m_horizontalLayout->addWidget(mainSplitter);
     m_horizontalLayout->setStretch(0, 1);
 
     m_mainGridLayout->addLayout(m_horizontalLayout, 0, 0, 1, 1);
@@ -212,6 +224,10 @@ void MainWidget::loadingUi()
         m_loadingWidget->move(x, y);
         m_loadingTip->move(x - 20, y + 24);
     }
+    if (m_pwidget) {
+        m_pwidget->setFixedSize(this->width(), this->height() - 48);
+        m_pwidget->move(0, 0);
+    }
 }
 
 void MainWidget::openImage(const QString &path)
@@ -277,9 +293,6 @@ void MainWidget::loadString(const QString &string)
 
 void MainWidget::resizeEvent(QResizeEvent *event)
 {
-    loadingUi();
-    m_pwidget->setFixedSize(this->width(), this->height() - 48);
-    m_pwidget->move(0, 0);
     return DWidget::resizeEvent(event);
 }
 

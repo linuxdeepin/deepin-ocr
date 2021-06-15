@@ -16,7 +16,10 @@ public:
 
 protected:
     void contextMenuEvent(QContextMenuEvent *e) override;
+    void resizeEvent(QResizeEvent *event) override;
 
+signals:
+    void sigChangeSize();
 private:
     QMenu *m_Menu;
     QAction *m_actCopy;

@@ -42,3 +42,9 @@ void ResultTextView::contextMenuEvent(QContextMenuEvent *e)
     }
     m_Menu->exec(QCursor::pos());
 }
+
+void ResultTextView::resizeEvent(QResizeEvent *event)
+{
+    emit sigChangeSize();
+    DPlainTextEdit::resizeEvent(event);
+}
