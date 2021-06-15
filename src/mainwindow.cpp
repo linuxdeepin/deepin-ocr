@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
         m_mainWidget = new MainWidget(this);
     }
     this->setCentralWidget(m_mainWidget);
+    this->resize(840, 550);
+    this->setMinimumSize(840, 550);
 }
 
 MainWindow::~MainWindow()

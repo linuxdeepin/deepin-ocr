@@ -24,7 +24,6 @@ MainWidget::MainWidget(QWidget *parent) :
     setIcons(themeType);
 
     setupConnect();
-
 }
 
 MainWidget::~MainWidget()
@@ -234,23 +233,50 @@ void MainWidget::openImage(const QImage &img)
     }
 }
 
+void MainWidget::loadHtml(const QString &html)
+{
+    if (!html.isEmpty()) {
+        m_plainTextEdit->appendHtml(html);
+    }
+}
+
+void MainWidget::loadString(const QString &string)
+{
+    if (!string.isEmpty()) {
+        QStringList templist = string.split("\r\n", QString::KeepEmptyParts);
+        for (int i = 0; i < templist.size(); i++) {
+            m_plainTextEdit->appendPlainText(templist.at(i));
+        }
+    }
+}
+
 void MainWidget::resizeEvent(QResizeEvent *event)
 {
     loadingUi();
+    m_pwidget->setFixedSize(this->width(), this->height() - 48);
+    m_pwidget->move(0, 0);
     return DWidget::resizeEvent(event);
 }
 
 
 void MainWidget::slotCopy()
 {
+    //复制所有内容
+    QTextDocument *document = m_plainTextEdit->document();
+    DPlainTextEdit *tempTextEdit = new DPlainTextEdit(this);
+    tempTextEdit->setDocument(document);
+    tempTextEdit->selectAll();
+    tempTextEdit->copy();
+
     QIcon icon(":/assets/icon_toast_sucess_new.svg");
-    DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, this);
+    DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, m_pwidget);
     pDFloatingMessage->setBlurBackgroundEnabled(true);
     pDFloatingMessage->setMessage(tr("Copied"));
     pDFloatingMessage->setIcon(icon);
     pDFloatingMessage->raise();
-    DMessageManager::instance()->sendMessage(this, pDFloatingMessage);
-    m_plainTextEdit->copy();
+    DMessageManager::instance()->sendMessage(m_pwidget, pDFloatingMessage);
+    tempTextEdit->deleteLater();
+    tempTextEdit = nullptr;
 }
 
 void MainWidget::slotExport()

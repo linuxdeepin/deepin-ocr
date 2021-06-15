@@ -34,6 +34,10 @@ public:
 
     void openImage(const QString &path);
     void openImage(const QImage &img);
+
+    void loadHtml(const QString &html);
+    void loadString(const QString &string);
+
 protected:
     void resizeEvent(QResizeEvent *event);
 private slots:
