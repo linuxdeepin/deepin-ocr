@@ -107,11 +107,22 @@ void MainWidget::setupUi(QWidget *Widget)
     if (!m_imageview) {
         m_imageview = new ImageView();
     }
+
+    m_resultWidget = new QStackedWidget(this);
+    m_resultWidget->setFocusPolicy(Qt::NoFocus);
+    m_resultWidget->addWidget(m_plainTextEdit);
+
+    m_noResult = new DLabel(this);
+    m_noResult->setAlignment(Qt::AlignCenter);
+    m_noResult->setText(tr("No text recognized"));
+
+    m_resultWidget->addWidget(m_noResult);
+
     QSplitter *mainSplitter = new QSplitter(Qt::Horizontal); //新建水平分割器
     mainSplitter->setHandleWidth(1);//分割线的宽度
     mainSplitter->setChildrenCollapsible(false);//不允许把分割出的子窗口拖小到0，最小值被限定为sizeHint或maxSize/minSize
     mainSplitter->addWidget(m_imageview);//把ui中拖出的各个控件拿走，放到分割器里面
-    mainSplitter->addWidget(m_plainTextEdit);
+    mainSplitter->addWidget(m_resultWidget);
     QList<int> list;
     list << 600 << 250;
     mainSplitter->setSizes(list);
@@ -287,15 +298,26 @@ void MainWidget::openImage(const QImage &img)
 void MainWidget::loadHtml(const QString &html)
 {
     if (!html.isEmpty()) {
+        m_resultWidget->setCurrentWidget(m_plainTextEdit);
         m_plainTextEdit->appendHtml(html);
+    } else {
+        resultEmpty();
     }
 }
 
 void MainWidget::loadString(const QString &string)
 {
     if (!string.isEmpty()) {
+        m_resultWidget->setCurrentWidget(m_plainTextEdit);
         m_plainTextEdit->appendPlainText(string);
+    } else {
+        resultEmpty();
     }
+}
+
+void MainWidget::resultEmpty()
+{
+    m_resultWidget->setCurrentWidget(m_noResult);
 }
 
 void MainWidget::resizeEvent(QResizeEvent *event)

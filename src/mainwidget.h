@@ -8,6 +8,7 @@
 #include <DGuiApplicationHelper>
 
 #include <QMutex>
+#include <QStackedWidget>
 
 #include "resulttextview.h"
 #include "textloadwidget.h"
@@ -42,6 +43,7 @@ public:
 
     void loadHtml(const QString &html);
     void loadString(const QString &string);
+    void resultEmpty();
 
 protected:
     void resizeEvent(QResizeEvent *event);
@@ -75,6 +77,9 @@ private:
     QMutex m_mutex;
     RecognitionResult m_result;
     QImage *m_currentImg{nullptr};
+
+    QStackedWidget *m_resultWidget{nullptr};
+    DLabel *m_noResult{nullptr};
 signals:
     void sigResult(const QString &);
 
