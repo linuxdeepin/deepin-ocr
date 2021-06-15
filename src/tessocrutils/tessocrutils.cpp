@@ -49,6 +49,12 @@ const QString TESSDATA_PATH = "/usr/share/deepin-ocr/tesslangs";
  */
 TessOcrUtils *TessOcrUtils::m_tessOcrUtils = nullptr;
 
+/**
+ * @brief TessOcrUtils::t_Tesseract 三方库实例化
+ */
+tesseract::TessBaseAPI *TessOcrUtils::t_Tesseract   = new tesseract::TessBaseAPI();
+
+
 TessOcrUtils::TessOcrUtils()
 {
 
@@ -226,10 +232,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(Pix * image,ResultType resul
         setResult(errorCode,errorMessage,resultType,t_result);
         return t_result;
     }
-    tesseract::TessBaseAPI *t_Tesseract = new tesseract::TessBaseAPI();
     try{
-        //实例化tesseract
-        t_Tesseract = new tesseract::TessBaseAPI();
         //初始化语言包
         if (t_Tesseract->Init(m_sTessdataPath.toLatin1().data(), m_sLangs.toLatin1().data()))
         {
@@ -267,7 +270,6 @@ RecognitionResult TessOcrUtils::getRecogitionResult(Pix * image,ResultType resul
         return t_result;
     }
     t_Tesseract->End();
-    delete t_Tesseract;
     pixDestroy(&image);
     t_result.flag = true;
     t_result.message = errorMessage;

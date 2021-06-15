@@ -244,6 +244,8 @@ private :
 
      static TessOcrUtils *m_tessOcrUtils;
 
+     static tesseract::TessBaseAPI *t_Tesseract;
+
 };
 
 #endif // TESSOCRUTILS_H
