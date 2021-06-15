@@ -9,6 +9,8 @@
 #include <QStandardPaths>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QThread>
+#include <QMutexLocker>
 
 #include <DGuiApplicationHelper>
 #include <DMainWindow>
@@ -151,7 +153,6 @@ void MainWidget::setupUi(QWidget *Widget)
     m_pwidget->setFixedSize(this->width(), this->height() - 23);
     m_pwidget->move(0, 0);
 
-    createLoadingUi();
 //    deleteLoadingUi();
 
 }
@@ -215,12 +216,25 @@ void MainWidget::loadingUi()
 
 void MainWidget::openImage(const QString &path)
 {
+    createLoadingUi();
     if (m_imageview) {
         QImage img(path);
         m_imageview->openFilterImage(img);
         m_imageview->fitWindow();
         m_imgName = path;
     }
+
+    if (!m_loadImagethread) {
+        m_loadImagethread = QThread::create([ = ]() {
+            QMutexLocker locker(&m_mutex);
+            m_result = TessOcrUtils::instance()->getRecogitionResult(path, ResultType::RESULT_HTML);
+            loadHtml(m_result.result);
+            deleteLoadingUi();
+        });
+    }
+
+    connect(m_loadImagethread, &QThread::finished, m_loadImagethread, &QObject::deleteLater);
+    m_loadImagethread->start();
 
 }
 
@@ -231,6 +245,17 @@ void MainWidget::openImage(const QImage &img)
         m_imageview->fitWindow();
         m_imgName = "";
     }
+    if (!m_loadImagethread) {
+        m_loadImagethread = QThread::create([ = ]() {
+            QMutexLocker locker(&m_mutex);
+            QImage a = img;
+            m_result = TessOcrUtils::instance()->getRecogitionResult(&a, ResultType::RESULT_HTML);
+            loadHtml(m_result.result);
+            deleteLoadingUi();
+        });
+    }
+    connect(m_loadImagethread, &QThread::finished, m_loadImagethread, &QObject::deleteLater);
+    m_loadImagethread->start();
 }
 
 void MainWidget::loadHtml(const QString &html)

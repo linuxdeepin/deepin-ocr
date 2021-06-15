@@ -7,8 +7,13 @@
 #include <DLabel>
 #include <DGuiApplicationHelper>
 
+#include <QMutex>
+
 #include "resulttextview.h"
 #include "textloadwidget.h"
+#include "tessocrutils/tessocrutils.h"
+
+class QThread;
 class QGridLayout;
 class QHBoxLayout;
 class ImageView;
@@ -65,6 +70,10 @@ private:
     DLabel *m_loadingTip{nullptr};
 
     bool m_isLoading{false};
+
+    QThread *m_loadImagethread{nullptr};
+    QMutex m_mutex;
+    RecognitionResult m_result;
 };
 
 #endif // WIDGET_H
