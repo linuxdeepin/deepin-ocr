@@ -62,7 +62,7 @@ dbus_service.files=./com.deepin.Ocr.service
 
 #Tesseract-ocr识别语言包
 tesslangs.path=/usr/share/deepin-ocr/tesslangs
-tesslangs.files=./assets/tesslangs/chi_sim.traineddata ./assets/tesslangs/chi_tra.traineddata ./assets/tesslangs/eng.traineddata
+tesslangs.files=./assets/tesslangs/chi_sim.traineddata ./assets/tesslangs/chi_tra.traineddata ./assets/tesslangs/eng.traineddata ./assets/tesslangs/chi_sim_vert.traineddata ./assets/tesslangs/chi_tra_vert.traineddata
 
 INSTALLS += target dbus_service translations tesslangs
 

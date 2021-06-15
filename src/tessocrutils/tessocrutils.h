@@ -57,28 +57,29 @@
  * @brief 返回结果字符串的类型
  */
 enum ResultType{
-    ResultString = 1,      //纯字符串结果
-    ResultHTML = 2,        //HTML文本
-    ResultXML = 3          //XML文本
+    RESULT_STRING = 1,      //纯字符串结果
+    RESULT_HTML = 2,        //HTML文本
+    UNKNOWN_TYPE = -1          //XML文本
 };
 
 /**
  * @brief 返回识别过程中的错误码
  */
 enum ErrorCode{
-    OK = 1,                //成功
-    UKNOW = -1,            //未知错误
-    OCRPNULL = 101,        //文件路径为空
-    OCRRTNULL = 102,       //结果字符串类型不存在
-    OCRINIF = 103,         //ocr三方库初始化失败
-    OCRLIF = 104,          //OCR加载图片失败
-    OCRRIF = 105           //OCR识别图片失败
+    OK = 1,                  //成功
+    UNKNOWN = -1,            //未知错误
+    OCR_P_NULL = 101,        //文件路径为空
+    OCR_RT_NULL = 102,       //结果字符串类型不存在
+    OCR_INI_F = 103,         //ocr三方库初始化失败
+    OCR_LI_F = 104,          //OCR加载图片失败
+    OCR_RI_F = 105           //OCR识别图片失败
 };
 
 /**
  * @brief 现今支持的语言包类型
  */
 enum Languages{
+    UNKNOWN_LAN = -1,     //未知语言
     CHI_SIM=1,      //简体中文
     CHI_TRA=2,      //繁体中文
     ENG=3           //英文
@@ -117,23 +118,22 @@ struct RecognitionResult{
     RecognitionResult(){
         flag = false;
         message.clear();
-        errorCode = ErrorCode::UKNOW;
-        resultType = ResultType::ResultString;
+        errorCode = ErrorCode::UNKNOWN;
+        resultType = ResultType::RESULT_STRING;
         result.clear();
     }
 };
 
 /**
  * @brief ocr接口工具
- * 使用方法:
- * 1.设置语言包路径        TessOcrUtils::instance()->setLanguagesPath(langPath);
- * 2.设置用来识别的语言包   TessOcrUtils::instance()->setLanguages(langs);
- * 3.获取识别结果          TessOcrUtils::instance()->getRecogitionResult(t_image);
+ * 使用方法: * 
+ * 1.获取识别结果          TessOcrUtils::instance()->getRecogitionResult(t_image);
  */
 class TessOcrUtils
 {
 public:
     TessOcrUtils();
+    ~TessOcrUtils();
     static TessOcrUtils *instance();
 
     /**
@@ -166,22 +166,21 @@ public:
      */
      RecognitionResult getRecogitionResult(QImage *image);
 
-
-    /**
-     * @brief 设置当前使用的语言包
-     * @param 需要使用的语言包
-     * @return 是否成功
-     */
-     bool setLanguages(const QList<Languages> langs);
-
-    /**
-     * @brief 设置当前使用的语言包路径
-     * @param 语言包路径
-     * @return
-     */
-     bool setLanguagesPath(const QString langsPath);
-
 private :
+
+     /**
+      * @brief 设置当前使用的语言包
+      * @param 需要使用的语言包
+      * @return 是否成功
+      */
+      //bool setLanguages(const QList<Languages> langs);
+
+     /**
+      * @brief 设置当前使用的语言包路径
+      * @param 语言包路径
+      * @return
+      */
+      bool setLanguagesPath(const QString langsPath);
 
     /**
      * @brief 判断指定的结果类型是否存在
@@ -204,6 +203,19 @@ private :
      */
      QString getLangStr(Languages lang);
 
+     /**
+      * @brief 获取系统当前的语言
+      * @return
+      */
+     Languages getSystemLang();
+
+     /**
+      * @brief 获取当前使用的语言包
+      * @param 需要使用的语言包
+      * @return
+      */
+     QString getLanguages();
+
     /**
      * @brief 获取纯字符串的识别结果
      * @param 需识别的图片
@@ -220,9 +232,8 @@ private :
      */
      void setResult(ErrorCode errCode, const QString errMessage,const ResultType resultType,RecognitionResult &result);
 
-
      /**
-      * @brief 语言包路径m_image
+      * @brief 语言包路径
       */
       QString m_sTessdataPath;
 
