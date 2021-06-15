@@ -74,6 +74,10 @@ private:
     QThread *m_loadImagethread{nullptr};
     QMutex m_mutex;
     RecognitionResult m_result;
+    QImage *m_currentImg{nullptr};
+signals:
+    void sigResult(const QString &);
+
 };
 
 #endif // WIDGET_H

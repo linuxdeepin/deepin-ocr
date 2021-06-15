@@ -75,6 +75,10 @@ MainWidget::~MainWidget()
         m_tipIconLabel->deleteLater();
         m_tipIconLabel = nullptr;
     }
+    if (m_currentImg) {
+        delete m_currentImg;
+        m_currentImg = nullptr;
+    }
 
 }
 
@@ -174,6 +178,10 @@ void MainWidget::setupConnect()
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this, &MainWidget::setIcons);
     connect(m_exportBtn, &DIconButton::clicked, this, &MainWidget::slotExport);
     connect(m_copyBtn, &DIconButton::clicked, this, &MainWidget::slotCopy);
+    connect(this, &MainWidget::sigResult, this, [ = ](const QString & result) {
+        loadString(result);
+        deleteLoadingUi();
+    });
 }
 
 void MainWidget::retranslateUi(QWidget *Widget)
@@ -243,9 +251,8 @@ void MainWidget::openImage(const QString &path)
     if (!m_loadImagethread) {
         m_loadImagethread = QThread::create([ = ]() {
             QMutexLocker locker(&m_mutex);
-            m_result = TessOcrUtils::instance()->getRecogitionResult(path, ResultType::RESULT_HTML);
-            loadHtml(m_result.result);
-            deleteLoadingUi();
+            m_result = TessOcrUtils::instance()->getRecogitionResult(path, ResultType::RESULT_STRING);
+            emit sigResult(m_result.result);
         });
     }
 
@@ -261,13 +268,16 @@ void MainWidget::openImage(const QImage &img)
         m_imageview->fitWindow();
         m_imgName = "";
     }
+    if (m_currentImg) {
+        delete m_currentImg;
+        m_currentImg = nullptr;
+    }
+    m_currentImg = new QImage(img);
     if (!m_loadImagethread) {
         m_loadImagethread = QThread::create([ = ]() {
             QMutexLocker locker(&m_mutex);
-            QImage a = img;
-            m_result = TessOcrUtils::instance()->getRecogitionResult(&a, ResultType::RESULT_HTML);
-            loadHtml(m_result.result);
-            deleteLoadingUi();
+            m_result = TessOcrUtils::instance()->getRecogitionResult(m_currentImg, ResultType::RESULT_STRING);
+            emit sigResult(m_result.result);
         });
     }
     connect(m_loadImagethread, &QThread::finished, m_loadImagethread, &QObject::deleteLater);
@@ -284,10 +294,7 @@ void MainWidget::loadHtml(const QString &html)
 void MainWidget::loadString(const QString &string)
 {
     if (!string.isEmpty()) {
-        QStringList templist = string.split("\r\n", QString::KeepEmptyParts);
-        for (int i = 0; i < templist.size(); i++) {
-            m_plainTextEdit->appendPlainText(templist.at(i));
-        }
+        m_plainTextEdit->appendPlainText(string);
     }
 }
 
