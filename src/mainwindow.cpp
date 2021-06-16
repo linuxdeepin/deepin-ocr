@@ -25,7 +25,9 @@
 
 #include <QLabel>
 #include <QDBusConnection>
+
 #include <DTitlebar>
+#include <DWidgetUtil>
 
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)
@@ -37,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setCentralWidget(m_mainWidget);
     this->resize(840, 550);
     this->setMinimumSize(840, 550);
+    Dtk::Widget::moveToCenter(this);
 }
 
 MainWindow::~MainWindow()

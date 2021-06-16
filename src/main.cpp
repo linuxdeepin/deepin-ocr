@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     DApplication::loadDXcbPlugin();
     QScopedPointer<DApplication> app(new DApplication(argc, argv));
 #else
-    QScopedPointer<DApplication> app(DApplication::globalApplication(argc,argv));
+    QScopedPointer<DApplication> app(DApplication::globalApplication(argc, argv));
 #endif
     app->setOrganizationName("deepin");
     app->setApplicationName("deepin-ocr");
@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
     cmdParser.process(*app);
 
     app->loadTranslator();
+
 
     OcrApplication instance;
     QDBusConnection dbus = QDBusConnection::sessionBus();
@@ -89,7 +90,7 @@ int main(int argc, char *argv[])
         // 第二次运行此应用，
         // 调用DBus接口，处理交给第一次调用的进程
         // 本进程退退出
-        OcrInterface *pOcr = new OcrInterface("com.deepin.Ocr","/com/deepin/Ocr", QDBusConnection::sessionBus(), &instance);
+        OcrInterface *pOcr = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), &instance);
         qDebug() << __FUNCTION__ << __LINE__;
         pOcr->openFile(QString(argv[1]));
         //pOcr->openImage(QImage(QSize(500, 145), QImage::Format_RGB32));

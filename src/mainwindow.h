@@ -27,6 +27,7 @@
 
 class MainWidget;
 DWIDGET_USE_NAMESPACE
+
 class MainWindow : public DMainWindow
 {
     Q_OBJECT
