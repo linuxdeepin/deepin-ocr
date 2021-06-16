@@ -38,6 +38,18 @@
         <source>Copied</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No text recognized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save as TXT</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ResultTextView</name>
