@@ -76,10 +76,6 @@ MainWidget::~MainWidget()
         m_tipIconLabel->deleteLater();
         m_tipIconLabel = nullptr;
     }
-    if (m_currentImg) {
-        delete m_currentImg;
-        m_currentImg = nullptr;
-    }
 
 }
 
@@ -254,29 +250,20 @@ void MainWidget::loadingUi()
 
 void MainWidget::openImage(const QString &path)
 {
-    createLoadingUi();
     if (m_imageview) {
         QImage img(path);
         m_imageview->openFilterImage(img);
         m_imageview->fitWindow();
         m_imgName = path;
+        openImage(img);
     }
 
-    if (!m_loadImagethread) {
-        m_loadImagethread = QThread::create([ = ]() {
-            QMutexLocker locker(&m_mutex);
-            m_result = TessOcrUtils::instance()->getRecogitionResult(path, ResultType::RESULT_STRING);
-            emit sigResult(m_result.result);
-        });
-    }
-
-    connect(m_loadImagethread, &QThread::finished, m_loadImagethread, &QObject::deleteLater);
-    m_loadImagethread->start();
 
 }
 
 void MainWidget::openImage(const QImage &img)
 {
+    createLoadingUi();
     if (m_imageview) {
         m_imageview->openFilterImage(img);
         m_imageview->fitWindow();
