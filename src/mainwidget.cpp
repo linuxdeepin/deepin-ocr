@@ -17,6 +17,7 @@
 #include <DMainWindow>
 #include <DTitlebar>
 #include <DMessageManager>
+#include <DToolButton>
 
 #define App (static_cast<QApplication*>(QCoreApplication::instance()))
 MainWidget::MainWidget(QWidget *parent) :
@@ -155,15 +156,17 @@ void MainWidget::setupUi(QWidget *Widget)
     QSpacerItem *horizontalSpacer = new QSpacerItem(159, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
     m_buttonHorizontalLayout->addItem(horizontalSpacer);
 
-    m_copyBtn = new DIconButton(Widget);
-    m_copyBtn->setObjectName(QStringLiteral("Copy"));
+    m_copyBtn = new DToolButton(Widget);
+    m_copyBtn->setObjectName(QStringLiteral("Copy text"));
     m_copyBtn->setMaximumSize(QSize(40, 40));
+    m_copyBtn->setToolTip(tr("Copy text"));
 
     m_buttonHorizontalLayout->addWidget(m_copyBtn);
 
-    m_exportBtn = new DIconButton(Widget);
-    m_exportBtn->setObjectName(QStringLiteral("Export"));
+    m_exportBtn = new DToolButton(Widget);
+    m_exportBtn->setObjectName(QStringLiteral("Save as TXT"));
     m_exportBtn->setMaximumSize(QSize(40, 40));
+    m_exportBtn->setToolTip(tr("Save as TXT"));
 
     m_buttonHorizontalLayout->addWidget(m_exportBtn);
 
@@ -382,12 +385,10 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
         if (m_copyBtn) {
             m_copyBtn->setIcon(QIcon(":/assets/copy_dark.svg"));
             m_copyBtn->setIconSize(QSize(36, 36));
-            m_copyBtn->setFlat(true);
         }
         if (m_exportBtn) {
             m_exportBtn->setIcon(QIcon(":/assets/download_dark.svg"));
             m_exportBtn->setIconSize(QSize(36, 36));
-            m_exportBtn->setFlat(true);
         }
 
         App->setWindowIcon(QIcon(":/assets/appicon_dark.svg"));
@@ -407,12 +408,10 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
         if (m_copyBtn) {
             m_copyBtn->setIcon(QIcon(":/assets/copy_light.svg"));
             m_copyBtn->setIconSize(QSize(36, 36));
-            m_copyBtn->setFlat(true);
         }
         if (m_exportBtn) {
             m_exportBtn->setIcon(QIcon(":/assets/download_light.svg"));
             m_exportBtn->setIconSize(QSize(36, 36));
-            m_exportBtn->setFlat(true);
         }
 
         App->setWindowIcon(QIcon(":/assets/appicon_light.svg"));

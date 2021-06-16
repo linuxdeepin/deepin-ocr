@@ -9,6 +9,7 @@
 
 #include <QMutex>
 #include <QStackedWidget>
+#include <DToolButton>
 
 #include "resulttextview.h"
 #include "textloadwidget.h"
@@ -18,6 +19,7 @@ class QThread;
 class QGridLayout;
 class QHBoxLayout;
 class ImageView;
+
 
 DWIDGET_USE_NAMESPACE
 
@@ -61,8 +63,8 @@ private:
     QHBoxLayout *m_buttonHorizontalLayout{nullptr};
     QHBoxLayout *m_tipHorizontalLayout{nullptr};
     DLabel *m_tiplabel{nullptr};
-    DIconButton *m_copyBtn{nullptr};
-    DIconButton *m_exportBtn{nullptr};
+    DToolButton *m_copyBtn{nullptr};
+    DToolButton *m_exportBtn{nullptr};
     ImageView *m_imageview{nullptr};
     DLabel *m_tipIconLabel{nullptr};
 
