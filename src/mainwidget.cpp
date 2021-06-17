@@ -82,13 +82,17 @@ MainWidget::~MainWidget()
 void MainWidget::setupUi(QWidget *Widget)
 {
 
+    QPalette pal;
+    pal.setColor(QPalette::Background, QColor(255, 255, 255, 179));
+    setAutoFillBackground(true);
+    setPalette(pal);
     DMainWindow *mainWindow = static_cast<DMainWindow *>(this->parent());
     if (mainWindow) {
         mainWindow->titlebar()->setMenuVisible(false);
     }
     m_mainGridLayout = new QGridLayout(Widget);
     m_mainGridLayout->setSpacing(6);
-    m_mainGridLayout->setContentsMargins(0, 0, 0, 0);
+    m_mainGridLayout->setContentsMargins(0, 0, 0, 6);
     m_mainGridLayout->setObjectName(QStringLiteral("gridLayout"));
 
     m_horizontalLayout = new QHBoxLayout(Widget);
@@ -116,7 +120,7 @@ void MainWidget::setupUi(QWidget *Widget)
     m_resultWidget->addWidget(m_noResult);
 
     QSplitter *mainSplitter = new QSplitter(Qt::Horizontal); //新建水平分割器
-    mainSplitter->setHandleWidth(1);//分割线的宽度
+    mainSplitter->setHandleWidth(0);//分割线的宽度
     mainSplitter->setChildrenCollapsible(false);//不允许把分割出的子窗口拖小到0，最小值被限定为sizeHint或maxSize/minSize
     mainSplitter->addWidget(m_imageview);//把ui中拖出的各个控件拿走，放到分割器里面
     mainSplitter->addWidget(m_resultWidget);
@@ -146,6 +150,7 @@ void MainWidget::setupUi(QWidget *Widget)
     m_tiplabel = new DLabel(Widget);
     m_tiplabel->setObjectName(QStringLiteral("tiplabel"));
 
+    m_tipHorizontalLayout->setSpacing(4);
     m_tipHorizontalLayout->addWidget(m_tiplabel);
 
     m_buttonHorizontalLayout->addLayout(m_tipHorizontalLayout);
@@ -158,7 +163,7 @@ void MainWidget::setupUi(QWidget *Widget)
     m_copyBtn->setToolTip(tr("Copy text"));
 
     m_buttonHorizontalLayout->addWidget(m_copyBtn);
-
+    m_buttonHorizontalLayout->setSpacing(20);
     m_exportBtn = new DToolButton(Widget);
     m_exportBtn->setObjectName(QStringLiteral("Save as TXT"));
     m_exportBtn->setMaximumSize(QSize(40, 40));
@@ -178,8 +183,6 @@ void MainWidget::setupUi(QWidget *Widget)
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
     m_pwidget->setFixedSize(this->width(), this->height() - 23);
     m_pwidget->move(0, 0);
-
-//    deleteLoadingUi();
 
 }
 
@@ -211,12 +214,7 @@ void MainWidget::createLoadingUi()
     m_loadingTip = new DLabel(tr("Recognizing"), this);
     m_loadingTip->show();
     if (m_imageview) {
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            m_imageview->setForegroundBrush(QColor(0, 0, 0, 150)); //设置场景的前景色，类似于遮罩
-        } else {
-            m_imageview->setForegroundBrush(QColor(255, 255, 255, 150)); //设置场景的前景色，类似于遮罩
-        }
+        m_imageview->setForegroundBrush(QColor(0, 0, 0, 77)); //设置场景的前景色，类似于遮罩
     }
 }
 
@@ -247,13 +245,15 @@ void MainWidget::loadingUi()
         m_pwidget->move(0, 0);
     }
 }
-
+#include <QTimer>
 void MainWidget::openImage(const QString &path)
 {
     if (m_imageview) {
         QImage img(path);
         m_imageview->openFilterImage(img);
-        m_imageview->fitWindow();
+        QTimer::singleShot(100, [ = ] {
+            m_imageview->fitWindow();
+        });
         m_imgName = path;
         openImage(img);
     }
@@ -266,7 +266,9 @@ void MainWidget::openImage(const QImage &img)
     createLoadingUi();
     if (m_imageview) {
         m_imageview->openFilterImage(img);
-        m_imageview->fitWindow();
+        QTimer::singleShot(100, [ = ] {
+            m_imageview->fitWindow();
+        });
         m_imgName = "";
     }
     if (m_currentImg) {
