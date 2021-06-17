@@ -74,6 +74,58 @@ link_directories(${LINK_DIR})
 
 add_executable(${PROJECT_NAME} ${allSource} ${AllQRC} ${LangSrcs} )
 
+if(DOTEST)
+    SET(PROJECT_NAME_TEST
+        ${PROJECT_NAME}_test)
+
+    include_directories(tests)
+
+    aux_source_directory(src/service allTestSource)
+    aux_source_directory(src/tessocrutils allTestSource)
+    aux_source_directory(src/view allTestSource)
+    aux_source_directory(tests allTestSource)
+
+    FILE(GLOB allTestSource1
+        "src/mainwidget.cpp"
+        "src/mainwindow.cpp"
+        "src/ocrapplication.cpp"
+        "src/resulttextview.cpp"
+        "src/textloadwidget.cpp")
+
+    add_executable(${PROJECT_NAME_TEST} ${allTestSource} ${allTestSource1})
+    target_link_libraries(${PROJECT_NAME_TEST} gmock gtest pthread)
+
+    add_test(${PROJECT_NAME_TEST} COMMAND ${PROJECT_NAME_TEST})
+
+#------------------------------ 创建'make test'指令---------------------------------------
+    add_custom_target(test
+        COMMAND mkdir -p coverageResult
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+    add_custom_command(TARGET test
+        COMMAND echo " =================== CREAT LCOV REPROT BEGIN ==================== "
+
+        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME_TEST}.dir --zerocounters
+        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME}.dir --zerocounters
+        COMMAND ./${PROJECT_NAME}/${PROJECT_NAME_TEST}
+
+        COMMAND lcov --directory . --capture --output-file ./coverageResult/${PROJECT_NAME}_Coverage.info
+
+        COMMAND echo " =================== do filter begin ==================== "
+        COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
+        '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/usr/include/*' '*/tests/*' '*/googletest/*'
+        -o ./coverageResult/${PROJECT_NAME}_Coverage.info
+        COMMAND echo " =================== do filter end ==================== "
+
+        COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
+        COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
+
+#        COMMAND nohup x-www-browser ${CMAKE_BINARY_DIR}/coverageResult/report/index.html &
+
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+    add_dependencies(test ${PROJECT_NAME_TEST})
+endif()
+
 pkg_check_modules(3rd_lib REQUIRED
         dtkwidget dtkgui
         )
@@ -109,8 +161,7 @@ install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}Targets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
-        RUNTIME DESTINATION /usr/bin
-        INCLUDES DESTINATION allHeaders)
+        RUNTIME DESTINATION /usr/bin)
 
 #install
 install(FILES ${LangSrcs} DESTINATION ${TranslationDir})
