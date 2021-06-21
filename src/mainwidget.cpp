@@ -1,5 +1,6 @@
 #include "mainwidget.h"
 #include "view/imageview.h"
+#include "loadingwidget.h"
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -100,25 +101,33 @@ void MainWidget::setupUi(QWidget *Widget)
     m_horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
 
     m_plainTextEdit = new ResultTextView(Widget);
+    m_plainTextEdit->setReadOnly(true);
+
     m_plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
-    connect(m_plainTextEdit, &ResultTextView::sigChangeSize, [ = ] {
-        loadingUi();
-    });
+
 
     if (!m_imageview) {
         m_imageview = new ImageView();
     }
 
-    m_resultWidget = new QStackedWidget(this);
+    m_resultWidget = new DStackedWidget(this);
     m_resultWidget->setFocusPolicy(Qt::NoFocus);
+
+
+    m_loadingOcr = new loadingWidget(this);
+    m_loadingOcr->setAlignment(Qt::AlignCenter);
+    m_resultWidget->addWidget(m_loadingOcr);
+
     m_resultWidget->addWidget(m_plainTextEdit);
 
     m_noResult = new DLabel(this);
     m_noResult->setAlignment(Qt::AlignCenter);
     m_noResult->setText(tr("No text recognized"));
-
     m_resultWidget->addWidget(m_noResult);
 
+    connect(m_loadingOcr, &loadingWidget::sigChangeSize, [ = ] {
+        loadingUi();
+    });
     QSplitter *mainSplitter = new QSplitter(Qt::Horizontal); //新建水平分割器
     mainSplitter->setHandleWidth(0);//分割线的宽度
     mainSplitter->setChildrenCollapsible(false);//不允许把分割出的子窗口拖小到0，最小值被限定为sizeHint或maxSize/minSize
@@ -216,6 +225,13 @@ void MainWidget::createLoadingUi()
     if (m_imageview) {
         m_imageview->setForegroundBrush(QColor(0, 0, 0, 77)); //设置场景的前景色，类似于遮罩
     }
+    //识别时
+    if (m_copyBtn) {
+        m_copyBtn->setEnabled(false);
+    }
+    if (m_exportBtn) {
+        m_exportBtn->setEnabled(false);
+    }
 }
 
 void MainWidget::deleteLoadingUi()
@@ -234,8 +250,8 @@ void MainWidget::deleteLoadingUi()
 
 void MainWidget::loadingUi()
 {
-    if (m_loadingWidget && m_loadingTip && m_plainTextEdit) {
-        int x = this->width() - m_plainTextEdit->width() / 2;
+    if (m_loadingWidget && m_loadingTip && m_resultWidget) {
+        int x = this->width() - m_resultWidget->width() / 2;
         int y = this->height() / 2 - 50;
         m_loadingWidget->move(x, y);
         m_loadingTip->move(x - 20, y + 24);
@@ -302,6 +318,13 @@ void MainWidget::loadString(const QString &string)
     if (!string.isEmpty()) {
         m_resultWidget->setCurrentWidget(m_plainTextEdit);
         m_plainTextEdit->appendPlainText(string);
+        //新增识别完成按钮恢复
+        if (m_copyBtn) {
+            m_copyBtn->setEnabled(true);
+        }
+        if (m_exportBtn) {
+            m_exportBtn->setEnabled(true);
+        }
     } else {
         resultEmpty();
     }
@@ -310,6 +333,13 @@ void MainWidget::loadString(const QString &string)
 void MainWidget::resultEmpty()
 {
     m_resultWidget->setCurrentWidget(m_noResult);
+    //新增如果未识别到，按钮置灰
+    if (m_copyBtn) {
+        m_copyBtn->setEnabled(false);
+    }
+    if (m_exportBtn) {
+        m_exportBtn->setEnabled(false);
+    }
 }
 
 void MainWidget::resizeEvent(QResizeEvent *event)

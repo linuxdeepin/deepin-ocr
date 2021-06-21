@@ -25,7 +25,8 @@ HEADERS += src/mainwindow.h \
     src/resulttextview.h \
     src/textloadwidget.h \
     src/view/imageview.h \
-    src/tessocrutils/tessocrutils.h
+    src/tessocrutils/tessocrutils.h \
+    src/loadingwidget.h
 
 SOURCES += src/main.cpp \
            src/mainwindow.cpp \
@@ -36,7 +37,8 @@ SOURCES += src/main.cpp \
     src/textloadwidget.cpp \
     src/resulttextview.cpp \
     src/view/imageview.cpp \
-    src/tessocrutils/tessocrutils.cpp
+    src/tessocrutils/tessocrutils.cpp \
+    src/loadingwidget.cpp
 
 LIBS +=  -llept -ltesseract \
 

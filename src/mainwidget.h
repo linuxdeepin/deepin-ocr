@@ -6,9 +6,10 @@
 #include <DPlainTextEdit>
 #include <DLabel>
 #include <DGuiApplicationHelper>
+#include <DStackedWidget>
 
 #include <QMutex>
-#include <QStackedWidget>
+
 #include <DToolButton>
 
 #include "resulttextview.h"
@@ -19,7 +20,7 @@ class QThread;
 class QGridLayout;
 class QHBoxLayout;
 class ImageView;
-
+class loadingWidget;
 
 DWIDGET_USE_NAMESPACE
 
@@ -80,8 +81,9 @@ private:
     RecognitionResult m_result;
     QImage *m_currentImg{nullptr};
 
-    QStackedWidget *m_resultWidget{nullptr};
+    DStackedWidget *m_resultWidget{nullptr};
     DLabel *m_noResult{nullptr};
+    loadingWidget *m_loadingOcr{nullptr};
 signals:
     void sigResult(const QString &);
 
