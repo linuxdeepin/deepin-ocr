@@ -142,14 +142,14 @@ public:
      * @param 返回的字符串结果类型
      * @return resultType类型的字符串结果
      */
-     RecognitionResult getRecogitionResult(const QString imagePath,const ResultType resultType);
+     RecognitionResult getRecogitionResult(const QString &imagePath,const ResultType &resultType);
 
     /**
      * @brief 传入待识别图片的路径，获取纯字符串的识别结果
      * @param 图片路径
      * @return 识别的字符串结果
      */
-     RecognitionResult getRecogitionResult(const QString imagePath);
+     RecognitionResult getRecogitionResult(const QString &imagePath);
 
     /**
      * @brief 传入待识别图片和想得到的返回结果类型，获取识别结果
@@ -157,7 +157,7 @@ public:
      * @param 返回的字符串结果类型
      * @return resultType类型的字符串结果
      */
-     RecognitionResult getRecogitionResult(QImage *image,const ResultType resultType);
+     RecognitionResult getRecogitionResult(QImage *image,const ResultType &resultType);
 
     /**
      * @brief 传入待识别图片，获取纯字符串的识别结果
@@ -244,7 +244,7 @@ private :
 
      static TessOcrUtils *m_tessOcrUtils;
 
-     static tesseract::TessBaseAPI *t_Tesseract;
+//     static tesseract::TessBaseAPI *t_Tesseract;
 
 };
 

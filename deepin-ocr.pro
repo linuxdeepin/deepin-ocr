@@ -4,6 +4,8 @@
 TEMPLATE = app
 TARGET = deepin-ocr
 INCLUDEPATH += .
+CONFIG += C++17
+QMAKE_CXXFLAGS += -std=c++17 -std=gnu++17
 
 # The following define makes your compiler warn you if you use any
 # feature of Qt which has been marked as deprecated (the exact warnings
@@ -40,7 +42,9 @@ SOURCES += src/main.cpp \
     src/tessocrutils/tessocrutils.cpp \
     src/loadingwidget.cpp
 
-LIBS +=  -llept -ltesseract \
+LIBS +=  -llept  \
+
+include(3rdparty/tesseract_ocr/tesseract_dependency.pri)
 
 QT += dtkgui
 QT += dtkwidget
@@ -70,3 +74,6 @@ INSTALLS += target dbus_service translations tesslangs
 
 RESOURCES += \
     resource.qrc
+
+DISTFILES += \
+    3rdparty/tesseract_ocr/tesseract_dependency.pri

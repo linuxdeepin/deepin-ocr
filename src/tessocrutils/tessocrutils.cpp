@@ -52,7 +52,7 @@ TessOcrUtils *TessOcrUtils::m_tessOcrUtils = nullptr;
 /**
  * @brief TessOcrUtils::t_Tesseract 三方库实例化
  */
-tesseract::TessBaseAPI *TessOcrUtils::t_Tesseract   = new tesseract::TessBaseAPI();
+//tesseract::TessBaseAPI *TessOcrUtils::t_Tesseract   = new tesseract::TessBaseAPI();
 
 
 TessOcrUtils::TessOcrUtils()
@@ -78,7 +78,7 @@ TessOcrUtils *TessOcrUtils::instance()
     return m_tessOcrUtils;
 }
 //传入待识别图片的路径和想得到的返回结果类型，获取识别结果
-RecognitionResult TessOcrUtils::getRecogitionResult(const QString imagePath,const ResultType resultType)
+RecognitionResult TessOcrUtils::getRecogitionResult(const QString &imagePath,const ResultType &resultType)
 {
     QString errorMessage = "";
     ErrorCode errorCode = ErrorCode::UNKNOWN;
@@ -123,13 +123,13 @@ RecognitionResult TessOcrUtils::getRecogitionResult(const QString imagePath,cons
 }
 
 //传入待识别图片的路径，获取纯字符串的识别结果
-RecognitionResult TessOcrUtils::getRecogitionResult(const QString imagePath)
+RecognitionResult TessOcrUtils::getRecogitionResult(const QString &imagePath)
 {
     return getRecogitionResult(imagePath,ResultType::RESULT_STRING);
 }
 
 //传入待识别图片和想得到的返回结果类型，获取识别结果
-RecognitionResult TessOcrUtils::getRecogitionResult(QImage *image, const ResultType resultType)
+RecognitionResult TessOcrUtils::getRecogitionResult(QImage *image, const ResultType &resultType)
 {
     QString errorMessage = "";
     ErrorCode errorCode = ErrorCode::UNKNOWN;
@@ -232,6 +232,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(Pix * image,ResultType resul
         setResult(errorCode,errorMessage,resultType,t_result);
         return t_result;
     }
+    tesseract::TessBaseAPI *t_Tesseract = new tesseract::TessBaseAPI();
     try{
         //初始化语言包
         if (t_Tesseract->Init(m_sTessdataPath.toLatin1().data(), m_sLangs.toLatin1().data()))
