@@ -13,6 +13,7 @@
 #include <QThread>
 #include <QMutexLocker>
 #include <QSplitter>
+#include <QTimer>
 
 #include <DGuiApplicationHelper>
 #include <DMainWindow>
@@ -112,6 +113,7 @@ void MainWidget::setupUi(QWidget *Widget)
 
     m_resultWidget = new DStackedWidget(this);
     m_resultWidget->setFocusPolicy(Qt::NoFocus);
+    m_resultWidget->setMinimumWidth(220);
 
 
     m_loadingOcr = new loadingWidget(this);
@@ -261,20 +263,14 @@ void MainWidget::loadingUi()
         m_pwidget->move(0, 0);
     }
 }
-#include <QTimer>
+
 void MainWidget::openImage(const QString &path)
 {
     if (m_imageview) {
         QImage img(path);
-        m_imageview->openFilterImage(img);
-        QTimer::singleShot(100, [ = ] {
-            m_imageview->fitWindow();
-        });
         m_imgName = path;
         openImage(img);
     }
-
-
 }
 
 void MainWidget::openImage(const QImage &img)
@@ -350,12 +346,18 @@ void MainWidget::resizeEvent(QResizeEvent *event)
 
 void MainWidget::slotCopy()
 {
-    //复制所有内容
-    QTextDocument *document = m_plainTextEdit->document();
-    DPlainTextEdit *tempTextEdit = new DPlainTextEdit(this);
-    tempTextEdit->setDocument(document);
-    tempTextEdit->selectAll();
-    tempTextEdit->copy();
+    //选中内容则复制，未选中内容则不复制
+    if (!m_plainTextEdit->textCursor().selectedText().isEmpty()) {
+        m_plainTextEdit->copy();
+    } else {
+        QTextDocument *document = m_plainTextEdit->document();
+        DPlainTextEdit *tempTextEdit = new DPlainTextEdit(this);
+        tempTextEdit->setDocument(document);
+        tempTextEdit->selectAll();
+        tempTextEdit->copy();
+        tempTextEdit->deleteLater();
+        tempTextEdit = nullptr;
+    }
 
     QIcon icon(":/assets/icon_toast_sucess_new.svg");
     DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, m_pwidget);
@@ -364,8 +366,7 @@ void MainWidget::slotCopy()
     pDFloatingMessage->setIcon(icon);
     pDFloatingMessage->raise();
     DMessageManager::instance()->sendMessage(m_pwidget, pDFloatingMessage);
-    tempTextEdit->deleteLater();
-    tempTextEdit = nullptr;
+
 }
 
 void MainWidget::slotExport()
@@ -381,7 +382,13 @@ void MainWidget::slotExport()
         }
     }
 
-    QString fileName = QFileInfo(m_imgName).completeBaseName();
+    QString fileName;
+    if (!m_imgName.isEmpty()) {
+        fileName = QFileInfo(m_imgName).completeBaseName();
+    } else {
+        fileName = tr("Results");
+    }
+
     QString file_path = QFileDialog::getSaveFileName(this, "save as", download + "/" + fileName, "*.txt");
     qDebug() << file_path;
 
