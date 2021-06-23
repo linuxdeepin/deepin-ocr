@@ -83,11 +83,6 @@ MainWidget::~MainWidget()
 
 void MainWidget::setupUi(QWidget *Widget)
 {
-
-    QPalette pal;
-    pal.setColor(QPalette::Background, QColor(255, 255, 255, 179));
-    setAutoFillBackground(true);
-    setPalette(pal);
     DMainWindow *mainWindow = static_cast<DMainWindow *>(this->parent());
     if (mainWindow) {
         mainWindow->titlebar()->setMenuVisible(false);
@@ -272,7 +267,7 @@ void MainWidget::openImage(const QString &path)
     }
 }
 
-void MainWidget::openImage(const QImage &img,const QString & name)
+void MainWidget::openImage(const QImage &img, const QString &name)
 {
     createLoadingUi();
     if (m_imageview) {
@@ -402,6 +397,16 @@ void MainWidget::slotExport()
 void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
 {
     if (themeType == DGuiApplicationHelper::DarkType) {
+        QPalette pal;
+        pal.setColor(QPalette::Background, QColor(32, 32, 32, 179));
+        setAutoFillBackground(true);
+        setPalette(pal);
+        if (m_resultWidget) {
+            QPalette pal;
+            pal.setColor(QPalette::Background, QColor(40, 40, 40));
+            m_resultWidget->setAutoFillBackground(true);
+            m_resultWidget->setPalette(pal);
+        }
         if (m_tipIconLabel) {
             m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_dark.svg"));
             m_tipIconLabel->setFixedSize(QSize(14, 14));
@@ -425,6 +430,10 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_imageview->setForegroundBrush(QColor(0, 0, 0, 150)); //设置场景的前景色，类似于遮罩
         }
     } else {
+        QPalette pal;
+        pal.setColor(QPalette::Background, QColor(255, 255, 255, 179));
+        setAutoFillBackground(true);
+        setPalette(pal);
         if (m_tipIconLabel) {
             m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_light.svg"));
             m_tipIconLabel->setFixedSize(QSize(14, 14));
