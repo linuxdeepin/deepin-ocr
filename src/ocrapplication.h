@@ -37,13 +37,15 @@ public:
 
     Q_INVOKABLE void openImage(QImage image);
 
-    Q_INVOKABLE void openImageAndName( QImage image, QString imageName);
+    Q_INVOKABLE void openImageAndName(QImage image, QString imageName);
 
 
 signals:
 
 public slots:
 
+private:
+    int m_loadingCount{0};//启动次数
 };
 
 #endif // OCRAPPLICATION_H

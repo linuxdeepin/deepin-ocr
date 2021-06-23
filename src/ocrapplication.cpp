@@ -21,7 +21,7 @@
 
 #include "ocrapplication.h"
 #include "mainwindow.h"
-
+#include <DWidgetUtil>
 
 OcrApplication::OcrApplication(QObject *parent) : QObject(parent)
 {
@@ -30,11 +30,17 @@ OcrApplication::OcrApplication(QObject *parent) : QObject(parent)
 
 bool OcrApplication::openFile(QString filePath)
 {
+
+
     qDebug() << __FUNCTION__ << __LINE__ << filePath;
     MainWindow *win = new MainWindow();
     win->openFile(filePath);
-    win->resize(800, 600);
     win->show();
+    //第一次启动才居中
+    if (m_loadingCount == 0) {
+        Dtk::Widget::moveToCenter(win);
+        m_loadingCount++;
+    }
     return true;
 }
 
@@ -43,16 +49,24 @@ void OcrApplication::openImage(QImage image)
     qDebug() << __FUNCTION__ << __LINE__ << image.size();
     MainWindow *win = new MainWindow();
     win->openImage(image);
-    win->resize(800, 600);
     win->show();
+    //第一次启动才居中
+    if (m_loadingCount == 0) {
+        Dtk::Widget::moveToCenter(win);
+        m_loadingCount++;
+    }
 }
 
 void OcrApplication::openImageAndName(QImage image, QString imageName)
 {
     qDebug() << __FUNCTION__ << __LINE__ << image.size();
     MainWindow *win = new MainWindow();
-    win->openImage(image,imageName);
-    win->resize(800, 600);
+    win->openImage(image, imageName);
     win->show();
+    //第一次启动才居中
+    if (m_loadingCount == 0) {
+        Dtk::Widget::moveToCenter(win);
+        m_loadingCount++;
+    }
 }
 
