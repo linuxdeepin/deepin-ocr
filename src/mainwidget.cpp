@@ -164,14 +164,14 @@ void MainWidget::setupUi(QWidget *Widget)
 
     m_copyBtn = new DToolButton(Widget);
     m_copyBtn->setObjectName(QStringLiteral("Copy text"));
-    m_copyBtn->setMaximumSize(QSize(40, 40));
+    m_copyBtn->setMaximumSize(QSize(36, 36));
     m_copyBtn->setToolTip(tr("Copy text"));
 
     m_buttonHorizontalLayout->addWidget(m_copyBtn);
     m_buttonHorizontalLayout->setSpacing(20);
     m_exportBtn = new DToolButton(Widget);
     m_exportBtn->setObjectName(QStringLiteral("Save as TXT"));
-    m_exportBtn->setMaximumSize(QSize(40, 40));
+    m_exportBtn->setMaximumSize(QSize(36, 36));
     m_exportBtn->setToolTip(tr("Save as TXT"));
 
     m_buttonHorizontalLayout->addWidget(m_exportBtn);
