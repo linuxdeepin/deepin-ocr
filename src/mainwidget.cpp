@@ -332,6 +332,9 @@ void MainWidget::loadString(const QString &string)
     if (!string.isEmpty()) {
         m_resultWidget->setCurrentWidget(m_plainTextEdit);
         m_plainTextEdit->appendPlainText(string);
+        //读取完了显示在最上方
+        m_plainTextEdit->moveCursor(QTextCursor::Start) ;
+        m_plainTextEdit->ensureCursorVisible() ;
         //新增识别完成按钮恢复
         if (m_copyBtn) {
             m_copyBtn->setEnabled(true);
