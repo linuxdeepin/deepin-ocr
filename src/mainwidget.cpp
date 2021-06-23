@@ -102,7 +102,6 @@ void MainWidget::setupUi(QWidget *Widget)
     m_horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
 
     m_plainTextEdit = new ResultTextView(Widget);
-    m_plainTextEdit->setReadOnly(true);
 
     m_plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
 
