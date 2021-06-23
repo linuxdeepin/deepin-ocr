@@ -21,7 +21,7 @@ class QGridLayout;
 class QHBoxLayout;
 class ImageView;
 class loadingWidget;
-
+class QShortcut;
 DWIDGET_USE_NAMESPACE
 
 class MainWidget : public DWidget
@@ -39,10 +39,11 @@ public:
     void createLoadingUi();
     void deleteLoadingUi();
     void loadingUi();
+    //初始化快捷键
+    void initShortcut();
 
-
-    void openImage(const QString &path );
-    void openImage(const QImage &img,const QString & name="");
+    void openImage(const QString &path);
+    void openImage(const QImage &img, const QString &name = "");
 
     void loadHtml(const QString &html);
     void loadString(const QString &string);
@@ -84,6 +85,8 @@ private:
     DStackedWidget *m_resultWidget{nullptr};
     DLabel *m_noResult{nullptr};
     loadingWidget *m_loadingOcr{nullptr};
+    QShortcut *m_scAddView = nullptr;
+    QShortcut *m_scReduceView = nullptr;
 signals:
     void sigResult(const QString &);
 

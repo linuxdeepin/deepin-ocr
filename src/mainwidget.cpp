@@ -14,6 +14,7 @@
 #include <QMutexLocker>
 #include <QSplitter>
 #include <QTimer>
+#include <QShortcut>
 
 #include <DGuiApplicationHelper>
 #include <DMainWindow>
@@ -193,6 +194,7 @@ void MainWidget::setupUi(QWidget *Widget)
 
 void MainWidget::setupConnect()
 {
+    initShortcut();
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this, &MainWidget::setIcons);
     connect(m_exportBtn, &DIconButton::clicked, this, &MainWidget::slotExport);
     connect(m_copyBtn, &DIconButton::clicked, this, &MainWidget::slotCopy);
@@ -256,6 +258,28 @@ void MainWidget::loadingUi()
         m_pwidget->setFixedSize(this->width(), this->height() - 48);
         m_pwidget->move(0, 0);
     }
+}
+
+void MainWidget::initShortcut()
+{
+    m_scAddView = new QShortcut(QKeySequence("Ctrl++"), this);
+    m_scAddView->setContext(Qt::WindowShortcut);
+    connect(m_scAddView, &QShortcut::activated, this, [ = ] {
+        if (m_imageview)
+        {
+            m_imageview->setScaleValue(1.1);
+        }
+    });
+
+    m_scReduceView = new QShortcut(QKeySequence("Ctrl+-"), this);
+    m_scReduceView->setContext(Qt::WindowShortcut);
+    connect(m_scReduceView, &QShortcut::activated, this, [ = ] {
+        if (m_imageview)
+        {
+            m_imageview->setScaleValue(0.9);
+        }
+    });
+
 }
 
 void MainWidget::openImage(const QString &path)
