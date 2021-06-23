@@ -46,3 +46,13 @@ void OcrApplication::openImage(QImage image)
     win->resize(800, 600);
     win->show();
 }
+
+void OcrApplication::openImageAndName(QImage image, QString imageName)
+{
+    qDebug() << __FUNCTION__ << __LINE__ << image.size();
+    MainWindow *win = new MainWindow();
+    win->openImage(image,imageName);
+    win->resize(800, 600);
+    win->show();
+}
+

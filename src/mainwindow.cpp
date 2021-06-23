@@ -54,8 +54,8 @@ bool MainWindow::openFile(const QString &filePaths)
     return true;
 }
 
-bool MainWindow::openImage(const QImage &image)
+bool MainWindow::openImage(const QImage &image, const QString &name)
 {
-    m_mainWidget->openImage(image);
+    m_mainWidget->openImage(image,name);
     return true;
 }

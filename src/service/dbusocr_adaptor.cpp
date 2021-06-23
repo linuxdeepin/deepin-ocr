@@ -51,6 +51,17 @@ bool DbusOcrAdaptor::openFile(QString filePath)
     return true;
 }
 
+void DbusOcrAdaptor::openImageAndName(QByteArray images,QString imageName)
+{
+    qDebug() << __FUNCTION__ << __LINE__;
+    QByteArray data = images;
+    QString tmp_data = QString::fromLatin1(data.data(), data.size());
+    QByteArray srcData = QByteArray::fromBase64(tmp_data.toLatin1());
+    data = qUncompress(srcData);
+    QImage image;
+    image.loadFromData(data);
+    QMetaObject::invokeMethod(parent(), "openImageAndName", Q_ARG(QImage, image), Q_ARG(QString, imageName));
+}
 void DbusOcrAdaptor::openImage(QByteArray images)
 {
     qDebug() << __FUNCTION__ << __LINE__;
@@ -62,3 +73,4 @@ void DbusOcrAdaptor::openImage(QByteArray images)
     image.loadFromData(data);
     QMetaObject::invokeMethod(parent(), "openImage", Q_ARG(QImage, image));
 }
+

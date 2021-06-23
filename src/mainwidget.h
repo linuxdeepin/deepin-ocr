@@ -41,8 +41,8 @@ public:
     void loadingUi();
 
 
-    void openImage(const QString &path);
-    void openImage(const QImage &img);
+    void openImage(const QString &path );
+    void openImage(const QImage &img,const QString & name="");
 
     void loadHtml(const QString &html);
     void loadString(const QString &string);

@@ -37,6 +37,8 @@ public:
 
     Q_INVOKABLE void openImage(QImage image);
 
+    Q_INVOKABLE void openImageAndName( QImage image, QString imageName);
+
 
 signals:
 

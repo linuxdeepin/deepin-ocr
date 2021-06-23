@@ -273,7 +273,7 @@ void MainWidget::openImage(const QString &path)
     }
 }
 
-void MainWidget::openImage(const QImage &img)
+void MainWidget::openImage(const QImage &img,const QString & name)
 {
     createLoadingUi();
     if (m_imageview) {
@@ -281,7 +281,7 @@ void MainWidget::openImage(const QImage &img)
         QTimer::singleShot(100, [ = ] {
             m_imageview->fitWindow();
         });
-        m_imgName = "";
+        m_imgName = name;
     }
     if (m_currentImg) {
         delete m_currentImg;

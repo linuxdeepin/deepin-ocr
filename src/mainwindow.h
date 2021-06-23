@@ -38,7 +38,7 @@ public:
 
     bool openFile(const QString &filePaths);
 
-    bool openImage(const QImage &image);
+    bool openImage(const QImage &image,const QString & name="");
 private:
     MainWidget *m_mainWidget{nullptr};
 };

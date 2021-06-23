@@ -46,6 +46,11 @@ class DbusOcrAdaptor: public QDBusAbstractAdaptor
                                        "      <arg direction=\"in\" type=\"ay\" name=\"openImage\"/>\n"
                                        "    </method>\n"
 
+                                       "    <method name=\"openImageAndName\">\n"
+                                       "      <arg direction=\"in\" type=\"ay\" name=\"images\"/>\n"
+                                       "      <arg direction=\"in\" type=\"s\" name=\"imageName\"/>\n"
+                                       "    </method>\n"
+
                                        "    <method name=\"openFile\">\n"
                                        "      <arg direction=\"in\" type=\"s\" name=\"openFile\"/>\n"
                                        "      <arg direction=\"out\" type=\"b\"/>\n"
@@ -58,6 +63,7 @@ public:
 
 public Q_SLOTS: // METHODS
     void openImage(QByteArray images);
+    void openImageAndName(QByteArray images,QString imageName);
 
     bool openFile(QString filePath);
 
