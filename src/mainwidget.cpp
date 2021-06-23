@@ -413,7 +413,8 @@ void MainWidget::slotExport()
     QString file_path = QFileDialog::getSaveFileName(this, "save as", download + "/" + fileName, "*.txt");
     qDebug() << file_path;
 
-    QString path = file_path + ".txt";
+    //这里不应该增加一个.txt，会导致有两个后缀
+    QString path = file_path;
     QFile file(path);
     if (file.open(QFile::WriteOnly | QFile::Text)) {
         QTextStream out(&file);
