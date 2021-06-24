@@ -26,7 +26,9 @@ public:
     //自适应窗口
     void autoFit();
     //鼠标移动事件
-    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
     bool event(QEvent *event)override;
     bool gestureEvent(QGestureEvent *event);
 

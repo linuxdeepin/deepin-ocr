@@ -27,6 +27,7 @@ ImageView::ImageView(QWidget *parent):
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->grabGesture(Qt::PinchGesture);
     setAttribute(Qt::WA_AcceptTouchEvents);
+    viewport()->setCursor(Qt::ArrowCursor);
 }
 
 void ImageView::openImage(const QString &path)
@@ -191,9 +192,28 @@ void ImageView::autoFit()
 
 }
 
+void ImageView::mouseReleaseEvent(QMouseEvent *e)
+{
+    QGraphicsView::mouseReleaseEvent(e);
+    viewport()->setCursor(Qt::ArrowCursor);
+}
+
+void ImageView::mousePressEvent(QMouseEvent *e)
+{
+    QGraphicsView::mousePressEvent(e);
+    viewport()->unsetCursor();
+    viewport()->setCursor(Qt::ArrowCursor);
+}
+
 void ImageView::mouseMoveEvent(QMouseEvent *event)
 {
-    return QGraphicsView::mouseMoveEvent(event);
+    //修复鼠标状态不对的问题
+    if (!(event->buttons() | Qt::NoButton)) {
+        viewport()->setCursor(Qt::ArrowCursor);
+    } else {
+        QGraphicsView::mouseMoveEvent(event);
+        viewport()->setCursor(Qt::ClosedHandCursor);
+    }
 }
 
 bool ImageView::event(QEvent *event)
