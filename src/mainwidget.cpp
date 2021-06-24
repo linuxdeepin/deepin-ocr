@@ -193,6 +193,7 @@ void MainWidget::setupUi(QWidget *Widget)
     m_pwidget->setFixedSize(this->width(), this->height() - 23);
     m_pwidget->move(0, 0);
 
+
 }
 
 void MainWidget::setupConnect()
@@ -300,7 +301,16 @@ void MainWidget::openImage(const QImage &img, const QString &name)
     if (m_imageview) {
         m_imageview->openFilterImage(img);
         QTimer::singleShot(100, [ = ] {
-            m_imageview->fitWindow();
+            //分辨率大于window的采用适应窗口，没超过，则适应图片
+            QRect rect1 = m_imageview->image().rect();
+            if ((rect1.width() >= m_imageview->width() || rect1.height() >= m_imageview->height() - 150) && m_imageview->width() > 0 &&
+                    height() > 0)
+            {
+                m_imageview->fitWindow();
+            } else
+            {
+                m_imageview->fitImage();
+            }
         });
         m_imgName = name;
     }
