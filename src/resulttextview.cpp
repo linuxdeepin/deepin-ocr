@@ -1,10 +1,13 @@
 #include "resulttextview.h"
 #include <QDebug>
+#include <QScroller>
 
 ResultTextView::ResultTextView(QWidget *parent)
     : m_Menu(nullptr), m_actCopy(nullptr), m_actCut(nullptr), m_actSelectAll(nullptr)
 {
     Q_UNUSED(parent)
+    //鼠标滑动事件接入
+    QScroller::grabGesture(this->viewport(), QScroller::ScrollerGestureType::TouchGesture);
     m_Menu = new QMenu(this);
     m_actCopy = new QAction(this);
     m_actCopy->setText(tr("Copy"));
