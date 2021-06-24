@@ -10,6 +10,8 @@
 #include <QThreadPool>
 #include <qmath.h>
 #include <QObject>
+#include <QGestureEvent>
+#include <QPinchGesture>
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.029;
@@ -23,6 +25,8 @@ ImageView::ImageView(QWidget *parent):
     setScene(scene);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->grabGesture(Qt::PinchGesture);
+    setAttribute(Qt::WA_AcceptTouchEvents);
 }
 
 void ImageView::openImage(const QString &path)
@@ -192,6 +196,23 @@ void ImageView::mouseMoveEvent(QMouseEvent *event)
     return QGraphicsView::mouseMoveEvent(event);
 }
 
+bool ImageView::event(QEvent *event)
+{
+    if (event->type() == QEvent::Gesture) {
+        return gestureEvent(static_cast<QGestureEvent *>(event));
+    }
+    return QGraphicsView::event(event);
+}
+
+bool ImageView::gestureEvent(QGestureEvent *event)
+{
+//    if (QGesture *swipe = event->gesture(Qt::SwipeGesture)) //滑动逻辑
+//        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+    if (QGesture *pinch = event->gesture(Qt::PinchGesture))//双指捏合
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+    return true;
+}
+
 
 const QImage ImageView::image()
 {
@@ -214,6 +235,27 @@ void ImageView::wheelEvent(QWheelEvent *event)
     scaleAtPoint(event->pos(), factor);
 
     event->accept();
+}
+
+void ImageView::handleGestureEvent(QGestureEvent *gesture)
+{
+    qDebug() << "------" << __FUNCTION__ << "";
+    if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+}
+
+void ImageView::pinchTriggered(QPinchGesture *gesture)
+{
+    qDebug() << "------" << __FUNCTION__ << "";
+    QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
+    //缩放手势
+    if (changeFlags & QPinchGesture::ScaleFactorChanged) {
+        QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
+        if (abs(gesture->scaleFactor() - 1) > 0.006) {
+            qDebug() << "scaleFactor" << gesture->scaleFactor();
+            scaleAtPoint(pos, gesture->scaleFactor());
+        }
+    }
 }
 void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 {
@@ -264,3 +306,4 @@ void ImageView::setScaleValue(qreal v)
 
 
 }
+

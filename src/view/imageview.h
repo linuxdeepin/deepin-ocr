@@ -7,8 +7,8 @@
 #include <QGraphicsView>
 
 class QGraphicsPixmapItem;
-
-
+class QGestureEvent;
+class QPinchGesture;
 
 class ImageView : public QGraphicsView
 {
@@ -27,6 +27,8 @@ public:
     void autoFit();
     //鼠标移动事件
     void mouseMoveEvent(QMouseEvent *event) override;
+    bool event(QEvent *event)override;
+    bool gestureEvent(QGestureEvent *event);
 
     //返回当前图片img
     const QImage image();
@@ -50,7 +52,9 @@ public slots:
     //鼠标滚轮事件
     void wheelEvent(QWheelEvent *event) override;
 protected:
-
+    //二指捏合功能的触屏事件
+    void handleGestureEvent(QGestureEvent *gesture);
+    void pinchTriggered(QPinchGesture *gesture);
 
 private:
     QString m_currentPath;//当前图片路径
