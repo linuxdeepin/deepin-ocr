@@ -287,7 +287,7 @@ void MainWidget::openImage(const QString &path)
     if (m_imageview) {
         QImage img(path);
         m_imgName = path;
-        openImage(img);
+        openImage(img, m_imgName);
     }
 }
 

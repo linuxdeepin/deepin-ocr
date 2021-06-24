@@ -88,7 +88,7 @@ public Q_SLOTS: // METHODS
     * @return: QDBusPendingReply
     * @note:
     */
-    inline QDBusPendingReply<> openImageAndName(const QImage &image,const QString &imageName)
+    inline QDBusPendingReply<> openImageAndName(const QImage &image, const QString &imageName)
     {
         qDebug() << __FUNCTION__;
         QByteArray data;
@@ -97,7 +97,7 @@ public Q_SLOTS: // METHODS
             data = qCompress(data, 9);
             data = data.toBase64();
         }
-        return call(QStringLiteral("openImage"), QVariant::fromValue(data),imageName);
+        return call(QStringLiteral("openImageAndName"), QVariant::fromValue(data), imageName);
     }
 
 Q_SIGNALS: // SIGNALS
