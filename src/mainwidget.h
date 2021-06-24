@@ -49,6 +49,8 @@ public:
     void loadString(const QString &string);
     void resultEmpty();
 
+    //缩放显示label
+    void initScaleLabel();
 protected:
     void resizeEvent(QResizeEvent *event);
 private slots:

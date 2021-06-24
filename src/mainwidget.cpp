@@ -21,6 +21,9 @@
 #include <DTitlebar>
 #include <DMessageManager>
 #include <DToolButton>
+#include <DFloatingWidget>
+#include <DAnchors>
+#include <DFontSizeManager>
 
 #define App (static_cast<QApplication*>(QCoreApplication::instance()))
 MainWidget::MainWidget(QWidget *parent) :
@@ -29,7 +32,7 @@ MainWidget::MainWidget(QWidget *parent) :
     setupUi(this);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     setIcons(themeType);
-
+    initScaleLabel();
     setupConnect();
 }
 
@@ -357,6 +360,42 @@ void MainWidget::resultEmpty()
     if (m_exportBtn) {
         m_exportBtn->setEnabled(false);
     }
+}
+
+void MainWidget::initScaleLabel()
+{
+    DAnchors<DFloatingWidget> scalePerc = new DFloatingWidget(this);
+    scalePerc->setBlurBackgroundEnabled(true);
+
+    QHBoxLayout *layout = new QHBoxLayout();
+    scalePerc->setLayout(layout);
+    DLabel *label = new DLabel();
+    layout->addWidget(label);
+    scalePerc->setAttribute(Qt::WA_TransparentForMouseEvents);
+    scalePerc.setAnchor(Qt::AnchorHorizontalCenter, this, Qt::AnchorHorizontalCenter);
+    scalePerc.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
+    scalePerc.setBottomMargin(75 + 14);
+    label->setAlignment(Qt::AlignCenter);
+//    scalePerc->setFixedSize(82, 48);
+    scalePerc->setFixedWidth(90 + 10);
+    scalePerc->setFixedHeight(40 + 10);
+    scalePerc->adjustSize();
+    label->setText("100%");
+    DFontSizeManager::instance()->bind(label, DFontSizeManager::T6);
+    scalePerc->hide();
+
+    QTimer *hideT = new QTimer(this);
+    hideT->setSingleShot(true);
+    connect(hideT, &QTimer::timeout, scalePerc, &DLabel::hide);
+
+    connect(m_imageview, &ImageView::scaled, this, [ = ](qreal perc) {
+        label->setText(QString("%1%").arg(int(perc)));
+    });
+    connect(m_imageview, &ImageView::showScaleLabel, this, [ = ]() {
+        scalePerc->show();
+        scalePerc->move(m_imageview->width() / 2 - 50, m_imageview->height() - 48);
+        hideT->start(1000);
+    });
 }
 
 void MainWidget::resizeEvent(QResizeEvent *event)

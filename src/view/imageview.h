@@ -55,7 +55,9 @@ protected:
     //二指捏合功能的触屏事件
     void handleGestureEvent(QGestureEvent *gesture);
     void pinchTriggered(QPinchGesture *gesture);
-
+signals:
+    void scaled(qreal perc);
+    void showScaleLabel();
 private:
     QString m_currentPath;//当前图片路径
     QGraphicsPixmapItem *m_pixmapItem{nullptr};//当前图像的item

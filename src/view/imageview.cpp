@@ -303,7 +303,8 @@ void ImageView::setScaleValue(qreal v)
     //    } else {
     //        emit disCheckAdaptImageBtn();
     //    }
-
+    emit scaled(m_scal * 100);
+    emit showScaleLabel();
 
 }
 
