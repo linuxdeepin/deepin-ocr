@@ -286,13 +286,18 @@ void MainWidget::initShortcut()
 
 }
 
-void MainWidget::openImage(const QString &path)
+bool MainWidget::openImage(const QString &path)
 {
+    bool bRet = false;
     if (m_imageview) {
         QImage img(path);
-        m_imgName = path;
-        openImage(img, m_imgName);
+        if (!img.isNull()) {
+            m_imgName = path;
+            openImage(img, m_imgName);
+            bRet = true;
+        }
     }
+    return bRet;
 }
 
 void MainWidget::openImage(const QImage &img, const QString &name)

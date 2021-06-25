@@ -48,8 +48,8 @@ MainWindow::~MainWindow()
 
 bool MainWindow::openFile(const QString &filePaths)
 {
-    m_mainWidget->openImage(filePaths);
-    return true;
+    //更改打开判断文件是否是图片文件
+    return m_mainWidget->openImage(filePaths);;
 }
 
 bool MainWindow::openImage(const QImage &image, const QString &name)

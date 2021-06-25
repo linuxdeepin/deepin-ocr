@@ -42,7 +42,7 @@ public:
     //初始化快捷键
     void initShortcut();
 
-    void openImage(const QString &path);
+    bool openImage(const QString &path);
     void openImage(const QImage &img, const QString &name = "");
 
     void loadHtml(const QString &html);
