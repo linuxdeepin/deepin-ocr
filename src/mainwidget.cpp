@@ -268,7 +268,7 @@ void MainWidget::loadingUi()
 
 void MainWidget::initShortcut()
 {
-    m_scAddView = new QShortcut(QKeySequence("Ctrl++"), this);
+    m_scAddView = new QShortcut(QKeySequence("Ctrl+="), this);
     m_scAddView->setContext(Qt::WindowShortcut);
     connect(m_scAddView, &QShortcut::activated, this, [ = ] {
         if (m_imageview)
