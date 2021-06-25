@@ -21,10 +21,11 @@ protected:
 signals:
     void sigChangeSize();
 private:
-    QMenu *m_Menu;
-    QAction *m_actCopy;
-    QAction *m_actCut;
-    QAction *m_actSelectAll;
+    QMenu *m_Menu{nullptr};
+    QAction *m_actCopy{nullptr};
+    QAction *m_actCut{nullptr};
+    QAction *m_actPaste{nullptr};
+    QAction *m_actSelectAll{nullptr};
 };
 
 #endif // RESULTTEXTVIEW_H

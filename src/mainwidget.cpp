@@ -199,6 +199,8 @@ void MainWidget::setupUi(QWidget *Widget)
 void MainWidget::setupConnect()
 {
     initShortcut();
+    //增加适配运行时的风格切换
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &MainWidget::setIcons);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this, &MainWidget::setIcons);
     connect(m_exportBtn, &DIconButton::clicked, this, &MainWidget::slotExport);
     connect(m_copyBtn, &DIconButton::clicked, this, &MainWidget::slotCopy);
