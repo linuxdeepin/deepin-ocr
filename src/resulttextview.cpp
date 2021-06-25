@@ -15,15 +15,16 @@ ResultTextView::ResultTextView(QWidget *parent)
     m_actCopy->setText(tr("Copy"));
     m_actCut = new QAction(this);
     m_actCut->setText(tr("Cut"));
-    m_actPaste = new QAction(this);
-    m_actPaste->setText(tr("Paste"));
+
     m_actSelectAll = new QAction(this);
     m_actSelectAll->setText(tr("SelectAll"));
+    m_actPaste = new QAction(this);
+    m_actPaste->setText(tr("Paste"));
 
     m_Menu->addAction(m_actSelectAll);
     m_Menu->addAction(m_actCopy);
-    m_Menu->addAction(m_actPaste);
     m_Menu->addAction(m_actCut);
+    m_Menu->addAction(m_actPaste);
 
     connect(m_actSelectAll, &QAction::triggered, this, [ = ]() {
         emit this->selectAll();
