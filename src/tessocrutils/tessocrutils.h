@@ -166,6 +166,12 @@ public:
      */
      RecognitionResult getRecogitionResult(QImage *image);
 
+     /**
+      * @brief 是否正在识别中
+      * @return true：正在识别中 false：识别结束
+      */
+     bool isRunning();
+
 private :
 
      /**
@@ -242,9 +248,14 @@ private :
       */
      QString m_sLangs;
 
+     /**
+      * @brief 是否正在识别中
+      */
+     bool m_isRunning;
+
      static TessOcrUtils *m_tessOcrUtils;
 
-//     static tesseract::TessBaseAPI *t_Tesseract;
+     static tesseract::TessBaseAPI *t_Tesseract;
 
 };
 

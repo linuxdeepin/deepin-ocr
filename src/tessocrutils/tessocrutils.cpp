@@ -52,7 +52,7 @@ TessOcrUtils *TessOcrUtils::m_tessOcrUtils = nullptr;
 /**
  * @brief TessOcrUtils::t_Tesseract 三方库实例化
  */
-//tesseract::TessBaseAPI *TessOcrUtils::t_Tesseract   = new tesseract::TessBaseAPI();
+tesseract::TessBaseAPI *TessOcrUtils::t_Tesseract   = new tesseract::TessBaseAPI();
 
 
 TessOcrUtils::TessOcrUtils()
@@ -62,6 +62,8 @@ TessOcrUtils::TessOcrUtils()
     setLanguagesPath(TESSDATA_PATH);
     //设置当前默认使用的识别语言系统语言+英语
     m_sLangs = getLanguages();
+    //是否正在识别中
+    m_isRunning = false;
 }
 
 TessOcrUtils::~TessOcrUtils()
@@ -80,6 +82,7 @@ TessOcrUtils *TessOcrUtils::instance()
 //传入待识别图片的路径和想得到的返回结果类型，获取识别结果
 RecognitionResult TessOcrUtils::getRecogitionResult(const QString &imagePath,const ResultType &resultType)
 {
+    m_isRunning = true;
     QString errorMessage = "";
     ErrorCode errorCode = ErrorCode::UNKNOWN;
     RecognitionResult t_result;
@@ -91,6 +94,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(const QString &imagePath,con
         errorMessage = "Can't pass an empty image path!";
         errorCode = ErrorCode::OCR_P_NULL;
         setResult(errorCode,errorMessage,resultType,t_result);
+        m_isRunning = false;
         return t_result;
     }
 
@@ -102,6 +106,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(const QString &imagePath,con
         errorMessage = "Image does not exist! imagePath: " + imagePath;
         errorCode = ErrorCode::OCR_P_NULL;
         setResult(errorCode,errorMessage,resultType,t_result);
+        m_isRunning = false;
         return t_result;
     }
     try {
@@ -116,6 +121,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(const QString &imagePath,con
         errorMessage = "Failed to load picture! " + QString(e.what());
         errorCode = ErrorCode::OCR_LI_F;
         setResult(errorCode,errorMessage,resultType,t_result);
+        m_isRunning = false;
         return t_result;
     }
     //获取识别结果
@@ -131,6 +137,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(const QString &imagePath)
 //传入待识别图片和想得到的返回结果类型，获取识别结果
 RecognitionResult TessOcrUtils::getRecogitionResult(QImage *image, const ResultType &resultType)
 {
+    m_isRunning = true;
     QString errorMessage = "";
     ErrorCode errorCode = ErrorCode::UNKNOWN;
     RecognitionResult t_result;
@@ -141,6 +148,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(QImage *image, const ResultT
         errorMessage = "Can't pass an empty image!";
         errorCode = ErrorCode::OCR_P_NULL;
         setResult(errorCode,errorMessage,resultType,t_result);
+        m_isRunning = false;
         return t_result;
     }
     Pix *p_image;
@@ -170,6 +178,11 @@ RecognitionResult TessOcrUtils::getRecogitionResult(QImage *image, const ResultT
 RecognitionResult TessOcrUtils::getRecogitionResult(QImage *image)
 {
     return getRecogitionResult(image,ResultType::RESULT_STRING);
+}
+
+bool TessOcrUtils::isRunning()
+{
+    return m_isRunning;
 }
 
 //获取系统当前的语言
@@ -230,9 +243,11 @@ RecognitionResult TessOcrUtils::getRecogitionResult(Pix * image,ResultType resul
         errorMessage = "The result type does not exist! resultType: " + QString::number(resultType);
         errorCode = ErrorCode::OCR_RT_NULL;
         setResult(errorCode,errorMessage,resultType,t_result);
+        m_isRunning = false;
         return t_result;
     }
-    tesseract::TessBaseAPI *t_Tesseract = new tesseract::TessBaseAPI();
+    //最新的tesseract库可以new出来，老版本的库无法在appcation后new出来
+    //tesseract::TessBaseAPI *t_Tesseract = new tesseract::TessBaseAPI();
     try{
         //初始化语言包
         if (t_Tesseract->Init(m_sTessdataPath.toLatin1().data(), m_sLangs.toLatin1().data()))
@@ -241,6 +256,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(Pix * image,ResultType resul
             errorMessage = "Could not initialize tesseract! Tesseract couldn't load any languages!";
             errorCode = ErrorCode::OCR_INI_F;
             setResult(errorCode,errorMessage,resultType,t_result);
+            m_isRunning = false;
             return t_result;
         }
     }catch(const std::logic_error &e){
@@ -248,6 +264,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(Pix * image,ResultType resul
         errorMessage = "Could not initialize tesseract! Tesseract internal error! " + QString(e.what());
         errorCode = ErrorCode::OCR_INI_F;
         setResult(errorCode,errorMessage,resultType,t_result);
+        m_isRunning = false;
         return t_result;
     }
     //为Tesseract设置待识别图片
@@ -268,6 +285,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(Pix * image,ResultType resul
         errorMessage = "Image recognition failed! " + QString(e.what());
         errorCode = ErrorCode::OCR_LI_F;
         setResult(errorCode,errorMessage,resultType,t_result);
+        m_isRunning = false;
         return t_result;
     }
     t_Tesseract->End();
@@ -277,6 +295,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(Pix * image,ResultType resul
     t_result.errorCode = ErrorCode::OK;
     t_result.resultType = resultType;
     t_result.result = result;
+    m_isRunning = false;
     return t_result;
 }
 
