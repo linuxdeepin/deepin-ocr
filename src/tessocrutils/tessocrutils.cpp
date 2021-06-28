@@ -125,7 +125,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(const QString &imagePath,con
         return t_result;
     }
     //获取识别结果
-    return  getRecogitionResult(p_image,resultType);
+    return  getRecognizeResult(p_image,resultType);
 }
 
 //传入待识别图片的路径，获取纯字符串的识别结果
@@ -171,7 +171,7 @@ RecognitionResult TessOcrUtils::getRecogitionResult(QImage *image, const ResultT
     //p_image->colormap->n;
     p_image->data = reinterpret_cast<l_uint32*>(image->bits());
     //获取识别结果
-    return  getRecogitionResult(p_image,resultType);
+    return  getRecognizeResult(p_image,resultType);
 }
 
 //传入待识别图片，获取纯字符串的识别结果
@@ -231,7 +231,7 @@ bool TessOcrUtils::setLanguagesPath(const QString langsPath)
 }
 
 //获取识别结果
-RecognitionResult TessOcrUtils::getRecogitionResult(Pix * image,ResultType resultType)
+RecognitionResult TessOcrUtils::getRecognizeResult(Pix * image,ResultType resultType)
 {
     QString errorMessage = "";
     ErrorCode errorCode = ErrorCode::UNKNOWN;

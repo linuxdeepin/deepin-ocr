@@ -228,7 +228,7 @@ private :
      * @param 返回的字符串结果类型
      * @return 返回识别结果
      */
-     RecognitionResult getRecogitionResult(Pix * image,ResultType resultType);
+     RecognitionResult getRecognizeResult(Pix * image,ResultType resultType);
 
     /**
      * @brief 设置返回结果,内部使用
