@@ -53,10 +53,10 @@ QT += dtkwidget
 #installs
 target.path=/usr/bin
 
-#翻译
-isEmpty(TRANSLATIONS) {
-    include(./translations.pri)
-}
+##翻译
+#isEmpty(TRANSLATIONS) {
+#    include(./translations.pri)
+#}
 CONFIG(release, debug|release) {
     TRANSLATIONS = $$files($$PWD/translations/*.ts)
     #遍历目录中的ts文件，调用lrelease将其生成为qm文件
