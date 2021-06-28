@@ -2,39 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="sl">
 <context>
-    <name>ImageView</name>
-    <message>
-        <location filename="../src/view/imageview.cpp" line="137"/>
-        <source>Save Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/view/imageview.cpp" line="137"/>
-        <source>Images (*.png *.bmp *.jpg)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/view/imageview.cpp" line="144"/>
-        <source>Open File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/view/imageview.cpp" line="144"/>
-        <source>png</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/view/imageview.cpp" line="150"/>
-        <source>error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/view/imageview.cpp" line="150"/>
-        <source>open file error</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>MainWidget</name>
     <message>
         <location filename="../src/mainwidget.cpp" line="125"/>

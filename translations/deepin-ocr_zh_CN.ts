@@ -5,27 +5,19 @@
     <name>ImageView</name>
     <message>
         <source>Save Image</source>
-        <translation>保存图片</translation>
-    </message>
-    <message>
-        <source>Images (*.png *.bmp *.jpg)</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">保存图片</translation>
     </message>
     <message>
         <source>Open File</source>
-        <translation>打开文件</translation>
-    </message>
-    <message>
-        <source>png</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">打开文件</translation>
     </message>
     <message>
         <source>error</source>
-        <translation>错误</translation>
+        <translation type="vanished">错误</translation>
     </message>
     <message>
         <source>open file error</source>
-        <translation>打开文件错误</translation>
+        <translation type="vanished">打开文件错误</translation>
     </message>
 </context>
 <context>
