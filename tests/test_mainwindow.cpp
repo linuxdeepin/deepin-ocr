@@ -23,12 +23,14 @@
 
 #include <QTestEventList>
 #include <QObject>
+#include <QStandardPaths>
 
 #define private public
 #define protected public
 
 #include "ocrapplication.h"
-
+#include "mainwidget.h"
+#include "view/imageview.h"
 //初始拉起主界面
 TEST(MainWindow, mainwindow)
 {
@@ -38,3 +40,59 @@ TEST(MainWindow, mainwindow)
 }
 
 //其余case
+//初始拉起主界面,带有参数的
+TEST(MainWindow, mainwindow_openFile)
+{
+    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Wallpapers/luca-micheli-ruWkmt3nU58-unsplash.jpg";
+    OcrApplication instance;
+    instance.openFile(picPath);
+    bool bRet = false;
+    while (!bRet) {
+        if (!TessOcrUtils::instance()->isRunning()) {
+            bRet = true;
+            QTest::qWait(1000);
+        }
+    }
+
+    instance.openImage(QImage(picPath).scaled(200, 200));
+
+    bRet = false;
+    while (!bRet) {
+        if (!TessOcrUtils::instance()->isRunning()) {
+            bRet = true;
+            QTest::qWait(1000);
+        }
+    }
+
+    instance.openImageAndName(QImage(picPath).scaled(10, 10), picPath);
+    QTest::qWait(2000);
+}
+
+//初始拉起主界面,带有参数的
+TEST(MainWidget, MainWidget_show)
+{
+    MainWidget *a = new MainWidget();
+    a->loadHtml("");
+    a->loadHtml("test");
+    a->loadString("");
+    a->loadString("test");
+    a->slotCopy();
+    a->deleteLater();
+    a = nullptr;
+    QTest::qWait(2000);
+}
+
+TEST(ImageView, ImageView_show)
+{
+    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Wallpapers/luca-micheli-ruWkmt3nU58-unsplash.jpg";
+    ImageView *imageView = new ImageView();
+    imageView->openImage(picPath);
+    imageView->fitImage();
+    imageView->fitWindow();
+    imageView->autoFit();
+    imageView->imageRelativeScale();
+    imageView->setScaleValue(1.1);
+    imageView->setScaleValue(0.9);
+    imageView->RotateImage(90);
+    QTest::qWait(2000);
+}

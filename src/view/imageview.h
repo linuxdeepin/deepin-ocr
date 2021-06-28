@@ -42,12 +42,8 @@ public slots:
     void fitImage();
     //旋转图片，感觉index角度，-为左，+为右
     void RotateImage(const int &index);
-    //保存图片
-    void savecurrentPic();
-    //另存为
-    void savecurrentPicAs();
-    //打开该图片
-    void openImage(QImage *img);
+//    //打开该图片
+//    void openImage(QImage *img);
 
     //窗口大小改变事件
     void resizeEvent(QResizeEvent *event) override;

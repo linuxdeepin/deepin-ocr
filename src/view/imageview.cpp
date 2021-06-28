@@ -132,43 +132,24 @@ void ImageView::RotateImage(const int &index)
 
 
 }
-void ImageView::savecurrentPic()
-{
-    QString filename = QFileDialog::getSaveFileName(this, tr("Save Image"), "", tr("Images (*.png *.bmp *.jpg)")); //选择路径
-    image().save(filename);
-}
 
-void ImageView::savecurrentPicAs()
-{
-    QFileDialog fileDialog;
-    QString fileName = fileDialog.getSaveFileName(this, tr("Open File"), "/home", tr("png"));
-    if (fileName == "") {
-        return;
-    }
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, tr("error"), tr("open file error"));
-        return;
-    } else {
-        image().save(fileName, "png");
-    }
-}
 
-void ImageView::openImage(QImage *img)
-{
-    if (!img->isNull() && scene()) {
-        QPixmap pic = QPixmap::fromImage(*img);
-        if (!pic.isNull()) {
-            scene()->clear();
-            m_pixmapItem = new QGraphicsPixmapItem(pic);
-            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-            QRectF rect = m_pixmapItem->boundingRect();
-            setSceneRect(rect);
-            scene()->addItem(m_pixmapItem);
-            fitWindow();
-        }
-    }
-}
+
+//void ImageView::openImage(QImage *img)
+//{
+//    if (!img->isNull() && scene()) {
+//        QPixmap pic = QPixmap::fromImage(*img);
+//        if (!pic.isNull()) {
+//            scene()->clear();
+//            m_pixmapItem = new QGraphicsPixmapItem(pic);
+//            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+//            QRectF rect = m_pixmapItem->boundingRect();
+//            setSceneRect(rect);
+//            scene()->addItem(m_pixmapItem);
+//            fitWindow();
+//        }
+//    }
+//}
 
 qreal ImageView::imageRelativeScale() const
 {
