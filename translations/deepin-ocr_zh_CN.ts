@@ -2,25 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
-    <name>ImageView</name>
-    <message>
-        <source>Save Image</source>
-        <translation type="vanished">保存图片</translation>
-    </message>
-    <message>
-        <source>Open File</source>
-        <translation type="vanished">打开文件</translation>
-    </message>
-    <message>
-        <source>error</source>
-        <translation type="vanished">错误</translation>
-    </message>
-    <message>
-        <source>open file error</source>
-        <translation type="vanished">打开文件错误</translation>
-    </message>
-</context>
-<context>
     <name>MainWidget</name>
     <message>
         <source>Recognizing</source>

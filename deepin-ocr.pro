@@ -54,22 +54,24 @@ QT += dtkwidget
 target.path=/usr/bin
 
 ##翻译
-#isEmpty(TRANSLATIONS) {
-#    include(./translations.pri)
-#}
-CONFIG(release, debug|release) {
-    TRANSLATIONS = $$files($$PWD/translations/*.ts)
-    #遍历目录中的ts文件，调用lrelease将其生成为qm文件
-    for(tsfile, TRANSLATIONS) {
-        qmfile = $$replace(tsfile, .ts$, .qm)
-        system(lrelease $$tsfile -qm $$qmfile) | error("Failed to lrelease")
-    }
+isEmpty(TRANSLATIONS) {
+    include(./translations.pri)
 }
+#CONFIG(release, debug|release) {
+#    TRANSLATIONS = $$files($$PWD/translations/*.ts)
+#    #遍历目录中的ts文件，调用lrelease将其生成为qm文件
+#    for(tsfile, TRANSLATIONS) {
+#        qmfile = $$replace(tsfile, .ts$, .qm)
+#        system(lrelease $$tsfile -qm $$qmfile) | error("Failed to lrelease")
+#    }
+#}
 TRANSLATIONS_COMPILED = $$TRANSLATIONS
 TRANSLATIONS_COMPILED ~= s/\.ts/.qm/g
+
 translations.path=/usr/share/deepin-ocr/translations
-#translations.files=$$TRANSLATIONS_COMPILED
-translations.files=$$PWD/translations/*qm
+translations.files = $$TRANSLATIONS_COMPILED
+
+#translations.files=$$PWD/translations/*qm
 
 #Dbus文件
 dbus_service.path=/usr/share/dbus-1/services
@@ -80,6 +82,21 @@ tesslangs.path=/usr/share/deepin-ocr/tesslangs
 tesslangs.files=./assets/tesslangs/chi_sim.traineddata ./assets/tesslangs/chi_tra.traineddata ./assets/tesslangs/eng.traineddata ./assets/tesslangs/chi_sim_vert.traineddata ./assets/tesslangs/chi_tra_vert.traineddata
 
 INSTALLS += target dbus_service translations tesslangs
+
+CONFIG *= update_translations release_translations
+
+CONFIG(update_translations) {
+    isEmpty(lupdate):lupdate=lupdate
+    system($$lupdate -no-obsolete -locations none $$_PRO_FILE_)
+}
+
+CONFIG(release_translations) {
+    isEmpty(lrelease):lrelease=lrelease
+    system($$lrelease $$_PRO_FILE_)
+}
+
+DSR_LANG_PATH += $$DSRDIR/translations
+DEFINES += "DSR_LANG_PATH=\\\"$$DSR_LANG_PATH\\\""
 
 RESOURCES += \
     resource.qrc
