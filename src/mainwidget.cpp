@@ -258,7 +258,7 @@ void MainWidget::loadingUi()
         int x = this->width() - m_resultWidget->width() / 2;
         int y = this->height() / 2 - 50;
         m_loadingWidget->move(x, y);
-        m_loadingTip->move(x - 20, y + 24);
+        m_loadingTip->move(x - 17, y + 24);
     }
     if (m_pwidget) {
         m_pwidget->setFixedSize(this->width(), this->height() - 48);
@@ -518,6 +518,13 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
         pal.setColor(QPalette::Background, QColor(255, 255, 255, 179));
         setAutoFillBackground(true);
         setPalette(pal);
+        //修复因为切换导致的颜色差
+        if (m_resultWidget) {
+            QPalette pal;
+            pal.setColor(QPalette::Background, QColor(255, 255, 255));
+            m_resultWidget->setAutoFillBackground(true);
+            m_resultWidget->setPalette(pal);
+        }
         if (m_tipIconLabel) {
             m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_light.svg"));
             m_tipIconLabel->setFixedSize(QSize(14, 14));

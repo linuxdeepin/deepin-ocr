@@ -5,7 +5,7 @@
     <name>ImageView</name>
     <message>
         <source>Save Image</source>
-        <translation type="unfinished"></translation>
+        <translation>保存图片</translation>
     </message>
     <message>
         <source>Images (*.png *.bmp *.jpg)</source>
@@ -13,7 +13,7 @@
     </message>
     <message>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation>打开文件</translation>
     </message>
     <message>
         <source>png</source>
@@ -21,33 +21,37 @@
     </message>
     <message>
         <source>error</source>
-        <translation type="unfinished"></translation>
+        <translation>错误</translation>
     </message>
     <message>
         <source>open file error</source>
-        <translation type="unfinished"></translation>
+        <translation>打开文件错误</translation>
     </message>
 </context>
 <context>
     <name>MainWidget</name>
     <message>
         <source>Recognizing</source>
-        <translation type="unfinished"></translation>
+        <translation>正在加载</translation>
     </message>
     <message>
         <source>Copied</source>
-        <translation type="unfinished"></translation>
+        <translation>已复制</translation>
     </message>
     <message>
         <source>No text recognized</source>
-        <translation type="unfinished"></translation>
+        <translation>未识别到文字</translation>
     </message>
     <message>
         <source>Copy text</source>
-        <translation type="unfinished"></translation>
+        <translation>复制文字</translation>
     </message>
     <message>
         <source>Save as TXT</source>
+        <translation>保存为TXT</translation>
+    </message>
+    <message>
+        <source>Results</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -55,15 +59,19 @@
     <name>ResultTextView</name>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>复制</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>剪切</translation>
     </message>
     <message>
         <source>SelectAll</source>
-        <translation type="unfinished"></translation>
+        <translation>全选</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>粘贴</translation>
     </message>
 </context>
 <context>
@@ -74,7 +82,7 @@
     </message>
     <message>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation type="unfinished"></translation>
+        <translation>温馨提示：图像越简洁清晰，识别越准确</translation>
     </message>
 </context>
 </TS>

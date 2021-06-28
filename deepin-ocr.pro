@@ -57,10 +57,19 @@ target.path=/usr/bin
 isEmpty(TRANSLATIONS) {
     include(./translations.pri)
 }
+CONFIG(release, debug|release) {
+    TRANSLATIONS = $$files($$PWD/translations/*.ts)
+    #遍历目录中的ts文件，调用lrelease将其生成为qm文件
+    for(tsfile, TRANSLATIONS) {
+        qmfile = $$replace(tsfile, .ts$, .qm)
+        system(lrelease $$tsfile -qm $$qmfile) | error("Failed to lrelease")
+    }
+}
 TRANSLATIONS_COMPILED = $$TRANSLATIONS
 TRANSLATIONS_COMPILED ~= s/\.ts/.qm/g
 translations.path=/usr/share/deepin-ocr/translations
-translations.files=$$TRANSLATIONS_COMPILED
+#translations.files=$$TRANSLATIONS_COMPILED
+translations.files=$$PWD/translations/*qm
 
 #Dbus文件
 dbus_service.path=/usr/share/dbus-1/services

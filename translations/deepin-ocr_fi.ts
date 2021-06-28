@@ -50,6 +50,10 @@
         <source>Save as TXT</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Results</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ResultTextView</name>
@@ -63,6 +67,10 @@
     </message>
     <message>
         <source>SelectAll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
