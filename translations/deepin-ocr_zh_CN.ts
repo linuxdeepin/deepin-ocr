@@ -25,7 +25,7 @@
     </message>
     <message>
         <source>Results</source>
-        <translation type="unfinished"></translation>
+        <translation>识别结果</translation>
     </message>
 </context>
 <context>
@@ -51,7 +51,8 @@
     <name>Widget</name>
     <message>
         <source>Widget</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>窗口</translatorcomment>
+        <translation>Widget</translation>
     </message>
     <message>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
