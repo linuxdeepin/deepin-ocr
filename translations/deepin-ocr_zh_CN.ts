@@ -5,7 +5,7 @@
     <name>MainWidget</name>
     <message>
         <source>Recognizing</source>
-        <translation>正在加载</translation>
+        <translation>正在识别</translation>
     </message>
     <message>
         <source>Copied</source>
