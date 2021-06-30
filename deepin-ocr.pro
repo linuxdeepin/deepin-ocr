@@ -81,7 +81,14 @@ dbus_service.files=./com.deepin.Ocr.service
 tesslangs.path=/usr/share/deepin-ocr/tesslangs
 tesslangs.files=./assets/tesslangs/chi_sim.traineddata ./assets/tesslangs/chi_tra.traineddata ./assets/tesslangs/eng.traineddata ./assets/tesslangs/chi_sim_vert.traineddata ./assets/tesslangs/chi_tra_vert.traineddata
 
-INSTALLS += target dbus_service translations tesslangs
+desktop.path=/usr/share/applications
+desktop.files=./deepin-ocr.desktop
+
+icon.path=/usr/share/icons/hicolor/scalable/apps
+icon.files=./assets/deepin-ocr.svg
+
+
+INSTALLS += target dbus_service translations icon desktop tesslangs
 
 CONFIG *= update_translations release_translations
 
