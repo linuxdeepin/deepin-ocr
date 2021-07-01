@@ -107,10 +107,25 @@ void MainWidget::setupUi(QWidget *Widget)
 
     m_plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
 
-    if (!m_imageview) {
-        m_imageview = new ImageView();
-        m_imageview->setLineWidth(0);
-    }
+    m_frame = new QFrame(this);
+    m_frame->setObjectName(QStringLiteral("m_frame"));
+    m_frame->setFrameShape(QFrame::StyledPanel);
+    m_frame->setFrameShadow(QFrame::Raised);
+    m_frame->setLineWidth(0);
+    m_frameLayout = new QHBoxLayout(m_frame);
+    m_frameLayout->setSpacing(6);
+    m_frameLayout->setContentsMargins(11, 11, 11, 11);
+    m_frameLayout->setObjectName(QStringLiteral("horizontalLayout"));
+    m_frameLayout->setContentsMargins(10, 10, 10, 10);
+    m_imageview = new ImageView(m_frame);
+//    m_imageview->setObjectName(QStringLiteral("m_imageView"));
+    m_imageview->setLineWidth(0);
+
+    m_frameLayout->addWidget(m_imageview);
+//    if (!m_imageview) {
+//        m_imageview = new ImageView();
+//        m_imageview->setLineWidth(0);
+//    }
 
     m_resultWidget = new DStackedWidget(this);
     m_resultWidget->setFocusPolicy(Qt::NoFocus);
@@ -136,7 +151,7 @@ void MainWidget::setupUi(QWidget *Widget)
     QSplitter *mainSplitter = new QSplitter(Qt::Horizontal); //新建水平分割器
     mainSplitter->setHandleWidth(0);//分割线的宽度
     mainSplitter->setChildrenCollapsible(false);//不允许把分割出的子窗口拖小到0，最小值被限定为sizeHint或maxSize/minSize
-    mainSplitter->addWidget(m_imageview);//把ui中拖出的各个控件拿走，放到分割器里面
+    mainSplitter->addWidget(m_frame);//把ui中拖出的各个控件拿走，放到分割器里面
     mainSplitter->addWidget(m_resultWidget);
     QList<int> list;
     list << 600 << 250;
@@ -235,9 +250,9 @@ void MainWidget::createLoadingUi()
     m_loadingWidget->show();
     m_loadingTip = new DLabel(tr("Recognizing"), this);
     m_loadingTip->show();
-    if (m_imageview) {
-        m_imageview->setForegroundBrush(QColor(0, 0, 0, 77)); //设置场景的前景色，类似于遮罩
-    }
+//    if (m_imageview) {
+//        m_imageview->setForegroundBrush(QColor(0, 0, 0, 77)); //设置场景的前景色，类似于遮罩
+//    }
     //识别时
     if (m_copyBtn) {
         m_copyBtn->setEnabled(false);
@@ -259,6 +274,8 @@ void MainWidget::deleteLoadingUi()
         m_loadingTip = nullptr;
     }
     m_imageview->setForegroundBrush(QColor(0, 0, 0, 0)); //设置场景的前景色，类似于遮罩
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    setIcons(themeType);
 }
 
 void MainWidget::loadingUi()
@@ -520,14 +537,18 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             mainWindow->titlebar()->setIcon(QIcon(":/assets/appicon_dark.svg"));
         }
         if (m_isLoading && m_imageview) {
-            m_imageview->setForegroundBrush(QColor(0, 0, 0, 150)); //设置场景的前景色，类似于遮罩
-        }
-        if (m_imageview) {
-            m_imageview->setBackgroundBrush(QColor(248, 248, 248));
+            m_imageview->setForegroundBrush(QColor(0, 0, 0, 127)); //设置场景的前景色，类似于遮罩
+            m_imageview->setBackgroundBrush(QColor(34, 34, 34));
             QPalette pal;
-            pal.setColor(QPalette::Background, QColor(20, 248, 248));
-//            m_imageview->scene()->setAutoFillBackground(true);
-            m_imageview->scene()->setPalette(pal);
+            pal.setColor(QPalette::Background, QColor(0, 0, 0, 125));
+            m_frame->setAutoFillBackground(true);
+            m_frame->setPalette(pal);
+        } else if (m_imageview) {
+            m_imageview->setBackgroundBrush(QColor(35, 35, 35));
+            QPalette pal;
+            pal.setColor(QPalette::Background, QColor(35, 35, 35));
+            m_frame->setAutoFillBackground(true);
+            m_frame->setPalette(pal);
         }
 
     } else {
@@ -562,10 +583,18 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             mainWindow->titlebar()->setIcon(QIcon(":/assets/appicon_light.svg"));
         }
         if (m_isLoading && m_imageview) {
-            m_imageview->setForegroundBrush(QColor(255, 255, 255, 150)); //设置场景的前景色，类似于遮罩
-        }
-        if (m_imageview) {
+            m_imageview->setForegroundBrush(QColor(0, 0, 0, 77)); //设置场景的前景色，类似于遮罩
             m_imageview->setBackgroundBrush(QColor(248, 248, 248));
+            QPalette pal;
+            pal.setColor(QPalette::Background, QColor(172, 172, 172));
+            m_frame->setAutoFillBackground(true);
+            m_frame->setPalette(pal);
+        } else if (m_imageview) {
+            m_imageview->setForegroundBrush(QColor(0, 0, 0, 0));
+            QPalette pal;
+            pal.setColor(QPalette::Background, QColor(248, 248, 248));
+            m_frame->setAutoFillBackground(true);
+            m_frame->setPalette(pal);
         }
 
     }
