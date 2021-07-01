@@ -54,6 +54,7 @@ public:
     void initScaleLabel();
 protected:
     void resizeEvent(QResizeEvent *event);
+    void paintEvent(QPaintEvent *event);
 private slots:
     void setIcons(DGuiApplicationHelper::ColorType themeType);
 
