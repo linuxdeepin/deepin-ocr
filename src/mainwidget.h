@@ -7,6 +7,7 @@
 #include <DLabel>
 #include <DGuiApplicationHelper>
 #include <DStackedWidget>
+#include <DFrame>
 
 #include <QMutex>
 
@@ -70,7 +71,10 @@ private:
     DToolButton *m_copyBtn{nullptr};
     DToolButton *m_exportBtn{nullptr};
     ImageView *m_imageview{nullptr};
+    QHBoxLayout *m_frameLayout{nullptr};
+    QFrame *m_frame{nullptr};
     DLabel *m_tipIconLabel{nullptr};
+    DHorizontalLine *m_line{nullptr};
 
     QString m_imgName;  //当前图片绝对路径
     QWidget *m_pwidget{nullptr};
@@ -89,6 +93,7 @@ private:
     loadingWidget *m_loadingOcr{nullptr};
     QShortcut *m_scAddView = nullptr;
     QShortcut *m_scReduceView = nullptr;
+
 signals:
     void sigResult(const QString &);
 

@@ -92,7 +92,7 @@ void MainWidget::setupUi(QWidget *Widget)
         mainWindow->titlebar()->setMenuVisible(false);
     }
     m_mainGridLayout = new QGridLayout(Widget);
-    m_mainGridLayout->setSpacing(6);
+    m_mainGridLayout->setSpacing(0);
     m_mainGridLayout->setContentsMargins(0, 0, 0, 6);
     m_mainGridLayout->setObjectName(QStringLiteral("gridLayout"));
 
@@ -101,17 +101,22 @@ void MainWidget::setupUi(QWidget *Widget)
     m_horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
 
     m_plainTextEdit = new ResultTextView(Widget);
+    m_plainTextEdit->setLineWidth(0);
+//    m_plainTextEdit->setWindowFlags(Qt::FramelessWindowHint);
+//    m_plainTextEdit->setStyleSheet("background:transparent;border:2px solid red;");
 
     m_plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
 
-
     if (!m_imageview) {
         m_imageview = new ImageView();
+        m_imageview->setLineWidth(0);
     }
 
     m_resultWidget = new DStackedWidget(this);
     m_resultWidget->setFocusPolicy(Qt::NoFocus);
     m_resultWidget->setMinimumWidth(220);
+    //宽度最大值为440
+    m_resultWidget->setMaximumWidth(440);
 
 
     m_loadingOcr = new loadingWidget(this);
@@ -145,7 +150,7 @@ void MainWidget::setupUi(QWidget *Widget)
     m_mainGridLayout->setColumnStretch(0, 1);
 
     m_buttonHorizontalLayout = new QHBoxLayout(Widget);
-    m_buttonHorizontalLayout->setContentsMargins(20, 0, 59, 0); //表示控件与窗体的左右边距
+    m_buttonHorizontalLayout->setContentsMargins(20, 3, 59, 3); //表示控件与窗体的左右边距
 //    m_buttonHorizontalLayout->setSpacing(30);
 
 
@@ -180,8 +185,12 @@ void MainWidget::setupUi(QWidget *Widget)
 
     m_buttonHorizontalLayout->addWidget(m_exportBtn);
 
+    m_line = new DHorizontalLine(this);
+    m_line->setObjectName(QStringLiteral("m_line"));
 
-    m_mainGridLayout->addLayout(m_buttonHorizontalLayout, 1, 0, 1, 1);
+    m_mainGridLayout->addWidget(m_line, 1, 0, 1, 1);
+
+    m_mainGridLayout->addLayout(m_buttonHorizontalLayout, 2, 0, 1, 1);
 
 
     retranslateUi(Widget);
@@ -513,6 +522,14 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
         if (m_isLoading && m_imageview) {
             m_imageview->setForegroundBrush(QColor(0, 0, 0, 150)); //设置场景的前景色，类似于遮罩
         }
+        if (m_imageview) {
+            m_imageview->setBackgroundBrush(QColor(248, 248, 248));
+            QPalette pal;
+            pal.setColor(QPalette::Background, QColor(20, 248, 248));
+//            m_imageview->scene()->setAutoFillBackground(true);
+            m_imageview->scene()->setPalette(pal);
+        }
+
     } else {
         QPalette pal;
         pal.setColor(QPalette::Background, QColor(255, 255, 255, 179));
@@ -547,5 +564,9 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
         if (m_isLoading && m_imageview) {
             m_imageview->setForegroundBrush(QColor(255, 255, 255, 150)); //设置场景的前景色，类似于遮罩
         }
+        if (m_imageview) {
+            m_imageview->setBackgroundBrush(QColor(248, 248, 248));
+        }
+
     }
 } // setupUi
