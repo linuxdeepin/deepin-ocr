@@ -200,7 +200,7 @@ private :
      * @param 指定的类型
      * @return 存在返回true
      */
-     bool isExistsLanguage(Languages lang);
+     //bool isExistsLanguage(Languages lang);
 
     /**
      * @brief 根据传入的枚举，获取相应的语言包字符串

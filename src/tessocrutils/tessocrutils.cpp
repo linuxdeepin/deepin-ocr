@@ -210,6 +210,7 @@ QString TessOcrUtils::getLanguages()
     //当前系统语言
     Languages t_systemLang = getSystemLang();
 
+    //当前系统语言如果不为中文，而是任何国家的语言则只返回英文
     if(t_systemLang == Languages::ENG)
     {
         t_langs=getLangStr(t_systemLang);
@@ -277,6 +278,9 @@ RecognitionResult TessOcrUtils::getRecognizeResult(Pix * image,ResultType result
             result = QString(t_Tesseract->GetHOCRText(0));
             break;
         case ResultType::RESULT_STRING:
+            result = QString(t_Tesseract->GetUTF8Text());
+            break;
+        default:
             result = QString(t_Tesseract->GetUTF8Text());
             break;
         }
@@ -349,6 +353,9 @@ QString TessOcrUtils::getLangStr(Languages lang)
     case Languages::ENG:
         langStr = "eng";
         break;
+    default:
+        langStr = "eng";
+        break;
     }
     return langStr;
 }
@@ -365,18 +372,20 @@ bool TessOcrUtils::isExistsResultType(ResultType resultType)
     case ResultType::RESULT_HTML:
         flag = true;
         break;
+    default:
+        flag = false;
     }
     return  flag;
 }
 
-//判断指定的语言包类型是否存在
-bool TessOcrUtils::isExistsLanguage(Languages lang)
-{
-    bool flag = false;
-    QString str = getLangStr(lang);
-    if(!str.isNull() && !str.isEmpty()){
-        flag = true;
-    }
-    return  flag;
-}
+//判断指定的语言包类型是否存在 （尚未使用，后面需支持多种语言时可以考虑是否启用）
+//bool TessOcrUtils::isExistsLanguage(Languages lang)
+//{
+//    bool flag = false;
+//    QString str = getLangStr(lang);
+//    if(!str.isNull() && !str.isEmpty()){
+//        flag = true;
+//    }
+//    return  flag;
+//}
 
