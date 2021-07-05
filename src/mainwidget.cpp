@@ -284,12 +284,14 @@ void MainWidget::loadingUi()
     if (m_loadingWidget && m_loadingTip && m_resultWidget) {
         int x = this->width() - m_resultWidget->width() / 2;
         int y = this->height() / 2 - 50;
-        m_loadingWidget->move(x, y);
+        qDebug() << m_loadingWidget->width();
+        m_loadingWidget->setFixedSize(QSize(24, 24));
+        m_loadingWidget->move(x - m_loadingWidget->width() / 2, y);
         qDebug() << m_loadingTip->width();
 //        m_loadingTip->setAlignment(Qt::AlignCenter);
         QFontMetrics fm(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         int mPoint = fm.boundingRect(tr("Recognizing")).width();
-        m_loadingTip->move(x - mPoint / 2 + 7, y + 24);
+        m_loadingTip->move(x - mPoint / 2 - 4, y + 24);
     }
     if (m_pwidget) {
         m_pwidget->setFixedSize(this->width(), this->height() - 48);
