@@ -117,6 +117,17 @@ void MainWidget::setupUi(QWidget *Widget)
     m_frameLayout->setContentsMargins(11, 11, 11, 11);
     m_frameLayout->setObjectName(QStringLiteral("horizontalLayout"));
     m_frameLayout->setContentsMargins(10, 10, 10, 10);
+
+    //后面加一层窗口,左边空间间距20
+    m_frameStack = new QFrame(this);
+    m_frameStack->setFrameShape(QFrame::StyledPanel);
+    m_frameStack->setFrameShadow(QFrame::Raised);
+    m_frameStack->setLineWidth(0);
+    m_frameStackLayout = new QHBoxLayout(m_frameStack);
+    m_frameStackLayout->setSpacing(0);
+    m_frameStackLayout->setObjectName(QStringLiteral("horizontalLayoutStack"));
+    m_frameStackLayout->setContentsMargins(20, 0, 5, 0);
+
     m_imageview = new ImageView(m_frame);
 //    m_imageview->setObjectName(QStringLiteral("m_imageView"));
     m_imageview->setLineWidth(0);
@@ -129,9 +140,11 @@ void MainWidget::setupUi(QWidget *Widget)
 
     m_resultWidget = new DStackedWidget(this);
     m_resultWidget->setFocusPolicy(Qt::NoFocus);
-    m_resultWidget->setMinimumWidth(220);
+
+    m_frameStackLayout->addWidget(m_resultWidget);
+    m_frameStack->setMinimumWidth(220);
     //宽度最大值为440
-    m_resultWidget->setMaximumWidth(440);
+    m_frameStack->setMaximumWidth(440);
 
 
     m_loadingOcr = new loadingWidget(this);
@@ -152,7 +165,7 @@ void MainWidget::setupUi(QWidget *Widget)
     mainSplitter->setHandleWidth(0);//分割线的宽度
     mainSplitter->setChildrenCollapsible(false);//不允许把分割出的子窗口拖小到0，最小值被限定为sizeHint或maxSize/minSize
     mainSplitter->addWidget(m_frame);//把ui中拖出的各个控件拿走，放到分割器里面
-    mainSplitter->addWidget(m_resultWidget);
+    mainSplitter->addWidget(m_frameStack);
     QList<int> list;
     //默认右侧识栏目是220的宽度
     list << 620 << 220;
@@ -532,6 +545,9 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             pal.setColor(QPalette::Background, QColor(40, 40, 40));
             m_resultWidget->setAutoFillBackground(true);
             m_resultWidget->setPalette(pal);
+            //增加frame的颜色设置
+            m_frameStack->setAutoFillBackground(true);
+            m_frameStack->setPalette(pal);
         }
         if (m_tipIconLabel) {
             m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_dark.svg"));
@@ -588,11 +604,14 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
         setAutoFillBackground(true);
         setPalette(pal);
         //修复因为切换导致的颜色差
-        if (m_resultWidget) {
+        if (m_resultWidget && m_frameStack) {
             QPalette pal;
             pal.setColor(QPalette::Background, QColor(255, 255, 255));
             m_resultWidget->setAutoFillBackground(true);
             m_resultWidget->setPalette(pal);
+            //增加frame的颜色设置
+            m_frameStack->setAutoFillBackground(true);
+            m_frameStack->setPalette(pal);
         }
         if (m_tipIconLabel) {
             m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_light.svg"));
@@ -621,7 +640,8 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_frame->setAutoFillBackground(true);
             m_frame->setPalette(pal);
         } else if (m_imageview) {
-            m_imageview->setForegroundBrush(QColor(0, 0, 0, 0));
+            //修改为正确的背景setBackgroundBrush
+            m_imageview->setBackgroundBrush(QColor(248, 248, 248));
             QPalette pal;
             pal.setColor(QPalette::Background, QColor(248, 248, 248));
             m_frame->setAutoFillBackground(true);

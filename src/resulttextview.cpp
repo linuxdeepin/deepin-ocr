@@ -25,6 +25,7 @@ ResultTextView::ResultTextView(QWidget *parent)
     m_Menu->addAction(m_actCopy);
     m_Menu->addAction(m_actCut);
     m_Menu->addAction(m_actPaste);
+    this->setLineWidth(6);
 
     connect(m_actSelectAll, &QAction::triggered, this, [ = ]() {
         emit this->selectAll();
@@ -65,5 +66,6 @@ void ResultTextView::contextMenuEvent(QContextMenuEvent *e)
 void ResultTextView::resizeEvent(QResizeEvent *event)
 {
     emit sigChangeSize();
+    this->viewport()->setFixedWidth(this->width() - 15);
     DPlainTextEdit::resizeEvent(event);
 }

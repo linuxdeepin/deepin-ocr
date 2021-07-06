@@ -72,8 +72,13 @@ private:
     DToolButton *m_copyBtn{nullptr};
     DToolButton *m_exportBtn{nullptr};
     ImageView *m_imageview{nullptr};
+
     QHBoxLayout *m_frameLayout{nullptr};
     QFrame *m_frame{nullptr};
+
+    QHBoxLayout *m_frameStackLayout{nullptr};
+    QFrame *m_frameStack{nullptr};
+
     DLabel *m_tipIconLabel{nullptr};
     DHorizontalLine *m_line{nullptr};
 
