@@ -1,6 +1,7 @@
 #include "mainwidget.h"
 #include "view/imageview.h"
 #include "loadingwidget.h"
+#include "frame.h"
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -119,7 +120,7 @@ void MainWidget::setupUi(QWidget *Widget)
     m_frameLayout->setContentsMargins(10, 10, 10, 10);
 
     //后面加一层窗口,左边空间间距20
-    m_frameStack = new QFrame(this);
+    m_frameStack = new Frame(this);
     m_frameStack->setFrameShape(QFrame::StyledPanel);
     m_frameStack->setFrameShadow(QFrame::Raised);
     m_frameStack->setLineWidth(0);
@@ -145,6 +146,10 @@ void MainWidget::setupUi(QWidget *Widget)
     m_frameStack->setMinimumWidth(220);
     //宽度最大值为440
     m_frameStack->setMaximumWidth(440);
+
+    connect(m_frameStack, &Frame::sigFrameResize, this, [ = ] {
+        m_resultWidget->resize(QSize(m_frameStack->width() - 25, m_frameStack->height()));
+    });
 
 
     m_loadingOcr = new loadingWidget(this);
@@ -294,8 +299,8 @@ void MainWidget::deleteLoadingUi()
 
 void MainWidget::loadingUi()
 {
-    if (m_loadingWidget && m_loadingTip && m_resultWidget) {
-        int x = this->width() - m_resultWidget->width() / 2;
+    if (m_loadingWidget && m_loadingTip && m_frameStack) {
+        int x = this->width() - m_frameStack->width() / 2;
         int y = this->height() / 2 - 50;
         qDebug() << m_loadingWidget->width();
         m_loadingWidget->setFixedSize(QSize(24, 24));

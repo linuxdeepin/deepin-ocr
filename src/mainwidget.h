@@ -14,9 +14,11 @@
 #include <DToolButton>
 
 #include "resulttextview.h"
+
 #include "textloadwidget.h"
 #include "tessocrutils/tessocrutils.h"
 
+class Frame;
 class QThread;
 class QGridLayout;
 class QHBoxLayout;
@@ -77,7 +79,7 @@ private:
     QFrame *m_frame{nullptr};
 
     QHBoxLayout *m_frameStackLayout{nullptr};
-    QFrame *m_frameStack{nullptr};
+    Frame *m_frameStack{nullptr};
 
     DLabel *m_tipIconLabel{nullptr};
     DHorizontalLine *m_line{nullptr};
