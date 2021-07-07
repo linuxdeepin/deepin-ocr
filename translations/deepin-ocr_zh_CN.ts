@@ -29,6 +29,13 @@
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <source>OCR Tool</source>
+        <translation>图文识别工具</translation>
+    </message>
+</context>
+<context>
     <name>ResultTextView</name>
     <message>
         <source>Copy</source>

@@ -29,6 +29,13 @@
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <source>OCR Tool</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ResultTextView</name>
     <message>
         <source>Copy</source>

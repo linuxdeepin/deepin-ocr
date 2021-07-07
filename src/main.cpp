@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     QScopedPointer<DApplication> app(DApplication::globalApplication(argc, argv));
 #endif
     app->setOrganizationName("deepin");
-    app->setApplicationName("deepin-ocr");
+    app->setApplicationName(QObject::tr("OCR Tool"));
     app->setApplicationVersion("1.0");
 
     Dtk::Core::DLogManager::registerConsoleAppender();
