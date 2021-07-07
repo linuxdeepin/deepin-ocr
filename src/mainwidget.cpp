@@ -39,6 +39,8 @@ MainWidget::MainWidget(QWidget *parent) :
 
 MainWidget::~MainWidget()
 {
+    //程序即将结束,线程标志结束
+    m_isEndThread = 0;
 //    m_mainGridLayout->addLayout(m_buttonHorizontalLayout, 1, 0, 1, 1);
     if (m_mainGridLayout && m_buttonHorizontalLayout) {
         m_mainGridLayout->removeItem(m_buttonHorizontalLayout);
@@ -384,7 +386,10 @@ void MainWidget::openImage(const QImage &img, const QString &name)
         m_loadImagethread = QThread::create([ = ]() {
             QMutexLocker locker(&m_mutex);
             m_result = TessOcrUtils::instance()->getRecogitionResult(m_currentImg, ResultType::RESULT_STRING);
-            emit sigResult(m_result.result);
+            //判断程序是否退出
+            if (1 == m_isEndThread) {
+                emit sigResult(m_result.result);
+            }
         });
     }
     connect(m_loadImagethread, &QThread::finished, m_loadImagethread, &QObject::deleteLater);

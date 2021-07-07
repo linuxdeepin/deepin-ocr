@@ -102,6 +102,7 @@ private:
     QShortcut *m_scAddView = nullptr;
     QShortcut *m_scReduceView = nullptr;
 
+    int m_isEndThread = 1;
 signals:
     void sigResult(const QString &);
 
