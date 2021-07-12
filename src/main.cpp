@@ -94,8 +94,7 @@ int main(int argc, char *argv[])
         OcrInterface *pOcr = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), &instance);
         qDebug() << __FUNCTION__ << __LINE__;
         pOcr->openFile(QString(argv[1]));
-        //pOcr->openImage(QImage(QSize(500, 145), QImage::Format_RGB32));
-        //pOcr->openImageAndName(QImage(QSize(500, 145), QImage::Format_RGB32),"test");
+        delete pOcr;
         return 0;
     }
 
