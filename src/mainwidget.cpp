@@ -25,6 +25,7 @@
 #include <DFloatingWidget>
 #include <DAnchors>
 #include <DFontSizeManager>
+#include <DHiDPIHelper>
 
 #define App (static_cast<QApplication*>(QCoreApplication::instance()))
 MainWidget::MainWidget(QWidget *parent) :
@@ -399,6 +400,7 @@ void MainWidget::openImage(const QImage &img, const QString &name)
 void MainWidget::loadHtml(const QString &html)
 {
     if (!html.isEmpty()) {
+        m_frameStackLayout->setContentsMargins(20, 0, 5, 0);
         m_resultWidget->setCurrentWidget(m_plainTextEdit);
         m_plainTextEdit->appendHtml(html);
     } else {
@@ -409,6 +411,7 @@ void MainWidget::loadHtml(const QString &html)
 void MainWidget::loadString(const QString &string)
 {
     if (!string.isEmpty()) {
+        m_frameStackLayout->setContentsMargins(20, 0, 5, 0);
         m_resultWidget->setCurrentWidget(m_plainTextEdit);
         m_plainTextEdit->appendPlainText(string);
         //读取完了显示在最上方
@@ -428,6 +431,8 @@ void MainWidget::loadString(const QString &string)
 
 void MainWidget::resultEmpty()
 {
+    //修复未识别到文字没有居中对齐的问题
+    m_frameStackLayout->setContentsMargins(20, 0, 20, 0);
     m_resultWidget->setCurrentWidget(m_noResult);
     //新增如果未识别到，按钮置灰
     if (m_copyBtn) {
@@ -560,11 +565,13 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_frameStack->setPalette(pal);
         }
         if (m_tipIconLabel) {
-            m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_dark.svg"));
+            QPixmap m_tipImage = DHiDPIHelper::loadNxPixmap(":/assets/tip_dark.svg");
+            m_tipIconLabel->setPixmap(m_tipImage);
             m_tipIconLabel->setFixedSize(QSize(14, 14));
         }
 
         if (m_copyBtn) {
+            QPixmap m_shadowImg = DHiDPIHelper::loadNxPixmap(":/mpimage/light/shadow.svg");
             m_copyBtn->setIcon(QIcon(":/assets/copy_dark.svg"));
             m_copyBtn->setIconSize(QSize(36, 36));
         }
@@ -624,7 +631,9 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_frameStack->setPalette(pal);
         }
         if (m_tipIconLabel) {
-            m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_light.svg"));
+            QPixmap m_tipImage = DHiDPIHelper::loadNxPixmap(":/assets/tip_light.svg");
+            m_tipIconLabel->setPixmap(m_tipImage);
+//            m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_light.svg"));
             m_tipIconLabel->setFixedSize(QSize(14, 14));
         }
 
