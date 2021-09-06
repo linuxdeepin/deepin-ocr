@@ -2,13 +2,12 @@
 #define RESULTTEXTVIEW_H
 
 #include <QObject>
-#include <DPlainTextEdit>
+#include <QTextEdit>
 #include <QAction>
 #include <QMenu>
 
-DWIDGET_USE_NAMESPACE
 
-class ResultTextView : public DPlainTextEdit
+class ResultTextView : public QTextEdit
 {
     Q_OBJECT
 public:

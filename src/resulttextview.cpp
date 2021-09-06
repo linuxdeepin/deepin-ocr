@@ -67,5 +67,5 @@ void ResultTextView::resizeEvent(QResizeEvent *event)
 {
     emit sigChangeSize();
     this->viewport()->setFixedWidth(this->width() - 15);
-    DPlainTextEdit::resizeEvent(event);
+    QTextEdit::resizeEvent(event);
 }
