@@ -258,7 +258,7 @@ void MainWidget::setupConnect()
 
 void MainWidget::retranslateUi(QWidget *Widget)
 {
-    Widget->setWindowTitle(QApplication::translate("Widget", "Widget", nullptr));
+//    Widget->setWindowTitle("Widget");
     m_tiplabel->setText(QApplication::translate("Widget", "Tips: The clearer the image is, the more accurate the text is", nullptr));
 //    m_copyBtn->setText(QApplication::translate("Widget", "Copy", nullptr));
     //    m_exportBtn->setText(QApplication::translate("Widget", "Export", nullptr));
@@ -535,7 +535,7 @@ void MainWidget::slotExport()
     if (!m_imgName.isEmpty()) {
         fileName = QFileInfo(m_imgName).completeBaseName();
     } else {
-        fileName = tr("Results");
+        fileName = "Results";
     }
 
     QString file_path = QFileDialog::getSaveFileName(this, "save as", download + "/" + fileName, "*.txt");

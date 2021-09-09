@@ -17,7 +17,7 @@ ResultTextView::ResultTextView(QWidget *parent)
     m_actCut->setText(tr("Cut"));
 
     m_actSelectAll = new QAction(this);
-    m_actSelectAll->setText(tr("SelectAll"));
+    m_actSelectAll->setText(tr("Select All"));
     m_actPaste = new QAction(this);
     m_actPaste->setText(tr("Paste"));
 

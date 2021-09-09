@@ -29,11 +29,6 @@
         <source>Copied</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../src/mainwidget.cpp" line="538"/>
-        <source>Results</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -57,7 +52,7 @@
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="20"/>
-        <source>SelectAll</source>
+        <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -68,11 +63,6 @@
 </context>
 <context>
     <name>Widget</name>
-    <message>
-        <location filename="../src/mainwidget.cpp" line="261"/>
-        <source>Widget</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="262"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>

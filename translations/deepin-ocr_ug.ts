@@ -23,10 +23,6 @@
         <source>Save as TXT</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Results</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -46,20 +42,16 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>SelectAll</source>
+        <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Paste</source>
+        <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Widget</name>
-    <message>
-        <source>Widget</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
         <translation type="unfinished"></translation>
