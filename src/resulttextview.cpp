@@ -3,13 +3,20 @@
 #include <QScroller>
 #include <QClipboard>
 #include <QApplication>
+#include <QScrollBar>
+
+#include <math.h>
+
+#define TAP_MOVE_DELAY 300
 
 ResultTextView::ResultTextView(QWidget *parent)
     : m_Menu(nullptr), m_actCopy(nullptr), m_actCut(nullptr), m_actSelectAll(nullptr)
 {
     Q_UNUSED(parent)
     //鼠标滑动事件接入
-    QScroller::grabGesture(this->viewport(), QScroller::ScrollerGestureType::TouchGesture);
+//    QScroller::grabGesture(this->viewport(), QScroller::ScrollerGestureType::TouchGesture);
+//    QScroller::grabGesture(this->viewport(), QScroller::TouchGesture);
+    viewport()->setCursor(Qt::IBeamCursor);
     m_Menu = new QMenu(this);
     m_actCopy = new QAction(this);
     m_actCopy->setText(tr("Copy"));
@@ -39,6 +46,14 @@ ResultTextView::ResultTextView(QWidget *parent)
     connect(m_actPaste, &QAction::triggered, this, [ = ]() {
         emit this->paste();
     });
+    setFrameShape(QFrame::NoFrame);
+    setFocusPolicy(Qt::StrongFocus);
+    setMouseTracking(true);
+    grabGesture(Qt::TapGesture);
+//    grabGesture(Qt::TapAndHoldGesture);
+//    grabGesture(Qt::SwipeGesture);
+//    grabGesture(Qt::PanGesture);
+//    grabGesture(Qt::PinchGesture);
 }
 
 void ResultTextView::contextMenuEvent(QContextMenuEvent *e)
@@ -67,5 +82,148 @@ void ResultTextView::resizeEvent(QResizeEvent *event)
 {
     emit sigChangeSize();
     this->viewport()->setFixedWidth(this->width() - 15);
-    QTextEdit::resizeEvent(event);
+    QPlainTextEdit::resizeEvent(event);
+}
+
+void ResultTextView::mouseMoveEvent(QMouseEvent *e)
+{
+//    if (Qt::MouseEventSynthesizedByQt == e->source()) {
+//        m_endY = e->y();
+//        m_endX = e->x();
+//    }
+    //add for single refers to the sliding
+    if (e->type() == QEvent::MouseMove && e->source() == Qt::MouseEventSynthesizedByQt) {
+        const ulong diffTimeX = e->timestamp() - m_lastMouseTimeX;
+        const ulong diffTimeY = e->timestamp() - m_lastMouseTimeY;
+        const int diffYpos = e->pos().y() - m_lastMouseYpos;
+        const int diffXpos = e->pos().x() - m_lastMouseXpos;
+        m_lastMouseTimeX = e->timestamp();
+        m_lastMouseTimeY = e->timestamp();
+        m_lastMouseYpos = e->pos().y();
+        m_lastMouseXpos = e->pos().x();
+
+        if (m_gestureAction == GA_slide) {
+            QFont font = this->font();
+
+            /*开根号时数值越大衰减比例越大*/
+            qreal direction = diffYpos > 0 ? 1.0 : -1.0;
+            slideGestureY(-direction * sqrt(abs(diffYpos)) / font.pointSize());
+            qreal directionX = diffXpos > 0 ? 1.0 : -1.0;
+            slideGestureX(-directionX * sqrt(abs(diffXpos)) / font.pointSize());
+
+            /*预算惯性滑动时间*/
+            m_stepSpeedY = static_cast<qreal>(diffYpos) / static_cast<qreal>(diffTimeY + 0.000001);
+            durationY = sqrt(abs(m_stepSpeedY)) * 1000;
+            m_stepSpeedX = static_cast<qreal>(diffXpos) / static_cast<qreal>(diffTimeX + 0.000001);
+            durationX = sqrt(abs(m_stepSpeedX)) * 1000;
+
+            /*预算惯性滑动距离,4.0为调优数值*/
+            m_stepSpeedY /= sqrt(font.pointSize() * 4.0);
+            changeY = m_stepSpeedY * sqrt(abs(m_stepSpeedY)) * 100;
+            m_stepSpeedX /= sqrt(font.pointSize() * 4.0);
+            changeX = m_stepSpeedX * sqrt(abs(m_stepSpeedX)) * 100;
+
+            //return true;
+        }
+
+        if (m_gestureAction != GA_null) {
+            //return true;
+        }
+    }
+
+    QApplication::restoreOverrideCursor();
+
+    if (viewport()->cursor().shape() != Qt::IBeamCursor) {
+        viewport()->setCursor(Qt::IBeamCursor);
+    }
+    QPlainTextEdit::mouseMoveEvent(e);
+}
+
+void ResultTextView::mousePressEvent(QMouseEvent *e)
+{
+    if (e->type() == QEvent::MouseButtonPress && e->source() == Qt::MouseEventSynthesizedByQt) {
+        m_lastMouseTimeX = e->timestamp();
+        m_lastMouseTimeY = e->timestamp();
+        m_lastMouseYpos = e->pos().y();
+        m_lastMouseXpos = e->pos().x();
+
+//        if (tweenY.activeY()) {
+//            m_slideContinueY = true;
+//            tweenY.stopY();
+//        }
+
+//        if (tweenX.activeX()) {
+//            m_slideContinueX = true;
+//            tweenX.stopX();
+//        }
+    }
+    QPlainTextEdit::mousePressEvent(e);
+}
+
+bool ResultTextView::event(QEvent *event)
+{
+    if (event->type() == QEvent::Gesture)
+        gestureEvent(static_cast<QGestureEvent *>(event));
+    return QPlainTextEdit::event(event);
+}
+
+bool ResultTextView::gestureEvent(QGestureEvent *event)
+{
+    if (QGesture *tap = event->gesture(Qt::TapGesture)) {
+        tapGestureTriggered(static_cast<QTapGesture *>(tap));
+    }
+    return true;
+}
+
+void ResultTextView::tapGestureTriggered(QTapGesture *tap)
+{
+
+    switch (tap->state()) {
+    case Qt::GestureStarted: {
+        m_gestureAction = GA_tap;
+        m_tapBeginTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+        break;
+    }
+    case Qt::GestureUpdated: {
+        break;
+    }
+    case Qt::GestureCanceled: {
+        //根据时间长短区分轻触滑动
+        qint64 timeSpace = QDateTime::currentDateTime().toMSecsSinceEpoch() - m_tapBeginTime;
+        if (timeSpace < TAP_MOVE_DELAY || m_slideContinue) {
+            m_slideContinue = false;
+            m_gestureAction = GA_slide;
+            qDebug() << "slide start" << timeSpace;
+        } else {
+            m_gestureAction = GA_null;
+            qDebug() << "null start" << timeSpace;
+        }
+        break;
+    }
+    case Qt::GestureFinished: {
+        m_gestureAction = GA_null;
+        break;
+    }
+    default: {
+        break;
+    }
+    }
+}
+
+void ResultTextView::slideGestureY(qreal diff)
+{
+    static qreal delta = 0.0;
+    int step = static_cast<int>(diff + delta);
+    delta = diff + delta - step;
+
+    verticalScrollBar()->setValue(verticalScrollBar()->value() + step);
+}
+
+void ResultTextView::slideGestureX(qreal diff)
+{
+    static qreal delta = 0.0;
+    int step = static_cast<int>(diff + delta);
+    delta = diff + delta - step;
+
+    horizontalScrollBar()->setValue(horizontalScrollBar()->value() + step * 10);
 }

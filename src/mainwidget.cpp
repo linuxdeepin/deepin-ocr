@@ -402,8 +402,8 @@ void MainWidget::loadHtml(const QString &html)
     if (!html.isEmpty()) {
         m_frameStackLayout->setContentsMargins(20, 0, 5, 0);
         m_resultWidget->setCurrentWidget(m_plainTextEdit);
-//        m_plainTextEdit->appendHtml(html);
-        m_plainTextEdit->setHtml(html);
+        m_plainTextEdit->appendHtml(html);
+//        m_plainTextEdit->setHtml(html);
     } else {
         resultEmpty();
     }
@@ -414,8 +414,8 @@ void MainWidget::loadString(const QString &string)
     if (!string.isEmpty()) {
         m_frameStackLayout->setContentsMargins(20, 0, 5, 0);
         m_resultWidget->setCurrentWidget(m_plainTextEdit);
-//        m_plainTextEdit->appendPlainText(string);
-        m_plainTextEdit->setText(string);
+        m_plainTextEdit->appendPlainText(string);
+//        m_plainTextEdit->setText(string);
         //读取完了显示在最上方
         m_plainTextEdit->moveCursor(QTextCursor::Start) ;
         m_plainTextEdit->ensureCursorVisible() ;
@@ -500,7 +500,7 @@ void MainWidget::slotCopy()
         m_plainTextEdit->copy();
     } else {
         QTextDocument *document = m_plainTextEdit->document();
-        QTextEdit *tempTextEdit = new QTextEdit(this);
+        QPlainTextEdit *tempTextEdit = new QPlainTextEdit(this);
         tempTextEdit->setDocument(document);
         tempTextEdit->selectAll();
         tempTextEdit->copy();
