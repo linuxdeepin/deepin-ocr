@@ -162,6 +162,18 @@ void ResultTextView::mousePressEvent(QMouseEvent *e)
     QPlainTextEdit::mousePressEvent(e);
 }
 
+void ResultTextView::mouseReleaseEvent(QMouseEvent *e)
+{
+    //修复一指滑动导致了ocr无法选择任何文本
+    if (e->type() == QEvent::MouseButtonRelease && e->source() == Qt::MouseEventSynthesizedByQt) {
+        qDebug() << "action is over" << m_gestureAction;
+
+        m_gestureAction = GA_null;
+    }
+
+    return QPlainTextEdit::mouseReleaseEvent(e);
+}
+
 bool ResultTextView::event(QEvent *event)
 {
     if (event->type() == QEvent::Gesture)

@@ -18,7 +18,7 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
     void mouseMoveEvent(QMouseEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
-
+    void mouseReleaseEvent(QMouseEvent *e) override;
     bool event(QEvent *event) override;
     //触摸屏功能函数
     bool gestureEvent(QGestureEvent *event);
