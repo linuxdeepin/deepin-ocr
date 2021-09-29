@@ -46,14 +46,15 @@ ResultTextView::ResultTextView(QWidget *parent)
     connect(m_actPaste, &QAction::triggered, this, [ = ]() {
         emit this->paste();
     });
+    connect(this, &QPlainTextEdit::selectionChanged, this, &ResultTextView::onSelectionArea);
     setFrameShape(QFrame::NoFrame);
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     grabGesture(Qt::TapGesture);
-//    grabGesture(Qt::TapAndHoldGesture);
-//    grabGesture(Qt::SwipeGesture);
-//    grabGesture(Qt::PanGesture);
-//    grabGesture(Qt::PinchGesture);
+    grabGesture(Qt::TapAndHoldGesture);
+    grabGesture(Qt::SwipeGesture);
+    grabGesture(Qt::PanGesture);
+    grabGesture(Qt::PinchGesture);
 }
 
 void ResultTextView::contextMenuEvent(QContextMenuEvent *e)
@@ -124,6 +125,7 @@ void ResultTextView::mouseMoveEvent(QMouseEvent *e)
             changeX = m_stepSpeedX * sqrt(abs(m_stepSpeedX)) * 100;
 
             //return true;
+
         }
 
         if (m_gestureAction != GA_null) {
@@ -172,6 +174,15 @@ bool ResultTextView::gestureEvent(QGestureEvent *event)
     if (QGesture *tap = event->gesture(Qt::TapGesture)) {
         tapGestureTriggered(static_cast<QTapGesture *>(tap));
     }
+    if (QGesture *tapAndHold = event->gesture(Qt::TapAndHoldGesture))
+        tapAndHoldGestureTriggered(static_cast<QTapAndHoldGesture *>(tapAndHold));
+    if (QGesture *pan = event->gesture(Qt::PanGesture))
+        panTriggered(static_cast<QPanGesture *>(pan));
+    if (QGesture *pinch = event->gesture(Qt::PinchGesture))
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+    // qDebug()<<event<<"this is for test";
+//    if (QGesture *swipe = event->gesture(Qt::SwipeGesture))
+//        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
     return true;
 }
 
@@ -210,6 +221,91 @@ void ResultTextView::tapGestureTriggered(QTapGesture *tap)
     }
 }
 
+void ResultTextView::tapAndHoldGestureTriggered(QTapAndHoldGesture *tapAndHold)
+{
+    //单指长按
+    switch (tapAndHold->state()) {
+    case Qt::GestureStarted:
+        m_gestureAction = GA_hold;
+        break;
+    case Qt::GestureUpdated:
+        break;
+    case Qt::GestureCanceled:
+        break;
+    case Qt::GestureFinished:
+        m_gestureAction = GA_null;
+        break;
+    default:
+        break;
+    }
+}
+
+void ResultTextView::panTriggered(QPanGesture *pan)
+{
+    //两指平移
+    switch (pan->state()) {
+    case Qt::GestureStarted:
+        m_gestureAction = GA_pan;
+        break;
+    case Qt::GestureUpdated:
+        break;
+    case Qt::GestureCanceled:
+        break;
+    case Qt::GestureFinished:
+        m_gestureAction = GA_null;
+        break;
+    default:
+        break;
+    }
+}
+
+void ResultTextView::pinchTriggered(QPinchGesture *pinch)
+{
+    //两指拉伸   -----缩放or放大
+    switch (pinch->state()) {
+    case Qt::GestureStarted: {
+        m_gestureAction = GA_pinch;
+        if (static_cast<int>(m_scaleFactor) != m_fontSize) {
+            m_scaleFactor = m_fontSize;
+        }
+        break;
+    }
+    case Qt::GestureUpdated: {
+        QPinchGesture::ChangeFlags changeFlags = pinch->changeFlags();
+        if (changeFlags & QPinchGesture::ScaleFactorChanged) {
+            m_currentStepScaleFactor = pinch->totalScaleFactor();
+        }
+        break;
+    }
+    case Qt::GestureCanceled: {
+        Q_ASSERT(false);
+        break;
+    }
+    case Qt::GestureFinished: {
+        m_gestureAction = GA_null;
+        m_scaleFactor *= m_currentStepScaleFactor;
+        m_currentStepScaleFactor = 1;
+        break;
+    }
+    default: {
+        Q_ASSERT(false);
+        break;
+    }
+    }//switch
+
+    //QFont font = getVTFont();
+    int size = static_cast<int>(m_scaleFactor * m_currentStepScaleFactor);
+    if (size < 8)
+        size = 8;
+    if (size > 50)
+        size = 50;
+    //根据移动距离设置字体大小
+//    setFontSize(size);
+    //同步设置界面字体栏数值
+//    qobject_cast<Window *>(this->window())->changeSettingDialogComboxFontNumber(size);
+}
+
+
 void ResultTextView::slideGestureY(qreal diff)
 {
     static qreal delta = 0.0;
@@ -226,4 +322,15 @@ void ResultTextView::slideGestureX(qreal diff)
     delta = diff + delta - step;
 
     horizontalScrollBar()->setValue(horizontalScrollBar()->value() + step * 10);
+}
+
+void ResultTextView::onSelectionArea()
+{
+    if (m_gestureAction != GA_null) {
+        QTextCursor cursor = textCursor();
+        if (cursor.selectedText() != "") {
+            cursor.clearSelection();
+            setTextCursor(cursor);
+        }
+    }
 }

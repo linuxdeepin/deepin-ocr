@@ -33,7 +33,22 @@
 #include <QDBusConnection>
 #include <QDBusInterface>
 
+
 DWIDGET_USE_NAMESPACE
+
+//判断是否是wayland
+bool CheckWayland()
+{
+    auto e = QProcessEnvironment::systemEnvironment();
+    QString XDG_SESSION_TYPE = e.value(QStringLiteral("XDG_SESSION_TYPE"));
+    QString WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
+
+    if (XDG_SESSION_TYPE == QLatin1String("wayland") || WAYLAND_DISPLAY.contains(QLatin1String("wayland"), Qt::CaseInsensitive))
+        return true;
+    else {
+        return false;
+    }
+}
 
 int main(int argc, char *argv[])
 {
@@ -42,7 +57,11 @@ int main(int argc, char *argv[])
         qDebug() << "Cant open a null file";
         return 0;
     }
-
+    //判断是否是wayland
+    if (CheckWayland()) {
+        //默认走xdgv6,该库没有维护了，因此需要添加该代码
+        qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell");
+    }
 
     DGuiApplicationHelper::setUseInactiveColorGroup(false);
 #if(DTK_VERSION < DTK_VERSION_CHECK(5,4,0,0))

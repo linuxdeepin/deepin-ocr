@@ -23,10 +23,18 @@ protected:
     //触摸屏功能函数
     bool gestureEvent(QGestureEvent *event);
     void tapGestureTriggered(QTapGesture *tap);
+    void tapAndHoldGestureTriggered(QTapAndHoldGesture *tapAndHold);
+    void panTriggered(QPanGesture *pan);
+    void pinchTriggered(QPinchGesture *pinch);
+//    void swipeTriggered(QSwipeGesture *swipe);
 
     //add for single refers to the sliding
     void slideGestureY(qreal diff);
     void slideGestureX(qreal diff);
+
+
+private slots:
+    void onSelectionArea();
 signals:
     void sigChangeSize();
 private:
@@ -63,6 +71,10 @@ private:
     ulong m_lastMouseTimeX;
     ulong m_lastMouseTimeY;
 
+    qreal m_scaleFactor = 1;
+    qreal m_currentStepScaleFactor = 1;
+    Qt::GestureState m_tapStatus = Qt::NoGesture;
+    int m_fontSize = 16;
 };
 
 #endif // RESULTTEXTVIEW_H
