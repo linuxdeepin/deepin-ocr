@@ -1,60 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ar">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ar" version="2.1">
 <context>
     <name>MainWidget</name>
     <message>
-        <source>Recognizing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Copied</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="../src/mainwidget.cpp" line="166"/>
         <source>No text recognized</source>
-        <translation type="unfinished"></translation>
+        <translation>لم يتم التعرف على نص</translation>
     </message>
     <message>
+        <location filename="../src/mainwidget.cpp" line="214"/>
         <source>Copy text</source>
-        <translation type="unfinished"></translation>
+        <translation>نسخ النص</translation>
     </message>
     <message>
+        <location filename="../src/mainwidget.cpp" line="221"/>
         <source>Save as TXT</source>
-        <translation type="unfinished"></translation>
+        <translation>حفظ النص باسم</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="273"/>
+        <location filename="../src/mainwidget.cpp" line="314"/>
+        <source>Recognizing</source>
+        <translation>قيد التعرف</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="514"/>
+        <source>Copied</source>
+        <translation>تم النسخ</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
+        <location filename="../src/main.cpp" line="56"/>
         <source>OCR Tool</source>
-        <translation type="unfinished"></translation>
+        <translation>أداة التعرف البصري على النصوص</translation>
     </message>
 </context>
 <context>
     <name>ResultTextView</name>
     <message>
+        <location filename="../src/resulttextview.cpp" line="15"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>نسخ</translation>
     </message>
     <message>
+        <location filename="../src/resulttextview.cpp" line="17"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>قص</translation>
     </message>
     <message>
-        <source>Paste</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="../src/resulttextview.cpp" line="20"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>تحديد الكل</translation>
+    </message>
+    <message>
+        <location filename="../src/resulttextview.cpp" line="22"/>
+        <source>Paste</source>
+        <translation>لصق</translation>
     </message>
 </context>
 <context>
     <name>Widget</name>
     <message>
+        <location filename="../src/mainwidget.cpp" line="262"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation type="unfinished"></translation>
+        <translation>نصيحة: كلما كانت الصورة أوضح ، كان النص أكثر دقة</translation>
     </message>
 </context>
 </TS>

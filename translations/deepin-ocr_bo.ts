@@ -1,60 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="bo">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="bo" version="2.1">
 <context>
     <name>MainWidget</name>
     <message>
-        <source>Recognizing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Copied</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="../src/mainwidget.cpp" line="166"/>
         <source>No text recognized</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡི་གེ་ངོས་ཟིན་མ་ཐུབ།</translation>
     </message>
     <message>
+        <location filename="../src/mainwidget.cpp" line="214"/>
         <source>Copy text</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡི་གེ་པར་སློག</translation>
     </message>
     <message>
+        <location filename="../src/mainwidget.cpp" line="221"/>
         <source>Save as TXT</source>
-        <translation type="unfinished"></translation>
+        <translation>TXTལ་ཉར་བ།</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="273"/>
+        <location filename="../src/mainwidget.cpp" line="314"/>
+        <source>Recognizing</source>
+        <translation>དབྱེ་བ་འབྱེད་བཞིན་པ།</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="514"/>
+        <source>Copied</source>
+        <translation>པར་བསློགས།</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
+        <location filename="../src/main.cpp" line="56"/>
         <source>OCR Tool</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་རིས་དབྱེ་འབྱེད་ཡོ་བྱད།</translation>
     </message>
 </context>
 <context>
     <name>ResultTextView</name>
     <message>
+        <location filename="../src/resulttextview.cpp" line="15"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་སློག</translation>
     </message>
     <message>
+        <location filename="../src/resulttextview.cpp" line="17"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>དྲས་པ།</translation>
     </message>
     <message>
-        <source>Paste</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="../src/resulttextview.cpp" line="20"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>ཚང་མ་འདེམས།</translation>
+    </message>
+    <message>
+        <location filename="../src/resulttextview.cpp" line="22"/>
+        <source>Paste</source>
+        <translation>སྦྱར་བ།</translation>
     </message>
 </context>
 <context>
     <name>Widget</name>
     <message>
+        <location filename="../src/mainwidget.cpp" line="262"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation type="unfinished"></translation>
+        <translation>མཛའ་བརྩེའི་དྲན་སྐུལ། པར་རིས་གང་ཙམ་གྱིས་སྟབས་བདེ་བ་དང་གསལ་བ་ཡོད་ཚེ། དབྱེ་འབྱེད་ཀྱང་དེ་ཙམ་གྱིས་ཡང་དག་པ་ཡོད།</translation>
     </message>
 </context>
 </TS>

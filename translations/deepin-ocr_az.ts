@@ -1,31 +1,31 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="az" version="2.1">
 <context>
     <name>MainWidget</name>
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>No text recognized</source>
-        <translation>No s&apos;ha reconegut cap text.</translation>
+        <translation>Mətn tanınmadı</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="214"/>
         <source>Copy text</source>
-        <translation>Copia el text</translation>
+        <translation>Mətnin surəti</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="221"/>
         <source>Save as TXT</source>
-        <translation>Desa&apos;l com a TXT</translation>
+        <translation>TXT kimi saxlayın</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="273"/>
         <location filename="../src/mainwidget.cpp" line="314"/>
         <source>Recognizing</source>
-        <translation>Es reconeix</translation>
+        <translation>Tanınır</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="514"/>
         <source>Copied</source>
-        <translation>Copiat</translation>
+        <translation>Kopyalandı</translation>
     </message>
 </context>
 <context>
@@ -33,7 +33,7 @@
     <message>
         <location filename="../src/main.cpp" line="56"/>
         <source>OCR Tool</source>
-        <translation>Eina de ROC</translation>
+        <translation>OCR Aləti</translation>
     </message>
 </context>
 <context>
@@ -41,22 +41,22 @@
     <message>
         <location filename="../src/resulttextview.cpp" line="15"/>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation>Surəti</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="17"/>
         <source>Cut</source>
-        <translation>Retalla</translation>
+        <translation>Kəsmək</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="20"/>
         <source>Select All</source>
-        <translation>Selecciona-ho tot</translation>
+        <translation>Hamısını seçin</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="22"/>
         <source>Paste</source>
-        <translation>Enganxa</translation>
+        <translation>Yerləşdirin</translation>
     </message>
 </context>
 <context>
@@ -64,7 +64,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="262"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation>Consell: com més clara és la imatge, més precís és el text.</translation>
+        <translation>Məsləhətlər: Şəkil nə qədər aydın olarsa mətn o qədər dəqiq oxunur</translation>
     </message>
 </context>
 </TS>
