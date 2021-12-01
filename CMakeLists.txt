@@ -129,8 +129,8 @@ if(DOTEST)
     SET(PROJECT_NAME_TEST
         ${PROJECT_NAME}_test)
 
-    include_directories(tests)
-    include_directories(src)
+    include_directories(./tests)
+    include_directories(./src)
     include_directories(./src/service)
     include_directories(./src/tessocrutils)
     include_directories(./src/view)
@@ -174,6 +174,7 @@ if(DOTEST)
 #    aux_source_directory(3rdparty/tesseract_ocr/tesseract/src/wordrec allTestSource)
 
     FILE(GLOB allTestSource1
+        "src/frame.cpp"
         "src/loadingwidget.cpp"
         "src/mainwidget.cpp"
         "src/mainwindow.cpp"
