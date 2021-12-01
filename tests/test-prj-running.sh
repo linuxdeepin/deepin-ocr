@@ -1,6 +1,13 @@
 #!/bin/bash
 #export QT_QPA_PLATFORM='offscreen'
 export QTEST_FUNCTION_TIMEOUT='800000'
+export DISPLAY=":0"
+export QT_QPA_PLATFORM=
+
+export QT_LOGGING_RULES="qt.qpa.xcb.xcberror=false"
+export QT_LOGGING_RULES="qt.qpa.xcb.*=false"
+export QT_LOGGING_RULES="qt.qpa.*=false"
+export QT_LOGGING_RULES="*=false"
 
 cd ..
 rm -rf ./build-ut
