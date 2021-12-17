@@ -49,6 +49,7 @@ class TessOcrUtilsTest:public testing::Test{
 
 public:
     Stub stub;
+    QString testImgPath = "/Wallpapers/marian-kroell-qElMHWePpok-unsplash.jpg";
     TessOcrUtils *m_tessOCrUtils = nullptr;
     virtual void SetUp() override{
         m_tessOCrUtils = TessOcrUtils::instance();
@@ -79,7 +80,7 @@ TEST_F(TessOcrUtilsTest, tessOcrUtils)
 TEST_F(TessOcrUtilsTest, getRecogitionResultImagePathAndResultType)
 {
     //QString imagePath = "/media/wangcong/workspace/wangcong/workspace/qt_workspace/project/deepin-ocr/assets/testocr.png";
-    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Wallpapers/luca-micheli-ruWkmt3nU58-unsplash.jpg";
+    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + testImgPath;
     ResultType resultType = ResultType::RESULT_STRING;
     RecognitionResult recognitionResult = m_tessOCrUtils->getRecogitionResult(imagePath,resultType);
     EXPECT_EQ(true, recognitionResult.flag);
@@ -91,7 +92,7 @@ TEST_F(TessOcrUtilsTest, getRecogitionResultImagePathAndResultType)
 
 TEST_F(TessOcrUtilsTest, getRecogitionResult2ImagePath)
 {
-    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Wallpapers/luca-micheli-ruWkmt3nU58-unsplash.jpg";
+    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + testImgPath;
     RecognitionResult recognitionResult = m_tessOCrUtils->getRecogitionResult(imagePath);
     recognitionResult = m_tessOCrUtils->getRecogitionResult(imagePath);
     EXPECT_EQ(true, recognitionResult.flag);
@@ -103,7 +104,7 @@ TEST_F(TessOcrUtilsTest, getRecogitionResult2ImagePath)
 
 TEST_F(TessOcrUtilsTest, getRecogitionResultImageAndResultType)
 {
-    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Wallpapers/luca-micheli-ruWkmt3nU58-unsplash.jpg";
+    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + testImgPath;
     ResultType resultType = ResultType::RESULT_STRING;
     QImage* t_image = new QImage(imagePath);
     RecognitionResult recognitionResult = TessOcrUtils::instance()->getRecogitionResult(t_image,resultType);
@@ -116,7 +117,7 @@ TEST_F(TessOcrUtilsTest, getRecogitionResultImageAndResultType)
 
 TEST_F(TessOcrUtilsTest, getRecogitionResultImage)
 {
-    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Wallpapers/luca-micheli-ruWkmt3nU58-unsplash.jpg";
+    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + testImgPath;
     QImage* t_image = new QImage(imagePath);
     RecognitionResult recognitionResult = TessOcrUtils::instance()->getRecogitionResult(t_image);
     EXPECT_EQ(true, recognitionResult.flag);
@@ -130,7 +131,7 @@ TEST_F(TessOcrUtilsTest, getRecogitionResultImage)
 TEST_F(TessOcrUtilsTest, isRunning)
 {
     EXPECT_EQ(false, m_tessOCrUtils->isRunning());
-    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Wallpapers/luca-micheli-ruWkmt3nU58-unsplash.jpg";
+    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + testImgPath;
     ResultType resultType = ResultType::RESULT_STRING;
     RecognitionResult recognitionResult = m_tessOCrUtils->getRecogitionResult(imagePath,resultType);
     EXPECT_EQ(false, m_tessOCrUtils->isRunning());
@@ -138,7 +139,7 @@ TEST_F(TessOcrUtilsTest, isRunning)
 
 TEST_F(TessOcrUtilsTest, getRecognizeResult)
 {
-    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Wallpapers/luca-micheli-ruWkmt3nU58-unsplash.jpg";
+    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + testImgPath;
     QImage* image = new QImage(imagePath);
     ResultType resultType = ResultType::RESULT_STRING;
     Pix *p_image;
