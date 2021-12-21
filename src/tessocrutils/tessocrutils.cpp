@@ -273,17 +273,20 @@ RecognitionResult TessOcrUtils::getRecognizeResult(Pix * image,ResultType result
 
     try {
         //识别图片
+        char* resultString = nullptr;
         switch (resultType) {
         case ResultType::RESULT_HTML:
-            result = QString(t_Tesseract->GetHOCRText(0));
+            resultString = t_Tesseract->GetHOCRText(0);
             break;
         case ResultType::RESULT_STRING:
-            result = QString(t_Tesseract->GetUTF8Text());
+            resultString = t_Tesseract->GetUTF8Text();
             break;
         default:
-            result = QString(t_Tesseract->GetUTF8Text());
+            resultString = t_Tesseract->GetUTF8Text();
             break;
         }
+        result = QString(resultString);
+        delete [] resultString;
     } catch (const std::logic_error &e) {
         //errorMesage = "识别图片失败！" + QString(qExc.what());
         errorMessage = "Image recognition failed! " + QString(e.what());
@@ -293,12 +296,12 @@ RecognitionResult TessOcrUtils::getRecognizeResult(Pix * image,ResultType result
         return t_result;
     }
     t_Tesseract->End();
-    pixDestroy(&image);
+    //pixDestroy(&image);
     t_result.flag = true;
     t_result.message = errorMessage;
     t_result.errorCode = ErrorCode::OK;
     t_result.resultType = resultType;
-    t_result.result = result;
+    t_result.result = result.remove(QRegExp(" ")); // 去除识别结果中的空格字符串
     m_isRunning = false;
     return t_result;
 }

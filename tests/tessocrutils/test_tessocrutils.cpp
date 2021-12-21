@@ -112,6 +112,7 @@ TEST_F(TessOcrUtilsTest, getRecogitionResultImageAndResultType)
     EXPECT_EQ("", recognitionResult.message);
     EXPECT_EQ(ErrorCode::OK, recognitionResult.errorCode);
     EXPECT_EQ(resultType, recognitionResult.resultType);
+    delete t_image;
     //EXPECT_NE("", recognitionResult.result);
 }
 
@@ -124,6 +125,7 @@ TEST_F(TessOcrUtilsTest, getRecogitionResultImage)
     EXPECT_EQ("", recognitionResult.message);
     EXPECT_EQ(ErrorCode::OK, recognitionResult.errorCode);
     EXPECT_EQ(ResultType::RESULT_STRING, recognitionResult.resultType);
+    delete t_image;
     //EXPECT_NE("", recognitionResult.result);
 
 }
@@ -162,6 +164,7 @@ TEST_F(TessOcrUtilsTest, getRecognizeResult)
     EXPECT_EQ("", recognitionResult.message);
     EXPECT_EQ(ErrorCode::OK, recognitionResult.errorCode);
     EXPECT_EQ(ResultType::RESULT_STRING, recognitionResult.resultType);
+    delete  image;
 }
 
 TEST_F(TessOcrUtilsTest, setLanguagesPath)
