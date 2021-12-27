@@ -158,7 +158,8 @@ TEST_F(TessOcrUtilsTest, getRecognizeResult)
     p_image->special = 0;
     p_image->text = nullptr;
     p_image->colormap = nullptr;
-    p_image->data = reinterpret_cast<l_uint32*>(image->bits());
+    //p_image->data = reinterpret_cast<l_uint32*>(image->bits());
+    memcpy(reinterpret_cast<void*>(pixGetData(p_image)), reinterpret_cast<void*>(image->bits()), p_image->wpl *  p_image->h * 4);
     RecognitionResult recognitionResult = call_private_fun::TessOcrUtilsgetRecognizeResult(*m_tessOCrUtils,p_image,resultType);
     EXPECT_EQ(true, recognitionResult.flag);
     EXPECT_EQ("", recognitionResult.message);

@@ -169,7 +169,9 @@ RecognitionResult TessOcrUtils::getRecogitionResult(QImage *image, const ResultT
     //p_image->colormap->depth;
     //p_image->colormap->nalloc;
     //p_image->colormap->n;
-    p_image->data = reinterpret_cast<l_uint32*>(image->bits());
+    //p_image->data = reinterpret_cast<l_uint32*>(image->bits());
+    //pixSetData(p_image, reinterpret_cast<l_uint32*>(image->bits()));
+    memcpy(reinterpret_cast<void*>(pixGetData(p_image)), reinterpret_cast<void*>(image->bits()), p_image->wpl *  p_image->h * 4);
     //获取识别结果
     return  getRecognizeResult(p_image,resultType);
 }
@@ -296,7 +298,7 @@ RecognitionResult TessOcrUtils::getRecognizeResult(Pix * image,ResultType result
         return t_result;
     }
     t_Tesseract->End();
-    //pixDestroy(&image);
+    pixDestroy(&image);
     t_result.flag = true;
     t_result.message = errorMessage;
     t_result.errorCode = ErrorCode::OK;
