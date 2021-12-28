@@ -30,6 +30,13 @@ ImageView::ImageView(QWidget *parent):
     viewport()->setCursor(Qt::ArrowCursor);
 }
 
+ImageView::~ImageView()
+{
+    if (m_currentImage) {
+        delete m_currentImage;
+    }
+}
+
 void ImageView::openImage(const QString &path)
 {
     if (scene()) {

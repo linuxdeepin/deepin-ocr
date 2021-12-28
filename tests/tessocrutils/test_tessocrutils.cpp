@@ -129,7 +129,21 @@ TEST_F(TessOcrUtilsTest, getRecogitionResultImage)
     //EXPECT_NE("", recognitionResult.result);
 
 }
+TEST_F(TessOcrUtilsTest, getRecogitionResultImageError)
+{
+    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    QString path = "";
+    RecognitionResult recognitionResult = TessOcrUtils::instance()->getRecogitionResult(path);
+    EXPECT_EQ(ErrorCode::OCR_P_NULL, recognitionResult.errorCode);
+    recognitionResult = TessOcrUtils::instance()->getRecogitionResult(imagePath);
+    EXPECT_EQ(ErrorCode::OCR_P_NULL, recognitionResult.errorCode);
 
+    QImage* p_image = new QImage;
+    recognitionResult = TessOcrUtils::instance()->getRecogitionResult(p_image);
+    EXPECT_EQ(ErrorCode::OCR_P_NULL, recognitionResult.errorCode);
+    delete p_image;
+
+}
 TEST_F(TessOcrUtilsTest, isRunning)
 {
     EXPECT_EQ(false, m_tessOCrUtils->isRunning());
@@ -160,6 +174,8 @@ TEST_F(TessOcrUtilsTest, getRecognizeResult)
     p_image->colormap = nullptr;
     //p_image->data = reinterpret_cast<l_uint32*>(image->bits());
     memcpy(reinterpret_cast<void*>(pixGetData(p_image)), reinterpret_cast<void*>(image->bits()), p_image->wpl *  p_image->h * 4);
+
+    call_private_fun::TessOcrUtilsgetRecognizeResult(*m_tessOCrUtils,p_image,ResultType::UNKNOWN_TYPE);
     RecognitionResult recognitionResult = call_private_fun::TessOcrUtilsgetRecognizeResult(*m_tessOCrUtils,p_image,resultType);
     EXPECT_EQ(true, recognitionResult.flag);
     EXPECT_EQ("", recognitionResult.message);
@@ -167,6 +183,35 @@ TEST_F(TessOcrUtilsTest, getRecognizeResult)
     EXPECT_EQ(ResultType::RESULT_STRING, recognitionResult.resultType);
     delete  image;
 }
+TEST_F(TessOcrUtilsTest, getRecognizeResultHTML)
+{
+    QString imagePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + testImgPath;
+    QImage* image = new QImage(imagePath);
+    ResultType resultType = ResultType::RESULT_HTML;
+    Pix *p_image;
+    p_image = pixCreate(image->width(), image->height(), image->depth());
+    p_image->w = static_cast<l_uint32>(image->width());
+    p_image->h = static_cast<l_uint32>(image->height());
+    p_image->d = static_cast<l_uint32>(image->depth());
+    p_image->spp = 3;
+    p_image->wpl = static_cast<l_uint32>(image->width());
+    p_image->refcount = 1;
+    p_image->xres = 0;
+    p_image->yres = 0;
+    p_image->informat = 0;
+    p_image->special = 0;
+    p_image->text = nullptr;
+    p_image->colormap = nullptr;
+    //p_image->data = reinterpret_cast<l_uint32*>(image->bits());
+    memcpy(reinterpret_cast<void*>(pixGetData(p_image)), reinterpret_cast<void*>(image->bits()), p_image->wpl *  p_image->h * 4);
+    RecognitionResult recognitionResult = call_private_fun::TessOcrUtilsgetRecognizeResult(*m_tessOCrUtils,p_image,resultType);
+    EXPECT_EQ(true, recognitionResult.flag);
+    EXPECT_EQ("", recognitionResult.message);
+    EXPECT_EQ(ErrorCode::OK, recognitionResult.errorCode);
+    EXPECT_EQ(ResultType::RESULT_HTML, recognitionResult.resultType);
+    delete  image;
+}
+
 
 TEST_F(TessOcrUtilsTest, setLanguagesPath)
 {

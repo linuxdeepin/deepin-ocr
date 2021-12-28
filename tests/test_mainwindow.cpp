@@ -77,6 +77,8 @@ TEST(MainWidget, MainWidget_show)
     a->loadString("");
     a->loadString("test");
     a->slotCopy();
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::LightType;
+    a->setIcons(themeType);
     a->deleteLater();
     a = nullptr;
     QTest::qWait(2000);
@@ -95,4 +97,5 @@ TEST(ImageView, ImageView_show)
     imageView->setScaleValue(0.9);
     imageView->RotateImage(90);
     QTest::qWait(2000);
+    delete imageView;
 }

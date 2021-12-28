@@ -15,6 +15,7 @@ class ImageView : public QGraphicsView
     Q_OBJECT
 public:
     ImageView(QWidget *parent = nullptr);
+    ~ImageView();
     //通过路径打开图片
     void openImage(const QString &path);
 
