@@ -280,9 +280,6 @@ RecognitionResult TessOcrUtils::getRecognizeResult(Pix * image,ResultType result
         case ResultType::RESULT_HTML:
             resultString = t_Tesseract->GetHOCRText(0);
             break;
-        case ResultType::RESULT_STRING:
-            resultString = t_Tesseract->GetUTF8Text();
-            break;
         default:
             resultString = t_Tesseract->GetUTF8Text();
             break;
@@ -354,9 +351,6 @@ QString TessOcrUtils::getLangStr(Languages lang)
         break;
     case Languages::CHI_TRA:
         langStr = "chi_tra";
-        break;
-    case Languages::ENG:
-        langStr = "eng";
         break;
     default:
         langStr = "eng";

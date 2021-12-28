@@ -72,13 +72,14 @@ TEST(MainWindow, mainwindow_openFile)
 TEST(MainWidget, MainWidget_show)
 {
     MainWidget *a = new MainWidget();
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::LightType;
+    a->setIcons(themeType);
     a->loadHtml("");
     a->loadHtml("test");
     a->loadString("");
     a->loadString("test");
     a->slotCopy();
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::LightType;
-    a->setIcons(themeType);
+    a->resultEmpty();
     a->deleteLater();
     a = nullptr;
     QTest::qWait(2000);
@@ -96,6 +97,12 @@ TEST(ImageView, ImageView_show)
     imageView->setScaleValue(1.1);
     imageView->setScaleValue(0.9);
     imageView->RotateImage(90);
+
+    imageView->scaleAtPoint(QPoint(10, 10), 1.2);
+    QPinchGesture *gesture = new QPinchGesture;
+    imageView->pinchTriggered(gesture);
+    delete gesture;
+
     QTest::qWait(2000);
     delete imageView;
 }
