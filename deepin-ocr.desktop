@@ -6,6 +6,7 @@ GenericName=OCR Tool
 Icon=deepin-ocr
 Name=Deepin Ocr
 Type=Application
+NoDisplay=true
 X-Deepin-ManualID=deepin-ocr
 X-Deepin-Vendor=deepin
 X-Deepin-TurboType=dtkwidget
