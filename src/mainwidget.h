@@ -16,7 +16,7 @@
 #include "resulttextview.h"
 
 #include "textloadwidget.h"
-#include "tessocrutils/tessocrutils.h"
+#include "paddleocr-ncnn/paddleocr.h"
 
 class Frame;
 class QThread;
@@ -93,7 +93,7 @@ private:
 
     QThread *m_loadImagethread{nullptr};
     QMutex m_mutex;
-    RecognitionResult m_result;
+    QString m_result;
     QImage *m_currentImg{nullptr};
 
     DStackedWidget *m_resultWidget{nullptr};

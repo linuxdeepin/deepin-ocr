@@ -9,6 +9,11 @@ export QT_LOGGING_RULES="qt.qpa.xcb.*=false"
 export QT_LOGGING_RULES="qt.qpa.*=false"
 export QT_LOGGING_RULES="*=false"
 
+rm -rf ${HOME}/Pictures/ocr_test
+mkdir -p ${HOME}/Pictures/ocr_test
+cp -r ./testResource ${HOME}/Pictures/ocr_test
+cp ../assets/model/* ${HOME}/Pictures/ocr_test/*
+
 cd ..
 rm -rf ./build-ut
 rm -rf ./build
@@ -26,14 +31,14 @@ then JOBS=1
 fi
 
 echo use processor count: $JOBS
-make -j$JOBS
+make deepin-ocr_test -j$JOBS
 
-lcov --directory ./CMakeFiles/deepin-ocr_test.dir --zerocounters
-./deepin-ocr_test
+lcov --directory ./src/CMakeFiles/deepin-ocr_test.dir --zerocounters
+./src/deepin-ocr_test
 
 lcov --directory . --capture --output-file ./coverageResult/deepin-ocr_Coverage.info
 echo \ ===================\ do\ filter\ begin\ ====================\ 
-lcov --remove ./coverageResult/deepin-ocr_Coverage.info '*/deepin-ocr_test_autogen/*' '*/deepin-ocr_autogen/*' '*/usr/include/*' '*/usr/local/*' '*/tests/*' '*/googletest/*' -o ./coverageResult/deepin-ocr_Coverage.info
+lcov --remove ./coverageResult/deepin-ocr_Coverage.info '*/3rdparty/*' '*/deepin-ocr_test_autogen/*' '*/deepin-ocr_autogen/*' '*/usr/include/*' '*/usr/local/*' '*/tests/*' '*/googletest/*' -o ./coverageResult/deepin-ocr_Coverage.info
 echo \ ===================\ do\ filter\ end\ ====================\ 
 genhtml -o ./coverageResult/report ./coverageResult/deepin-ocr_Coverage.info
 
@@ -41,7 +46,7 @@ sleep 2
 
 lcov --directory . --capture --output-file ./coverageResult/deepin-ocr_Coverage.info
 echo \ ===================\ do\ filter\ begin\ ====================\ 
-lcov --remove ./coverageResult/deepin-ocr_Coverage.info '*/deepin-ocr_test_autogen/*' '*/deepin-ocr_autogen/*' '*/usr/include/*' '*/usr/local/*' '*/tests/*' '*/googletest/*' -o ./coverageResult/deepin-ocr_Coverage.info
+lcov --remove ./coverageResult/deepin-ocr_Coverage.info '*/3rdparty/*' '*/deepin-ocr_test_autogen/*' '*/deepin-ocr_autogen/*' '*/usr/include/*' '*/usr/local/*' '*/tests/*' '*/googletest/*' -o ./coverageResult/deepin-ocr_Coverage.info
 echo \ ===================\ do\ filter\ end\ ====================\ 
 genhtml -o ./coverageResult/report ./coverageResult/deepin-ocr_Coverage.info
 
