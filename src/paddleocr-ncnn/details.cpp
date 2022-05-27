@@ -34,7 +34,7 @@ std::vector<std::vector<std::vector<int>>> Details::detectText(const cv::Mat &sr
     int w = src.cols;
     int h = src.rows;
 
-    //输入图片固定尺寸960*960
+    //1.缩减尺寸
     float ratio = 1.f;
     if (std::max(w, h) > 960) {
         if (h > w) {
@@ -43,13 +43,26 @@ std::vector<std::vector<std::vector<int>>> Details::detectText(const cv::Mat &sr
             ratio = 960.0f / w;
         }
     }
-
     int resizeH = int(h * ratio);
     int resizeW = int(w * ratio);
 
-    resizeH = std::max(int(round(float(resizeH) / 32) * 32), 32);
-    resizeW = std::max(int(round(float(resizeW) / 32) * 32), 32);
+    //2.扩大尺寸，确保图片的最短的边大于等于64,小于这个值可能会导致检测不到文字
+    float ratio2 = 1.f;
+    if (std::min(resizeW, resizeH) < 64) {
+        if (resizeH > resizeW) {
+            ratio2 = 64.0f / resizeW;
+        } else {
+            ratio2 = 64.0f / resizeH;
+        }
+    }
+    resizeH = int(resizeH * ratio2);
+    resizeW = int(resizeW * ratio2);
+    
+    //3.标准化图片尺寸，否则会错位
+    resizeH = int(round(float(resizeH) / 32) * 32);
+    resizeW = int(round(float(resizeW) / 32) * 32);
 
+    //执行resize，记录变换比例
     cv::Mat resize_img;
     cv::resize(src, resize_img, cv::Size(resizeW, resizeH));
     float ratio_h = float(resizeH) / float(h);
