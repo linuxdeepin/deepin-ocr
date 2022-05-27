@@ -57,6 +57,10 @@ std::vector<std::vector<std::vector<int>>> Details::detectText(const cv::Mat &sr
     }
     resizeH = int(resizeH * ratio2);
     resizeW = int(resizeW * ratio2);
+    
+    //3.标准化图片尺寸，否则会错位
+    resizeH = int(round(float(resizeH) / 32) * 32);
+    resizeW = int(round(float(resizeW) / 32) * 32);
 
     //执行resize，记录变换比例
     cv::Mat resize_img;
