@@ -26,6 +26,6 @@ fi
 if [ ! -f "3rdparty/ncnn/build/install/lib/libncnn.a" ]; then
 cd 3rdparty/ncnn
 rm -rf build && mkdir build && cd build
-cmake -DNCNN_C_API=OFF -DNCNN_BUILD_BENCHMARK=OFF -DNCNN_BUILD_TOOLS=OFF -DNCNN_BUILD_EXAMPLES=OFF ..
+cmake -DNCNN_C_API=OFF -DNCNN_BUILD_BENCHMARK=OFF -DNCNN_BUILD_TOOLS=OFF -DNCNN_BUILD_EXAMPLES=OFF -DNCNN_MSA=OFF -DNCNN_MMI=ON ..
 make -j$JOBS && make install
 fi
