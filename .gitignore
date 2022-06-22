@@ -13,7 +13,7 @@
 *.a
 
 build*/
-include*/
+#include*/
 
 *.txt.user*
 *.pro.user*
@@ -21,7 +21,7 @@ include*/
 *.qm
 *.autosave
 
-vendor/include/*
+#vendor/include/*
 vendor/lib/*
 
 .vscode/*

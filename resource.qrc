@@ -13,5 +13,8 @@
         <file>assets/appicon_light.svg</file>
         <file>assets/copy_dark.svg</file>
         <file>assets/copy_light.svg</file>
+        <file>assets/dict/dict_eng.txt</file>
+        <file>assets/dict/dict_chi_tra.txt</file>
+        <file>assets/dict/dict_chi_sim.txt</file>
     </qresource>
 </RCC>

@@ -33,7 +33,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="56"/>
+        <location filename="../src/main.cpp" line="75"/>
         <source>OCR Tool</source>
         <translation type="unfinished"></translation>
     </message>
@@ -41,22 +41,22 @@
 <context>
     <name>ResultTextView</name>
     <message>
-        <location filename="../src/resulttextview.cpp" line="15"/>
+        <location filename="../src/resulttextview.cpp" line="22"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/resulttextview.cpp" line="17"/>
+        <location filename="../src/resulttextview.cpp" line="24"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/resulttextview.cpp" line="20"/>
+        <location filename="../src/resulttextview.cpp" line="27"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/resulttextview.cpp" line="22"/>
+        <location filename="../src/resulttextview.cpp" line="29"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>

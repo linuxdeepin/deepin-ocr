@@ -43,12 +43,12 @@ TEST(MainWindow, mainwindow)
 //初始拉起主界面,带有参数的
 TEST(MainWindow, mainwindow_openFile)
 {
-    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Wallpapers/luca-micheli-ruWkmt3nU58-unsplash.jpg";
+    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/ocr_test/testResource/test.png";
     OcrApplication instance;
     instance.openFile(picPath);
     bool bRet = false;
     while (!bRet) {
-        if (!TessOcrUtils::instance()->isRunning()) {
+        if (!PaddleOCRApp::instance()->isRunning()) {
             bRet = true;
             QTest::qWait(1000);
         }
@@ -58,7 +58,7 @@ TEST(MainWindow, mainwindow_openFile)
 
     bRet = false;
     while (!bRet) {
-        if (!TessOcrUtils::instance()->isRunning()) {
+        if (!PaddleOCRApp::instance()->isRunning()) {
             bRet = true;
             QTest::qWait(1000);
         }

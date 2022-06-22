@@ -386,10 +386,10 @@ void MainWidget::openImage(const QImage &img, const QString &name)
     if (!m_loadImagethread) {
         m_loadImagethread = QThread::create([ = ]() {
             QMutexLocker locker(&m_mutex);
-            m_result = TessOcrUtils::instance()->getRecogitionResult(m_currentImg, ResultType::RESULT_STRING);
+            m_result = PaddleOCRApp::instance()->getRecogitionResult(*m_currentImg);
             //判断程序是否退出
             if (1 == m_isEndThread) {
-                emit sigResult(m_result.result);
+                emit sigResult(m_result);
             }
         });
     }

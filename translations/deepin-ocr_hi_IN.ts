@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hi_IN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hi_IN">
 <context>
     <name>MainWidget</name>
     <message>
@@ -31,7 +33,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="56"/>
+        <location filename="../src/main.cpp" line="75"/>
         <source>OCR Tool</source>
         <translation>ओसीआर साधन</translation>
     </message>
@@ -39,22 +41,22 @@
 <context>
     <name>ResultTextView</name>
     <message>
-        <location filename="../src/resulttextview.cpp" line="15"/>
+        <location filename="../src/resulttextview.cpp" line="22"/>
         <source>Copy</source>
         <translation>कॉपी</translation>
     </message>
     <message>
-        <location filename="../src/resulttextview.cpp" line="17"/>
+        <location filename="../src/resulttextview.cpp" line="24"/>
         <source>Cut</source>
         <translation>कट</translation>
     </message>
     <message>
-        <location filename="../src/resulttextview.cpp" line="20"/>
+        <location filename="../src/resulttextview.cpp" line="27"/>
         <source>Select All</source>
         <translation>सभी चुनें</translation>
     </message>
     <message>
-        <location filename="../src/resulttextview.cpp" line="22"/>
+        <location filename="../src/resulttextview.cpp" line="29"/>
         <source>Paste</source>
         <translation>पेस्ट</translation>
     </message>
