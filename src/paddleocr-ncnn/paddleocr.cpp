@@ -132,7 +132,7 @@ QString PaddleOCRApp::getRecogitionResult(const QImage &image)
 
     //组装识别结果，注意：目前没有版面识别功能，只能这样简单堆叠，然后将结果刷到界面上
     QString text;
-    std::for_each(result.rbegin(), result.rend(), [&text](const std::string & eachText) {
+    std::for_each(result.begin(), result.end(), [&text](const std::string & eachText) {
         text += QString(eachText.c_str());
         text += "\n";
     });

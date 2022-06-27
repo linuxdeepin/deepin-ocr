@@ -217,13 +217,48 @@ std::vector<std::string> Details::run(const cv::Mat matrix)
     //1.获取文本位置
     auto boxes = detectText(matrix, 0.3f, 0.5f, 1.6f);
 
-    //2.获取对应位置的图片
+    //2.执行排序
+    //限于开源协议，暂时无法采用更高效的策略
+    std::sort(boxes.begin(), boxes.end(), [](const std::vector<std::vector<int>> &boxL, const std::vector<std::vector<int>> &boxR) {
+        //左侧
+        int x_collect_L[4] = {boxL[0][0], boxL[1][0], boxL[2][0], boxL[3][0]};
+        int y_collect_L[4] = {boxL[0][1], boxL[1][1], boxL[2][1], boxL[3][1]};
+
+        //右侧
+        int x_collect_R[4] = {boxR[0][0], boxR[1][0], boxR[2][0], boxR[3][0]};
+        int y_collect_R[4] = {boxR[0][1], boxR[1][1], boxR[2][1], boxR[3][1]};
+
+        //判断顺序：先上下，后左右
+
+        //完全超过时，在上面的靠前，在下面的靠后
+        int y_L = *std::min_element(y_collect_L, y_collect_L + 4);
+        int height_L = *std::max_element(y_collect_L, y_collect_L + 4) - y_L;
+        int y_R = *std::min_element(y_collect_R, y_collect_R + 4);
+        int height_R = *std::max_element(y_collect_R, y_collect_R + 4) - y_R;
+        if (y_R - y_L > height_R / 3.0f * 2.0f) {
+            return true;
+        } else if (y_L - y_R > height_L / 3.0f * 2.0f) {
+            return false;
+        }
+
+        //部分超过时，在左边的靠前，在右边的靠后（TODO：如果是维语/阿拉伯语，则需要反过来）
+        //注意：由于检测算法的机制，各个矩形框按理来说不会出现重叠
+        int x_L = *std::min_element(x_collect_L, x_collect_L + 4);
+        int x_R = *std::min_element(x_collect_R, x_collect_R + 4);
+        if (x_L < x_R) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+    //3.获取对应位置的图片
     std::vector<cv::Mat> images;
     std::transform(boxes.begin(), boxes.end(), std::back_inserter(images), [matrix, this](const std::vector<std::vector<int>> &box) {
         return utilityTool.GetRotateCropImage(matrix, box);
     });
 
-    //3.对每一张图片进行识别
+    //4.对每一张图片进行识别
     std::vector<std::string> recResults = recognizeTexts(images);
 
     return recResults;
