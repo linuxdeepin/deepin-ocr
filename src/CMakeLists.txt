@@ -37,9 +37,12 @@ add_library(opencv_world STATIC IMPORTED)
 set_property(TARGET opencv_world PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/opencv-4.5.4/build/install/lib/libopencv_world.a)
 
 #for ncnn
-include_directories(../3rdparty/ncnn/build/install/include/ncnn)
-add_library(ncnn STATIC IMPORTED)
-set_property(TARGET ncnn PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/ncnn/build/install/lib/libncnn.a)
+find_package(ncnn PATHS ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/ncnn/build/install/lib/cmake/ncnn)
+if (NOT ncnn_FOUND)
+    include_directories(${CMAKE_CURRENT_LIST_DIR}/../3rdparty/ncnn/build/install/include/ncnn)
+    add_library(ncnn STATIC IMPORTED)
+    set_property(TARGET ncnn PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/ncnn/build/install/lib/libncnn.a)
+endif()
 
 #for clipper
 include_directories(../3rdparty/clipper)
