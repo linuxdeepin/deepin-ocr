@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 #export QT_QPA_PLATFORM='offscreen'
 export QTEST_FUNCTION_TIMEOUT='800000'
 export DISPLAY=":0"
