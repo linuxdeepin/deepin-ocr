@@ -1,4 +1,4 @@
-## Deepin Ocr
+# Deepin OCR
 
 Deepint Ocr 提供基础文字识别功能.
 
@@ -68,4 +68,4 @@ sudo make install
 
 ## 协议
 
-Deepin Ocr遵循协议 [LGPLv3](LICENSE).
+Deepin OCR 遵循协议 [GPL-3.0-or-later](LICENSE).

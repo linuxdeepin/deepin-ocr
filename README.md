@@ -1,6 +1,6 @@
-# Deepin ocr {#mainpage}
+# Deepin OCR
 
-Deepin ocr provides the base character recognition ability on Deepin.
+Deepin OCR provides the base character recognition ability on Deepin.
 
 ## Dependencies
 
@@ -56,4 +56,4 @@ We encourage you to report issues and contribute changes
 
 ## License
 
-deepin-ocr is licensed under [LGPLv3](LICENSE).
+Deepin OCR is licensed under [GPL-3.0-or-later](LICENSE).
