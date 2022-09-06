@@ -15,22 +15,17 @@ License: CC0-1.0
 
 # xml toml json conf yaml sh
 Files:  *.toml *.json *conf *.yaml *.sh
-Copyright: None
+Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 
 # debian
 Files: debian/*
-Copyright: None
-License: CC0-1.0
-
-# rpm
-Files: rpm/*
-Copyright: None
+Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 
 # Project file
 Files: *.pro *.prf *.pri *.qrc *CMakeLists.txt .tx/*
-Copyright: None
+Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 
 # README
@@ -40,7 +35,7 @@ License: CC-BY-4.0
 
 # assets
 Files: assets/*
-Copyright: None
+Copyright: UnionTech Software Technology Co., Ltd.
 License: LGPL-3.0-or-later
 
 # translations
@@ -67,6 +62,11 @@ License: CC-BY-4.0
 Files: deepin-ocr.desktop
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
+
+# paddle ocr source code
+Files: src/paddleocr-ncnn/postprocess_op.* src/paddleocr-ncnn/utility.*
+Copyright: 2020 PaddlePaddle Authors
+License: Apache-2.0
 
 # 3rdparty/ncnn
 Files: 3rdparty/ncnn/*

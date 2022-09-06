@@ -2,7 +2,7 @@
 
 # SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 #
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: CC0-1.0
 
 #export QT_QPA_PLATFORM='offscreen'
 export QTEST_FUNCTION_TIMEOUT='800000'

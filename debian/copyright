@@ -4,12 +4,12 @@ Upstream-Contact: https://github.com/linuxdeepin/deepin-ocr/issues
 Source: https://github.com/linuxdeepin/deepin-ocr
 
 Files: *
-Copyright: 2022 Deepin.Inc <support@deepin.com>
+Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3+
 
-Files: debian/*
-Copyright: 2022 Deepin.Inc <support@deepin.com>
-License: Expat
+Files: debian/* *.pro *.prf *.pri *.qrc *CMakeLists.txt .tx/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: CC0-1.0
 
 Files: 3rdparty/clipper/*
 Copyright: 2010-2017 Angus Johnson
@@ -35,7 +35,9 @@ Copyright: 2000-2021, Intel Corporation
 License: Apache-2.0
 
 Files: 3rdparty/opencv-mobile/*
-Copyright: 2022 nihui
+Copyright: 2000-2008, Intel Corporation
+           2009, Willow Garage Inc.
+           2021, nihui
 License: Apache-2.0
 
 Files: 3rdparty/stub_linux/*
