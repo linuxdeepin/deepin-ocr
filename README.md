@@ -57,3 +57,12 @@ We encourage you to report issues and contribute changes
 ## License
 
 Deepin OCR is licensed under [GPL-3.0-or-later](LICENSE).
+
+## About model files
+
+The OCR backend is `PaddleOCR` on `NCNN`. Dictionary file is in `assets/dict` and model file is in `assets/model`. The model files are convert by `Paddle Inference` format. They are `NCNN` format now. The conversion process is as follows: 
+
+- Download pre-train model files from https://github.com/PaddlePaddle/PaddleOCR . This project is open source under the [Apache-2.0](LICENSES/Apache-2.0.txt) protocol. The origin model files are trained by `PaddleOCR` team.
+- Use `Paddle2ONNX` convert `Paddle Inference` model files you downloaded to `ONNX` format. The `Paddle2ONNX` project is in https://github.com/PaddlePaddle/Paddle2ONNX , open source under the [Apache-2.0](LICENSES/Apache-2.0.txt) protocol.
+- Use `onnx-simplifier` to optimize the `ONNX` model files and fix input shape. The `onnx-simplifier` is in https://github.com/daquexian/onnx-simplifier , open source under the [Apache-2.0](LICENSES/Apache-2.0.txt) protocol.
+- Use `onnx2ncnn` convert the optimized `ONNX` model files to `NCNN` format. `onnx2ncnn` is under the `NCNN` project, open source under the [BSD-3-Clause](LICENSES/BSD-3-Clause.txt) protocol.

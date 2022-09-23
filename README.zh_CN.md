@@ -69,3 +69,12 @@ sudo make install
 ## 协议
 
 Deepin OCR 遵循协议 [GPL-3.0-or-later](LICENSE).
+
+## 关于模型文件
+
+本项目的 OCR 后端算法是 `PaddleOCR` 与 `NCNN` 两个项目的结合，在 `assets/dict` 下存放了字典文件，而在 `assets/model` 下的模型文件是从 `Paddle Inference` 转换到 `NCNN` 的产物，转换过程如下：
+
+- 从 https://github.com/PaddlePaddle/PaddleOCR 项目下选取需要的预训练模型文件，该项目遵循 [Apache-2.0](LICENSES/Apache-2.0.txt) 协议开源，原始的模型文件由 `PaddleOCR` 项目组训练并输出。
+- 使用 `Paddle2ONNX `工具将下载好的 `Paddle Inference` 模型文件转换至 `ONNX` 模型文件，`Paddle2ONNX` 项目位于 https://github.com/PaddlePaddle/Paddle2ONNX ，遵循 [Apache-2.0](LICENSES/Apache-2.0.txt) 协议开源。
+- 使用 `onnx-simplifier` 工具优化 `ONNX` 模型文件并固定输入 shape，`onnx-simplifier` 项目位于 https://github.com/daquexian/onnx-simplifier ，遵循 [Apache-2.0](LICENSES/Apache-2.0.txt) 协议开源。
+- 使用 `NCNN` 项目下的 `onnx2ncnn` 工具将优化好的 `ONNX` 模型文件转换到 `NCNN` 模型文件，此 `NCNN` 模型文件即为本项目下的模型文件。`onnx2ncnn` 工具同 `NCNN` 项目一样，遵循 [BSD-3-Clause](LICENSES/BSD-3-Clause.txt) 协议开源。
