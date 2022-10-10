@@ -16,6 +16,7 @@
 #include <QSplitter>
 #include <QTimer>
 #include <QShortcut>
+#include <QPushButton>
 
 #include <DGuiApplicationHelper>
 #include <DMainWindow>
@@ -26,6 +27,10 @@
 #include <DAnchors>
 #include <DFontSizeManager>
 #include <DHiDPIHelper>
+#include <DDciIcon>
+#include <DComboBox>
+#include <QSettings>
+#include <DStandardPaths>
 
 #define App (static_cast<QApplication*>(QCoreApplication::instance()))
 MainWidget::MainWidget(QWidget *parent) :
@@ -42,59 +47,10 @@ MainWidget::~MainWidget()
 {
     //程序即将结束,线程标志结束
     m_isEndThread = 0;
-//    m_mainGridLayout->addLayout(m_buttonHorizontalLayout, 1, 0, 1, 1);
-    if (m_mainGridLayout && m_buttonHorizontalLayout) {
-        m_mainGridLayout->removeItem(m_buttonHorizontalLayout);
-    }
-    if (m_imageview) {
-        m_imageview->deleteLater();
-        m_imageview = nullptr;
-    }
-    if (m_mainGridLayout) {
-        m_mainGridLayout->deleteLater();
-        m_mainGridLayout = nullptr;
-    }
-    if (m_horizontalLayout) {
-        m_horizontalLayout->deleteLater();
-        m_horizontalLayout = nullptr;
-    }
-    if (m_plainTextEdit) {
-        m_plainTextEdit->deleteLater();
-        m_plainTextEdit = nullptr;
-    }
-    if (m_buttonHorizontalLayout) {
-        m_buttonHorizontalLayout->deleteLater();
-        m_buttonHorizontalLayout = nullptr;
-    }
-    if (m_tipHorizontalLayout) {
-        m_tipHorizontalLayout->deleteLater();
-        m_tipHorizontalLayout = nullptr;
-    }
-    if (m_tiplabel) {
-        m_tiplabel->deleteLater();
-        m_tiplabel = nullptr;
-    }
-    if (m_copyBtn) {
-        m_copyBtn->deleteLater();
-        m_copyBtn = nullptr;
-    }
-    if (m_exportBtn) {
-        m_exportBtn->deleteLater();
-        m_exportBtn = nullptr;
-    }
-    if (m_tipIconLabel) {
-        m_tipIconLabel->deleteLater();
-        m_tipIconLabel = nullptr;
-    }
-
 }
 
 void MainWidget::setupUi(QWidget *Widget)
 {
-    DMainWindow *mainWindow = static_cast<DMainWindow *>(this->parent());
-    if (mainWindow) {
-        mainWindow->titlebar()->setMenuVisible(false);
-    }
     m_mainGridLayout = new QGridLayout(Widget);
     m_mainGridLayout->setSpacing(0);
     m_mainGridLayout->setContentsMargins(0, 0, 0, 6);
@@ -106,8 +62,6 @@ void MainWidget::setupUi(QWidget *Widget)
 
     m_plainTextEdit = new ResultTextView(Widget);
     m_plainTextEdit->setLineWidth(0);
-//    m_plainTextEdit->setWindowFlags(Qt::FramelessWindowHint);
-//    m_plainTextEdit->setStyleSheet("background:transparent;border:2px solid red;");
 
     m_plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
 
@@ -133,14 +87,9 @@ void MainWidget::setupUi(QWidget *Widget)
     m_frameStackLayout->setContentsMargins(20, 0, 5, 0);
 
     m_imageview = new ImageView(m_frame);
-//    m_imageview->setObjectName(QStringLiteral("m_imageView"));
     m_imageview->setLineWidth(0);
 
     m_frameLayout->addWidget(m_imageview);
-//    if (!m_imageview) {
-//        m_imageview = new ImageView();
-//        m_imageview->setLineWidth(0);
-//    }
 
     m_resultWidget = new DStackedWidget(this);
     m_resultWidget->setFocusPolicy(Qt::NoFocus);
@@ -178,8 +127,6 @@ void MainWidget::setupUi(QWidget *Widget)
     //默认右侧识栏目是220的宽度
     list << 620 << 220;
     mainSplitter->setSizes(list);
-//    m_horizontalLayout->addWidget(m_imageview);
-//    m_horizontalLayout->addWidget(m_plainTextEdit);
     m_horizontalLayout->addWidget(mainSplitter);
     m_horizontalLayout->setStretch(0, 1);
 
@@ -187,9 +134,8 @@ void MainWidget::setupUi(QWidget *Widget)
     m_mainGridLayout->setColumnStretch(0, 1);
 
     m_buttonHorizontalLayout = new QHBoxLayout(Widget);
-    m_buttonHorizontalLayout->setContentsMargins(20, 3, 59, 3); //表示控件与窗体的左右边距
-//    m_buttonHorizontalLayout->setSpacing(30);
-
+    m_buttonHorizontalLayout->setContentsMargins(20, 3, 20, 3); //表示控件与窗体的左右边距
+    m_buttonHorizontalLayout->setSpacing(10);
 
     m_tipHorizontalLayout = new QHBoxLayout(Widget);
 
@@ -208,27 +154,68 @@ void MainWidget::setupUi(QWidget *Widget)
     QSpacerItem *horizontalSpacer = new QSpacerItem(159, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
     m_buttonHorizontalLayout->addItem(horizontalSpacer);
 
-    m_copyBtn = new DToolButton(Widget);
+    //配置文件读写
+    ocrSetting = new QSettings(Dtk::Core::DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/config.conf", QSettings::IniFormat);
+
+    //语种读写设置
+    //目前仅支持默认插件，默认插件支持的语种字符串：zh-Hans_en，zh-Hant_en，en
+    auto currentLanguage = ocrSetting->value("language", "zh-Hans_en").toString();
+    OCREngine::instance()->setLanguage(currentLanguage);
+
+    //设置语种选择框
+    auto recLabel = new DLabel(tr("Recognize language"));
+    auto languageSelectBox = new DComboBox;
+    languageSelectBox->setFixedSize(160, 36);
+    languageSelectBox->addItems({tr("Simplified Chinese"), tr("English"), tr("Traditional Chinese")});
+    static std::map<QString, int> languageIndexMap{ {"zh-Hans_en", 0},
+                                                    {"en", 1},
+                                                    {"zh-Hant_en", 2}
+                                                  };
+    languageSelectBox->setCurrentIndex(languageIndexMap[currentLanguage]);
+    connect(languageSelectBox, static_cast<void(DComboBox::*)(int)>(&DComboBox::currentIndexChanged), [this](int index) {
+        QString resultLanguage;
+        switch(index) {
+        default:
+            resultLanguage = "zh-Hans_en";
+            break;
+        case 0:
+            resultLanguage = "zh-Hans_en";
+            break;
+        case 1:
+            resultLanguage = "en";
+            break;
+        case 2:
+            resultLanguage = "zh-Hant_en";
+            break;
+        };
+        if(!OCREngine::instance()->setLanguage(resultLanguage)) {
+            return;
+        }
+        ocrSetting->setValue("language", resultLanguage);
+        runRec(false);
+    });
+
+    m_buttonHorizontalLayout->addWidget(recLabel, 0, Qt::AlignRight);
+    m_buttonHorizontalLayout->addWidget(languageSelectBox, 0, Qt::AlignRight);
+
+    m_copyBtn = new DIconButton(Widget);
     m_copyBtn->setObjectName(QStringLiteral("Copy text"));
     m_copyBtn->setMaximumSize(QSize(36, 36));
     m_copyBtn->setToolTip(tr("Copy text"));
 
-    m_buttonHorizontalLayout->addWidget(m_copyBtn);
-    m_buttonHorizontalLayout->setSpacing(30);
-    m_exportBtn = new DToolButton(Widget);
+    m_buttonHorizontalLayout->addWidget(m_copyBtn, 0, Qt::AlignRight);
+    m_exportBtn = new DIconButton(Widget);
     m_exportBtn->setObjectName(QStringLiteral("Save as TXT"));
     m_exportBtn->setMaximumSize(QSize(36, 36));
     m_exportBtn->setToolTip(tr("Save as TXT"));
 
-    m_buttonHorizontalLayout->addWidget(m_exportBtn);
+    m_buttonHorizontalLayout->addWidget(m_exportBtn, 0, Qt::AlignRight);
 
     m_line = new DHorizontalLine(this);
     m_line->setObjectName(QStringLiteral("m_line"));
 
     m_mainGridLayout->addWidget(m_line, 1, 0, 1, 1);
-
-    m_mainGridLayout->addLayout(m_buttonHorizontalLayout, 2, 0, 1, 1);
-
+    m_mainGridLayout->addLayout(m_buttonHorizontalLayout, 2, 0, 1, 1, Qt::AlignRight);
 
     retranslateUi(Widget);
 
@@ -239,7 +226,37 @@ void MainWidget::setupUi(QWidget *Widget)
     m_pwidget->setFixedSize(this->width(), this->height() - 23);
     m_pwidget->move(0, 0);
 
+    DMainWindow *mainWindow = static_cast<DMainWindow *>(this->parent());
+    if (mainWindow) {
+        mainWindow->titlebar()->setMenuVisible(false);
+    }
 
+    //撤销
+    auto undoBtn = new DIconButton;
+    undoBtn->setToolTip(tr("Undo (Ctrl+Z)"));
+    undoBtn->setIcon(DDciIcon(QString(":/assets/icon_return.dci")));
+    undoBtn->setMaximumSize(36, 36);
+    undoBtn->setIconSize(QSize(14, 14));
+    mainWindow->titlebar()->addWidget(undoBtn, Qt::AlignRight);
+    connect(undoBtn, &QPushButton::clicked, m_plainTextEdit, &QPlainTextEdit::undo);
+    connect(m_plainTextEdit, &QPlainTextEdit::undoAvailable, undoBtn, &QPushButton::setEnabled);
+    undoBtn->setEnabled(false);
+
+    //重做
+    auto redoBtn = new DIconButton;
+    redoBtn->setToolTip(tr("Redo (Ctrl+Shift+Z)"));
+    redoBtn->setIcon(DDciIcon(QString(":/assets/icon_advance.dci")));
+    redoBtn->setMaximumSize(36, 36);
+    redoBtn->setIconSize(QSize(14, 14));
+    mainWindow->titlebar()->addWidget(redoBtn, Qt::AlignRight);
+    connect(redoBtn, &QPushButton::clicked, m_plainTextEdit, &QPlainTextEdit::redo);
+    connect(m_plainTextEdit, &QPlainTextEdit::redoAvailable, redoBtn, &QPushButton::setEnabled);
+    redoBtn->setEnabled(false);
+
+    //占位用空白控件
+    m_emptyWidget = new QWidget;
+    m_emptyWidget->setMinimumSize(36 * 2, 36 * 2);
+    mainWindow->titlebar()->addWidget(m_emptyWidget, Qt::AlignRight);
 }
 
 void MainWidget::setupConnect()
@@ -253,6 +270,10 @@ void MainWidget::setupConnect()
     connect(this, &MainWidget::sigResult, this, [ = ](const QString & result) {
         loadString(result);
         deleteLoadingUi();
+        if(m_needReRunRec) {
+            m_needReRunRec = false;
+            runRec(false);
+        }
     });
 }
 
@@ -318,6 +339,9 @@ void MainWidget::loadingUi()
         m_pwidget->setFixedSize(this->width(), this->height() - 48);
         m_pwidget->move(0, 0);
     }
+
+    //对齐撤销和重做按钮
+    m_emptyWidget->setFixedWidth(this->width() - 150 - m_imageview->width() - 20);
 }
 
 void MainWidget::initShortcut()
@@ -358,7 +382,6 @@ bool MainWidget::openImage(const QString &path)
 
 void MainWidget::openImage(const QImage &img, const QString &name)
 {
-    createLoadingUi();
     //新打开的窗口需要设置属性
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     setIcons(themeType);
@@ -383,27 +406,46 @@ void MainWidget::openImage(const QImage &img, const QString &name)
         m_currentImg = nullptr;
     }
     m_currentImg = new QImage(img);
+    runRec(true);
+}
+
+void MainWidget::runRec(bool needSetImage)
+{
+    if(m_loadImagethread && m_loadImagethread->isRunning()) {
+        m_needReRunRec = true;
+        return;
+    }
+
+    createLoadingUi();
+    m_plainTextEdit->clear();
+    if(needSetImage) {
+        OCREngine::instance()->setImage(*m_currentImg);
+    }
     if (!m_loadImagethread) {
         m_loadImagethread = QThread::create([ = ]() {
-            QMutexLocker locker(&m_mutex);
-            m_result = TessOcrUtils::instance()->getRecogitionResult(m_currentImg, ResultType::RESULT_STRING);
+            m_result = OCREngine::instance()->getRecogitionResult();
             //判断程序是否退出
             if (1 == m_isEndThread) {
-                emit sigResult(m_result.result);
+                emit sigResult(m_result);
             }
         });
     }
-    connect(m_loadImagethread, &QThread::finished, m_loadImagethread, &QObject::deleteLater);
+    connect(m_loadImagethread, &QThread::finished, [this](){
+        m_loadImagethread->deleteLater();
+        m_loadImagethread = nullptr;
+    });
     m_loadImagethread->start();
 }
 
 void MainWidget::loadHtml(const QString &html)
 {
     if (!html.isEmpty()) {
+        m_plainTextEdit->setUndoRedoEnabled(false);
         m_frameStackLayout->setContentsMargins(20, 0, 5, 0);
         m_resultWidget->setCurrentWidget(m_plainTextEdit);
         m_plainTextEdit->appendHtml(html);
 //        m_plainTextEdit->setHtml(html);
+        m_plainTextEdit->setUndoRedoEnabled(true);
     } else {
         resultEmpty();
     }
@@ -412,13 +454,15 @@ void MainWidget::loadHtml(const QString &html)
 void MainWidget::loadString(const QString &string)
 {
     if (!string.isEmpty()) {
+        m_plainTextEdit->setUndoRedoEnabled(false);
         m_frameStackLayout->setContentsMargins(20, 0, 5, 0);
         m_resultWidget->setCurrentWidget(m_plainTextEdit);
         m_plainTextEdit->appendPlainText(string);
 //        m_plainTextEdit->setText(string);
         //读取完了显示在最上方
         m_plainTextEdit->moveCursor(QTextCursor::Start) ;
-        m_plainTextEdit->ensureCursorVisible() ;
+        m_plainTextEdit->ensureCursorVisible();
+        m_plainTextEdit->setUndoRedoEnabled(true);
         //新增识别完成按钮恢复
         if (m_copyBtn) {
             m_copyBtn->setEnabled(true);
@@ -433,6 +477,10 @@ void MainWidget::loadString(const QString &string)
 
 void MainWidget::resultEmpty()
 {
+    if(m_needReRunRec) {
+        return;
+    }
+
     //修复未识别到文字没有居中对齐的问题
     m_frameStackLayout->setContentsMargins(20, 0, 20, 0);
     m_resultWidget->setCurrentWidget(m_noResult);
@@ -489,6 +537,7 @@ void MainWidget::resizeEvent(QResizeEvent *event)
 void MainWidget::paintEvent(QPaintEvent *event)
 {
     loadingUi();
+
     return DWidget::paintEvent(event);
 }
 
@@ -552,14 +601,25 @@ void MainWidget::slotExport()
 
 void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
 {
+    //可以直接用DCI图标的部分
+    if (m_copyBtn) {
+        m_copyBtn->setIcon(DDciIcon(QString(":/assets/icon_copy.dci")));
+        m_copyBtn->setIconSize(QSize(14, 14));
+    }
+    if (m_exportBtn) {
+        m_exportBtn->setIcon(DDciIcon(QString(":/assets/icon_download.dci")));
+        m_exportBtn->setIconSize(QSize(14, 14));
+    }
+
+    //无法使用DCI图标的部分
     if (themeType == DGuiApplicationHelper::DarkType) {
         QPalette pal;
-        pal.setColor(QPalette::Background, QColor(32, 32, 32, 179));
+        pal.setColor(QPalette::Window, QColor(32, 32, 32, 179));
         setAutoFillBackground(true);
         setPalette(pal);
         if (m_resultWidget) {
             QPalette pal;
-            pal.setColor(QPalette::Background, QColor(40, 40, 40));
+            pal.setColor(QPalette::Window, QColor(40, 40, 40));
             m_resultWidget->setAutoFillBackground(true);
             m_resultWidget->setPalette(pal);
             //增加frame的颜色设置
@@ -567,21 +627,10 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_frameStack->setPalette(pal);
         }
         if (m_tipIconLabel) {
-            QPixmap m_tipImage = DHiDPIHelper::loadNxPixmap(":/assets/tip_dark.svg");
+            QPixmap m_tipImage = DDciIcon(QString(":/assets/icon_tips.dci")).pixmap(App->devicePixelRatio(), 16, DDciIcon::Theme::Dark);
             m_tipIconLabel->setPixmap(m_tipImage);
-            m_tipIconLabel->setFixedSize(QSize(14, 14));
+            m_tipIconLabel->setFixedSize(QSize(16, 16));
         }
-
-        if (m_copyBtn) {
-            QPixmap m_shadowImg = DHiDPIHelper::loadNxPixmap(":/mpimage/light/shadow.svg");
-            m_copyBtn->setIcon(QIcon(":/assets/copy_dark.svg"));
-            m_copyBtn->setIconSize(QSize(36, 36));
-        }
-        if (m_exportBtn) {
-            m_exportBtn->setIcon(QIcon(":/assets/download_dark.svg"));
-            m_exportBtn->setIconSize(QSize(36, 36));
-        }
-
         App->setWindowIcon(QIcon(":/assets/appicon_dark.svg"));
         DMainWindow *mainWindow = static_cast<DMainWindow *>(this->parent());
         if (mainWindow) {
@@ -591,13 +640,13 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_imageview->setForegroundBrush(QColor(0, 0, 0, 127)); //设置场景的前景色，类似于遮罩
             m_imageview->setBackgroundBrush(QColor(34, 34, 34));
             QPalette pal;
-            pal.setColor(QPalette::Background, QColor(0, 0, 0, 125));
+            pal.setColor(QPalette::Window, QColor(0, 0, 0, 125));
             m_frame->setAutoFillBackground(true);
             m_frame->setPalette(pal);
         } else if (m_imageview) {
             m_imageview->setBackgroundBrush(QColor(35, 35, 35));
             QPalette pal;
-            pal.setColor(QPalette::Background, QColor(35, 35, 35));
+            pal.setColor(QPalette::Window, QColor(35, 35, 35));
             m_frame->setAutoFillBackground(true);
             m_frame->setPalette(pal);
         }
@@ -616,16 +665,15 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             pe.setColor(QPalette::WindowText, QColor(192, 198, 212));
             m_loadingTip->setPalette(pe);
         }
-
     } else {
         QPalette pal;
-        pal.setColor(QPalette::Background, QColor(255, 255, 255, 179));
+        pal.setColor(QPalette::Window, QColor(255, 255, 255, 179));
         setAutoFillBackground(true);
         setPalette(pal);
         //修复因为切换导致的颜色差
         if (m_resultWidget && m_frameStack) {
             QPalette pal;
-            pal.setColor(QPalette::Background, QColor(255, 255, 255));
+            pal.setColor(QPalette::Window, QColor(255, 255, 255));
             m_resultWidget->setAutoFillBackground(true);
             m_resultWidget->setPalette(pal);
             //增加frame的颜色设置
@@ -633,21 +681,10 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_frameStack->setPalette(pal);
         }
         if (m_tipIconLabel) {
-            QPixmap m_tipImage = DHiDPIHelper::loadNxPixmap(":/assets/tip_light.svg");
+            QPixmap m_tipImage = DDciIcon(QString(":/assets/icon_tips.dci")).pixmap(App->devicePixelRatio(), 16, DDciIcon::Theme::Light);
             m_tipIconLabel->setPixmap(m_tipImage);
-//            m_tipIconLabel->setPixmap(QPixmap(":/assets/tip_light.svg"));
-            m_tipIconLabel->setFixedSize(QSize(14, 14));
+            m_tipIconLabel->setFixedSize(QSize(16, 16));
         }
-
-        if (m_copyBtn) {
-            m_copyBtn->setIcon(QIcon(":/assets/copy_light.svg"));
-            m_copyBtn->setIconSize(QSize(36, 36));
-        }
-        if (m_exportBtn) {
-            m_exportBtn->setIcon(QIcon(":/assets/download_light.svg"));
-            m_exportBtn->setIconSize(QSize(36, 36));
-        }
-
         App->setWindowIcon(QIcon(":/assets/appicon_light.svg"));
         DMainWindow *mainWindow = static_cast<DMainWindow *>(this->parent());
         if (mainWindow) {
@@ -657,14 +694,14 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_imageview->setForegroundBrush(QColor(0, 0, 0, 77)); //设置场景的前景色，类似于遮罩
             m_imageview->setBackgroundBrush(QColor(248, 248, 248));
             QPalette pal;
-            pal.setColor(QPalette::Background, QColor(172, 172, 172));
+            pal.setColor(QPalette::Window, QColor(172, 172, 172));
             m_frame->setAutoFillBackground(true);
             m_frame->setPalette(pal);
         } else if (m_imageview) {
             //修改为正确的背景setBackgroundBrush
             m_imageview->setBackgroundBrush(QColor(248, 248, 248));
             QPalette pal;
-            pal.setColor(QPalette::Background, QColor(248, 248, 248));
+            pal.setColor(QPalette::Window, QColor(248, 248, 248));
             m_frame->setAutoFillBackground(true);
             m_frame->setPalette(pal);
         }
@@ -672,7 +709,6 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             QPalette pe;
             pe.setColor(QPalette::WindowText, QColor(138, 161, 180));
             m_tiplabel->setPalette(pe);
-
         }
         if (m_noResult) {
             QPalette pe;
@@ -684,6 +720,5 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             pe.setColor(QPalette::WindowText, QColor(65, 77, 104));
             m_loadingTip->setPalette(pe);
         }
-
     }
-} // setupUi
+}

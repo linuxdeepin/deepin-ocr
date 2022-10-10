@@ -8,6 +8,5 @@ include /usr/share/dpkg/default.mk
 
 
 override_dh_auto_configure:
-	qmake
 	dh_auto_configure -- VERSION=$(VERSION) LIB_INSTALL_DIR=/usr/lib/$(DEB_HOST_MULTIARCH) DEFINES+="VERSION=$(DEB_VERSION_UPSTREAM)"
 

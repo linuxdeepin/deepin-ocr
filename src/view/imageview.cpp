@@ -95,7 +95,7 @@ qreal ImageView::windowRelativeScale() const
 }
 void ImageView::fitWindow()
 {
-    qreal wrs = windowRelativeScale();
+    qreal wrs = windowRelativeScale() * 0.95; //未知原因导致fitwindow后仍然可以小范围滑动图片，此处乘以0.95以抵消滑动
     m_scal = wrs;
     resetTransform();
     scale(wrs, wrs);
