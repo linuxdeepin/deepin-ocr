@@ -17,6 +17,7 @@ depends:
 
 source:
   kind: local
+  patch: llpatches/linglongDbus.patch
 
 build:
   kind: cmake
