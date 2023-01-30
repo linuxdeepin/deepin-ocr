@@ -156,8 +156,13 @@ if(DOTEST)
     target_link_libraries(${PROJECT_NAME_TEST} opencv_world ncnn Qt5::Core Qt5::Gui Qt5::Widgets ${dtk_lib_LIBRARIES} pthread dl -fopenmp)
 endif()
 
+#dde项目，期望CMAKE_INSTALL_PREFIX为/usr
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX /usr)
+endif ()
+
 # install
-set(PREFIX /usr)
+set(PREFIX ${CMAKE_INSTALL_PREFIX})
 set(TranslationDir ${PREFIX}/share/${PROJECT_NAME}/translations)
 set(DesktopDir ${PREFIX}/share/applications/)
 set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
@@ -168,7 +173,7 @@ install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}Targets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
-        RUNTIME DESTINATION /usr/bin
+        RUNTIME DESTINATION ${PREFIX}/bin
         INCLUDES DESTINATION allHeaders)
 
 install(FILES ${LangSrcs} DESTINATION ${TranslationDir})
