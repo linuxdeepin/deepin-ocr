@@ -21,7 +21,7 @@ rm -rf modules/highgui
 cp -r ../opencv-mobile/highgui modules/
 patch -p1 -i ../opencv-mobile/opencv-4.5.4-no-rtti.patch
 rm -rf build && mkdir build && cd build
-cmake -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release `cat ../../opencv-mobile/opencv4_cmake_options.txt` -DBUILD_opencv_world=ON ..
+cmake -DCMAKE_INSTALL_PREFIX=install -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_BUILD_TYPE=Release `cat ../../opencv-mobile/opencv4_cmake_options.txt` -DBUILD_opencv_world=ON ..
 make -j$JOBS && make install
 cd ../../..
 fi
