@@ -5,9 +5,12 @@
 cmake_minimum_required(VERSION 3.10)
 project(deepin-ocr)
 
+#玲珑构建依赖目录
+include_directories(${CMAKE_INSTALL_PREFIX}/include)
+
 #for Qt
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -35,19 +38,9 @@ add_definitions(${QT_DEFINITIONS})
 
 include(CMakePackageConfigHelpers)
 
-#for OpenCV-mobile
-include_directories(../3rdparty/opencv-4.5.4/build/install/include/opencv4)
-add_library(opencv_world STATIC IMPORTED)
-set_property(TARGET opencv_world PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/opencv-4.5.4/build/install/lib/libopencv_world.a)
-
-#for ncnn
-include_directories(../3rdparty/ncnn/build/install/include/ncnn)
-add_library(ncnn STATIC IMPORTED)
-set_property(TARGET ncnn PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/ncnn/build/install/lib/libncnn.a)
-
-#for clipper
-include_directories(../3rdparty/clipper)
-aux_source_directory(../3rdparty/clipper allSource)
+#for ocr plugin manager
+#find_package(dtkocr)
+#include_directories(${dtkocr_INCLUDE_DIRS})
 
 #for OpenMP
 find_package(OpenMP REQUIRED)
@@ -58,12 +51,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 include_directories(.)
 include_directories(view)
 include_directories(service)
-include_directories(paddleocr-ncnn)
+include_directories(engine)
 
 aux_source_directory(. allSource)
 aux_source_directory(./view allSource)
 aux_source_directory(./service allSource)
-aux_source_directory(./paddleocr-ncnn allSource)
+aux_source_directory(./engine allSource)
 
 #translation
 file(GLOB TargetTsFiles LIST_DIRECTORIES false ../translations/${PROJECT_NAME}*.ts)
@@ -103,7 +96,7 @@ if(DOTEST)
         "./textloadwidget.cpp"
         )
 
-    add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${allTestSource} ${allTestSource1} ${AllQRC})
+    add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${allTestSource} ${allTestSource1})
     target_link_libraries(${PROJECT_NAME_TEST} gmock gtest pthread)
 
     add_test(${PROJECT_NAME_TEST} COMMAND ${PROJECT_NAME_TEST})
@@ -137,7 +130,7 @@ endif()
 
 #for dtk
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(dtk_lib REQUIRED dtkwidget dtkcore )
+pkg_check_modules(dtk_lib REQUIRED dtkwidget dtkcore dtkocr)
 target_include_directories(${PROJECT_NAME} PUBLIC ${dtk_lib_INCLUDE_DIRS})
 
 if(DOTEST)
@@ -150,10 +143,10 @@ if(DOTEST)
     qt5_use_modules(${PROJECT_NAME_TEST} ${QtModule})
 endif()
 
-target_link_libraries(${PROJECT_NAME} opencv_world ncnn Qt5::Core Qt5::Gui Qt5::Widgets ${dtk_lib_LIBRARIES} pthread dl -fopenmp)
+target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Gui Qt5::Widgets ${dtk_lib_LIBRARIES} pthread)
 
 if(DOTEST)
-    target_link_libraries(${PROJECT_NAME_TEST} opencv_world ncnn Qt5::Core Qt5::Gui Qt5::Widgets ${dtk_lib_LIBRARIES} pthread dl -fopenmp)
+    target_link_libraries(${PROJECT_NAME_TEST} Qt5::Core Qt5::Gui Qt5::Widgets ${dtk_lib_LIBRARIES} pthread)
 endif()
 
 #dde项目，期望CMAKE_INSTALL_PREFIX为/usr
@@ -167,11 +160,10 @@ set(TranslationDir ${PREFIX}/share/${PROJECT_NAME}/translations)
 set(DesktopDir ${PREFIX}/share/applications/)
 set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
 set(DBusServiceDir ${PREFIX}/share/dbus-1/services)
-set(ModelDir ${PREFIX}/share/${PROJECT_NAME})
 
 install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}Targets
-        LIBRARY DESTINATION lib
+        LIBRARY DESTINATION ${PREFIX}/lib
         ARCHIVE DESTINATION lib
         RUNTIME DESTINATION ${PREFIX}/bin
         INCLUDES DESTINATION allHeaders)
@@ -180,4 +172,3 @@ install(FILES ${LangSrcs} DESTINATION ${TranslationDir})
 install(FILES ../deepin-ocr.desktop DESTINATION ${DesktopDir})
 install(FILES ../assets/deepin-ocr.svg DESTINATION ${AppIconDir})
 install(FILES ../com.deepin.Ocr.service DESTINATION ${DBusServiceDir})
-install(DIRECTORY ../assets/model DESTINATION ${ModelDir})
