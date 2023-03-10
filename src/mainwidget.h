@@ -14,13 +14,12 @@
 #include <DFrame>
 
 #include <QMutex>
-
 #include <DToolButton>
 
 #include "resulttextview.h"
 
 #include "textloadwidget.h"
-#include "paddleocr-ncnn/paddleocr.h"
+#include "engine/OCREngine.h"
 
 class Frame;
 class QThread;
@@ -63,11 +62,9 @@ protected:
     void paintEvent(QPaintEvent *event);
 private slots:
     void setIcons(DGuiApplicationHelper::ColorType themeType);
-
     void slotCopy();
     void slotExport();
-
-//    void change()
+    void runRec(bool needSetImage);
 private:
     QGridLayout *m_mainGridLayout{nullptr};
     QHBoxLayout *m_horizontalLayout{nullptr};
@@ -75,8 +72,8 @@ private:
     QHBoxLayout *m_buttonHorizontalLayout{nullptr};
     QHBoxLayout *m_tipHorizontalLayout{nullptr};
     DLabel *m_tiplabel{nullptr};
-    DToolButton *m_copyBtn{nullptr};
-    DToolButton *m_exportBtn{nullptr};
+    DIconButton *m_copyBtn{nullptr};
+    DIconButton *m_exportBtn{nullptr};
     ImageView *m_imageview{nullptr};
 
     QHBoxLayout *m_frameLayout{nullptr};
@@ -106,7 +103,11 @@ private:
     QShortcut *m_scAddView = nullptr;
     QShortcut *m_scReduceView = nullptr;
 
+    QWidget *m_emptyWidget;
+
     int m_isEndThread = 1;
+    QSettings *ocrSetting;
+    std::atomic_bool m_needReRunRec = false;
 signals:
     void sigResult(const QString &);
 
