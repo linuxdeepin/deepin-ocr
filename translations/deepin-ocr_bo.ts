@@ -4,28 +4,58 @@
 <context>
     <name>MainWidget</name>
     <message>
-        <location filename="../src/mainwidget.cpp" line="166"/>
+        <location filename="../src/mainwidget.cpp" line="115"/>
         <source>No text recognized</source>
         <translation>ཡི་གེ་ངོས་ཟིན་མ་ཐུབ།</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="214"/>
+        <location filename="../src/mainwidget.cpp" line="166"/>
+        <source>Recognize language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="169"/>
+        <source>Simplified Chinese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="169"/>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="169"/>
+        <source>Traditional Chinese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="204"/>
         <source>Copy text</source>
         <translation>ཡི་གེ་པར་སློག</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="221"/>
+        <location filename="../src/mainwidget.cpp" line="210"/>
         <source>Save as TXT</source>
         <translation>TXTལ་ཉར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="273"/>
-        <location filename="../src/mainwidget.cpp" line="314"/>
+        <location filename="../src/mainwidget.cpp" line="236"/>
+        <source>Undo (Ctrl+Z)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="247"/>
+        <source>Redo (Ctrl+Shift+Z)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="294"/>
+        <location filename="../src/mainwidget.cpp" line="335"/>
         <source>Recognizing</source>
         <translation>དབྱེ་བ་འབྱེད་བཞིན་པ།</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="514"/>
+        <location filename="../src/mainwidget.cpp" line="563"/>
         <source>Copied</source>
         <translation>པར་བསློགས།</translation>
     </message>
@@ -64,7 +94,7 @@
 <context>
     <name>Widget</name>
     <message>
-        <location filename="../src/mainwidget.cpp" line="262"/>
+        <location filename="../src/mainwidget.cpp" line="283"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
         <translation>མཛའ་བརྩེའི་དྲན་སྐུལ། པར་རིས་གང་ཙམ་གྱིས་སྟབས་བདེ་བ་དང་གསལ་བ་ཡོད་ཚེ། དབྱེ་འབྱེད་ཀྱང་དེ་ཙམ་གྱིས་ཡང་དག་པ་ཡོད།</translation>
     </message>

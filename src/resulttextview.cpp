@@ -294,7 +294,7 @@ void ResultTextView::pinchTriggered(QPinchGesture *pinch)
         break;
     }
     case Qt::GestureCanceled: {
-        //Q_ASSERT(false);
+        Q_ASSERT(false);
         break;
     }
     case Qt::GestureFinished: {
@@ -304,7 +304,7 @@ void ResultTextView::pinchTriggered(QPinchGesture *pinch)
         break;
     }
     default: {
-        //Q_ASSERT(false);
+        Q_ASSERT(false);
         break;
     }
     }//switch

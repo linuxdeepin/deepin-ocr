@@ -4,7 +4,7 @@
 
 #include "ocrapplication.h"
 #include "mainwindow.h"
-#include "paddleocr-ncnn/paddleocr.h"
+#include "engine/OCREngine.h"
 #include <DWidgetUtil>
 
 OcrApplication::OcrApplication(QObject *parent) : QObject(parent)
@@ -16,7 +16,7 @@ bool OcrApplication::openFile(QString filePath)
 {
     qDebug() << __FUNCTION__ << __LINE__ << filePath;
     bool bRet = false;
-    if (!PaddleOCRApp::instance()->isRunning()) {
+    if (!OCREngine::instance()->isRunning()) {
         MainWindow *win = new MainWindow();
         //增加判断，空图片不会启动
         bRet = win->openFile(filePath);
@@ -40,7 +40,7 @@ void OcrApplication::openImage(QImage image)
     //增加判断，空图片不会启动
     if (!image.isNull() && image.width() >= 1) {
         qDebug() << __FUNCTION__ << __LINE__ << image.size();
-        if (!PaddleOCRApp::instance()->isRunning()) {
+        if (!OCREngine::instance()->isRunning()) {
             MainWindow *win = new MainWindow();
             win->openImage(image);
             win->show();
@@ -59,7 +59,7 @@ void OcrApplication::openImageAndName(QImage image, QString imageName)
 {
     //增加判断，空图片不会启动
     if (!image.isNull() && image.width() >= 1) {
-        if (!PaddleOCRApp::instance()->isRunning()) {
+        if (!OCREngine::instance()->isRunning()) {
             MainWindow *win = new MainWindow();
             win->openImage(image, imageName);
             win->show();

@@ -23,6 +23,11 @@ Files: debian/*
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 
+# linglong patch
+Files: llpatches/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: CC0-1.0
+
 # Project file
 Files: *.pro *.prf *.pri *.qrc *CMakeLists.txt .tx/*
 Copyright: UnionTech Software Technology Co., Ltd.
@@ -62,40 +67,6 @@ License: CC-BY-4.0
 Files: deepin-ocr.desktop
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
-
-# paddle ocr source code
-Files: src/paddleocr-ncnn/postprocess_op.* src/paddleocr-ncnn/utility.*
-Copyright: 2020 PaddlePaddle Authors
-License: Apache-2.0
-
-# 3rdparty/ncnn
-Files: 3rdparty/ncnn/*
-Copyright: 2017 THL A29 Limited
-License: BSD-3-Clause
-
-# 3rdparty/opencv-4.5.4
-Files: 3rdparty/opencv-4.5.4/*
-Copyright: 2000-2021, Intel Corporation
-           2009-2011, Willow Garage Inc.
-           2009-2016, NVIDIA Corporation
-           2010-2013, Advanced Micro Devices
-           2015-2021, OpenCV Foundation
-           2008-2016, Itseez Inc.
-           2019-2021, Xperience AI
-           2019-2021, Shenzhen Institute of Artificial Intelligence and Robotics for Society
-License: Apache-2.0
-
-# 3rdparty/opencv-mobile
-Files: 3rdparty/opencv-mobile/*
-Copyright: 2000-2008, Intel Corporation
-           2009, Willow Garage Inc.
-           2021, nihui
-License: Apache-2.0
-
-# 3rdparty/clipper
-Files: 3rdparty/clipper/*
-Copyright: 2010-2017, Angus Johnson
-License: BSL-1.0
 
 # 3rdparty/stub_linux
 Files: 3rdparty/stub_linux/*
