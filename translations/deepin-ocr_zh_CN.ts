@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_CN">
 <context>
     <name>MainWidget</name>
     <message>
@@ -47,10 +45,6 @@
         <location filename="../src/mainwidget.cpp" line="247"/>
         <source>Redo (Ctrl+Shift+Z)</source>
         <translation>重做 (Ctrl+Shift+Z)</translation>
-    </message>
-    <message>
-        <source>redo (Ctrl+Shift+Z)</source>
-        <translation type="obsolete">重做 (Ctrl+Shift+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="294"/>
