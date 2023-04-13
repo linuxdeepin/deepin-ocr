@@ -70,5 +70,5 @@ License: CC-BY-4.0
 
 # 3rdparty/stub_linux
 Files: 3rdparty/stub_linux/*
-Copyright: 2019 coolxv
+Copyright: coolxv 2019
 License: MIT
