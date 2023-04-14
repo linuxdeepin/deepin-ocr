@@ -599,7 +599,8 @@ void MainWidget::slotExport()
     QFile file(path);
     if (file.open(QFile::WriteOnly | QFile::Text)) {
         QTextStream out(&file);
-        out << m_plainTextEdit->document()->toPlainText() << endl;
+        out << m_plainTextEdit->document()->toPlainText();
+        out.flush();
     }
 }
 
