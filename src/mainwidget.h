@@ -12,6 +12,7 @@
 #include <DGuiApplicationHelper>
 #include <DStackedWidget>
 #include <DFrame>
+#include <DComboBox>
 
 #include <QMutex>
 #include <DToolButton>
@@ -108,6 +109,9 @@ private:
     int m_isEndThread = 1;
     QSettings *ocrSetting;
     std::atomic_bool m_needReRunRec = false;
+
+    DComboBox *languageSelectBox {nullptr}; // 语言选择框
+
 signals:
     void sigResult(const QString &);
 
