@@ -32,7 +32,6 @@
 #include <DFontSizeManager>
 #include <DHiDPIHelper>
 #include <DDciIcon>
-#include <DComboBox>
 #include <QSettings>
 #include <DStandardPaths>
 
@@ -168,7 +167,7 @@ void MainWidget::setupUi(QWidget *Widget)
 
     //设置语种选择框
     auto recLabel = new DLabel(tr("Recognize language"));
-    auto languageSelectBox = new DComboBox;
+    languageSelectBox = new DComboBox(this);
     languageSelectBox->setFixedSize(160, 36);
     languageSelectBox->addItems({tr("Simplified Chinese"), tr("English"), tr("Traditional Chinese")});
     static std::map<QString, int> languageIndexMap{ {"zh-Hans_en", 0},
@@ -613,6 +612,13 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
     if (m_exportBtn) {
         m_exportBtn->setIcon(DDciIcon(QString(":/assets/icon_download.dci")));
         m_exportBtn->setIconSize(QSize(14, 14));
+    }
+
+    // 手动设置，防止被后续更新冲掉调色版
+    if (languageSelectBox) {
+        QPalette originPal;
+        originPal.setBrush(QPalette::Window, originPal.window());
+        languageSelectBox->setPalette(originPal);
     }
 
     //无法使用DCI图标的部分
