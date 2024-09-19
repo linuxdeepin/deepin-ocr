@@ -1,84 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ms">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ms">
 <context>
     <name>MainWidget</name>
     <message>
-        <source>Recognizing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Copied</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="../src/mainwidget.cpp" line="115"/>
         <source>No text recognized</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiada teks dikenal pasti</translation>
     </message>
     <message>
-        <source>Copy text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save as TXT</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="../src/mainwidget.cpp" line="166"/>
         <source>Recognize language</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahasa dikenal pasti</translation>
     </message>
     <message>
+        <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Simplified Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahasa Cina Mudah</translation>
     </message>
     <message>
+        <location filename="../src/mainwidget.cpp" line="169"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahasa Inggeris</translation>
     </message>
     <message>
+        <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Traditional Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahasa Cina Tradisional</translation>
     </message>
     <message>
+        <location filename="../src/mainwidget.cpp" line="204"/>
+        <source>Copy text</source>
+        <translation>Salin teks</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="210"/>
+        <source>Save as TXT</source>
+        <translation>Simpan sebagai TXT</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="236"/>
         <source>Undo (Ctrl+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Buat Asal (Ctrl+Z)</translation>
     </message>
     <message>
+        <location filename="../src/mainwidget.cpp" line="247"/>
         <source>Redo (Ctrl+Shift+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Buat Semula (Ctrl+Shift+Z)</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="294"/>
+        <location filename="../src/mainwidget.cpp" line="335"/>
+        <source>Recognizing</source>
+        <translation>Melakukan Pengecaman</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwidget.cpp" line="563"/>
+        <source>Copied</source>
+        <translation>Disalin</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
+        <location filename="../src/main.cpp" line="75"/>
         <source>OCR Tool</source>
-        <translation type="unfinished"></translation>
+        <translation>Alat OCR</translation>
     </message>
 </context>
 <context>
     <name>ResultTextView</name>
     <message>
+        <location filename="../src/resulttextview.cpp" line="22"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Salin</translation>
     </message>
     <message>
+        <location filename="../src/resulttextview.cpp" line="24"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Potong</translation>
     </message>
     <message>
-        <source>Paste</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="../src/resulttextview.cpp" line="27"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Pilih Semua</translation>
+    </message>
+    <message>
+        <location filename="../src/resulttextview.cpp" line="29"/>
+        <source>Paste</source>
+        <translation>Tampal</translation>
     </message>
 </context>
 <context>
     <name>Widget</name>
     <message>
+        <location filename="../src/mainwidget.cpp" line="283"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation type="unfinished"></translation>
+        <translation>Petua: Lebih jelas imej, lebih tepat teks diperoleh</translation>
     </message>
 </context>
 </TS>
