@@ -50,7 +50,7 @@
         <location filename="../src/mainwidget.cpp" line="294"/>
         <location filename="../src/mainwidget.cpp" line="335"/>
         <source>Recognizing</source>
-        <translation>Rozpoznawanie</translation>
+        <translation>Rozpoznaję</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="563"/>
