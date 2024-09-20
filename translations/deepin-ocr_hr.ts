@@ -9,22 +9,22 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>Recognize language</source>
-        <translation type="unfinished"/>
+        <translation>Prepoznaj jezik</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Simplified Chinese</source>
-        <translation type="unfinished"/>
+        <translation>Pojednostavljeni kineski</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>English</source>
-        <translation type="unfinished"/>
+        <translation>Engleski</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Traditional Chinese</source>
-        <translation type="unfinished"/>
+        <translation>Tradicionalni kineski</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="204"/>
