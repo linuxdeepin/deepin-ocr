@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pt_BR">
 <context>
     <name>MainWidget</name>
     <message>
@@ -11,22 +9,22 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>Recognize language</source>
-        <translation type="unfinished"></translation>
+        <translation>Reconhecer o idioma</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Simplified Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Chinês Simplificado</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Inglês</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Traditional Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Chinês Tradicional</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="204"/>
@@ -41,12 +39,12 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="236"/>
         <source>Undo (Ctrl+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Desfazer (Ctrl+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="247"/>
         <source>Redo (Ctrl+Shift+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Refazer (Ctrl+Shift+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="294"/>
@@ -65,7 +63,7 @@
     <message>
         <location filename="../src/main.cpp" line="75"/>
         <source>OCR Tool</source>
-        <translation>Ferramenta OCR</translation>
+        <translation>Ferramenta de OCR</translation>
     </message>
 </context>
 <context>
@@ -96,7 +94,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="283"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation>Dica: Quanto mais nítida for a imagem, mais preciso é o texto</translation>
+        <translation>Dica: Quanto mais nítida for a imagem, mais preciso será o texto</translation>
     </message>
 </context>
 </TS>
