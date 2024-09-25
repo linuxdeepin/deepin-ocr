@@ -9,22 +9,22 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>Recognize language</source>
-        <translation type="unfinished"/>
+        <translation>Dallo gjuhën</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Simplified Chinese</source>
-        <translation type="unfinished"/>
+        <translation>Kineze e Thjeshtuar</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>English</source>
-        <translation type="unfinished"/>
+        <translation>Anlgisht</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Traditional Chinese</source>
-        <translation type="unfinished"/>
+        <translation>Kineze Tradicionale</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="204"/>
@@ -39,18 +39,18 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="236"/>
         <source>Undo (Ctrl+Z)</source>
-        <translation type="unfinished"/>
+        <translation>Zhbëje (Ctrl+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="247"/>
         <source>Redo (Ctrl+Shift+Z)</source>
-        <translation type="unfinished"/>
+        <translation>Ribëje (Ctrl+Shift+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="294"/>
         <location filename="../src/mainwidget.cpp" line="335"/>
         <source>Recognizing</source>
-        <translation>Po kuptohet</translation>
+        <translation>Po dallohet</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="563"/>
@@ -63,7 +63,7 @@
     <message>
         <location filename="../src/main.cpp" line="75"/>
         <source>OCR Tool</source>
-        <translation>MJET OCR</translation>
+        <translation>Mjet OCR</translation>
     </message>
 </context>
 <context>
