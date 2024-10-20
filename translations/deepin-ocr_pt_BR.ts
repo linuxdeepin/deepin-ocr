@@ -9,12 +9,12 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>Recognize language</source>
-        <translation>Reconhecer o idioma</translation>
+        <translation>Reconhecer idioma</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Simplified Chinese</source>
-        <translation>Chinês Simplificado</translation>
+        <translation>Chinês simplificado</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
@@ -24,7 +24,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Traditional Chinese</source>
-        <translation>Chinês Tradicional</translation>
+        <translation>Chinês tradicional</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="204"/>
@@ -34,7 +34,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="210"/>
         <source>Save as TXT</source>
-        <translation>Salvar como TXT</translation>
+        <translation>Salvar como .txt</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="236"/>
