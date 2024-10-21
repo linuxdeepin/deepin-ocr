@@ -20,6 +20,11 @@
 
 DWIDGET_USE_NAMESPACE
 
+bool isTreeland()
+{
+    return qEnvironmentVariable("DDE_CURRENT_COMPOSITOR") == QStringLiteral("TreeLand");
+}
+
 //判断是否是wayland
 bool CheckWayland()
 {
@@ -42,7 +47,7 @@ int main(int argc, char *argv[])
         return 0;
     }
     //判断是否是wayland
-    if (CheckWayland()) {
+    if (CheckWayland() && !isTreeland()) {
         //默认走xdgv6,该库没有维护了，因此需要添加该代码
         qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell");
     }
