@@ -256,6 +256,29 @@ void MainWidget::setupUi(QWidget *Widget)
     connect(m_plainTextEdit, &QPlainTextEdit::redoAvailable, redoBtn, &QPushButton::setEnabled);
     redoBtn->setEnabled(false);
 
+    if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode) {
+        languageSelectBox->setFixedSize(160, 24);
+        m_copyBtn->setMaximumSize(QSize(24, 24));
+        m_exportBtn->setMaximumSize(QSize(24, 24));
+        undoBtn->setMaximumSize(24, 24);
+        redoBtn->setMaximumSize(24, 24);
+    }
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, [=](DGuiApplicationHelper::SizeMode sizeMode) {
+        if (sizeMode == DGuiApplicationHelper::NormalMode) {
+            languageSelectBox->setFixedSize(160, 36);
+            m_copyBtn->setMaximumSize(QSize(36, 36));
+            m_exportBtn->setMaximumSize(QSize(36, 36));
+            undoBtn->setMaximumSize(36, 36);
+            redoBtn->setMaximumSize(36, 36);
+        } else {
+            languageSelectBox->setFixedSize(160, 24);
+            m_copyBtn->setMaximumSize(QSize(24, 24));
+            m_exportBtn->setMaximumSize(QSize(24, 24));
+            undoBtn->setMaximumSize(24, 24);
+            redoBtn->setMaximumSize(24, 24);
+        }
+    });
+
     //占位用空白控件
     m_emptyWidget = new QWidget;
     m_emptyWidget->setMinimumSize(36 * 2, 36 * 2);
