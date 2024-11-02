@@ -9,7 +9,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>Recognize language</source>
-        <translation type="unfinished"/>
+        <translation>認識言語</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
@@ -63,7 +63,7 @@
     <message>
         <location filename="../src/main.cpp" line="75"/>
         <source>OCR Tool</source>
-        <translation>光学文字認識ツール</translation>
+        <translation>OCRツール</translation>
     </message>
 </context>
 <context>
