@@ -9,12 +9,12 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>Recognize language</source>
-        <translation>اللغة المستخدمة</translation>
+        <translation>التعرف على اللغة</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Simplified Chinese</source>
-        <translation>الصينية البسيطة</translation>
+        <translation>الصينية التقليدية</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
@@ -39,18 +39,18 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="236"/>
         <source>Undo (Ctrl+Z)</source>
-        <translation>تراجع (Ctrl+Z)</translation>
+        <translation>التراجع (Ctrl+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="247"/>
         <source>Redo (Ctrl+Shift+Z)</source>
-        <translation>إعادة التراجع (Ctrl+Shift+Z)</translation>
+        <translation>إعادة (Ctrl+Shift+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="294"/>
         <location filename="../src/mainwidget.cpp" line="335"/>
         <source>Recognizing</source>
-        <translation>جاري التعرف</translation>
+        <translation>قيد التعرف</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="563"/>
