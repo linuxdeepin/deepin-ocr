@@ -122,7 +122,11 @@ void ImageView::RotateImage(const int &index)
 {
     if (!m_pixmapItem && scene()) return;
     QPixmap pixmap = m_pixmapItem->pixmap();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QTransform rotate;
+#else
     QMatrix rotate;
+#endif
     rotate.rotate(index);
 
     pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
@@ -243,8 +247,13 @@ void ImageView::resizeEvent(QResizeEvent *event)
 
 void ImageView::wheelEvent(QWheelEvent *event)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    qreal factor = qPow(1.2, event->angleDelta().y() / 240.0);
+    scaleAtPoint(event->position().toPoint(), factor);
+#else
     qreal factor = qPow(1.2, event->delta() / 240.0);
     scaleAtPoint(event->pos(), factor);
+#endif
 
     event->accept();
 }
