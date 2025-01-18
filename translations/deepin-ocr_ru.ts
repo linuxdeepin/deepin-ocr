@@ -9,22 +9,22 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>Recognize language</source>
-        <translation type="unfinished"/>
+        <translation>Распознавать язык</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Simplified Chinese</source>
-        <translation type="unfinished"/>
+        <translation>Упрощенный китайский</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>English</source>
-        <translation type="unfinished"/>
+        <translation>Английский</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Traditional Chinese</source>
-        <translation type="unfinished"/>
+        <translation>Традиционный китайский</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="204"/>
@@ -39,12 +39,12 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="236"/>
         <source>Undo (Ctrl+Z)</source>
-        <translation type="unfinished"/>
+        <translation>Отменить (Ctrl+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="247"/>
         <source>Redo (Ctrl+Shift+Z)</source>
-        <translation type="unfinished"/>
+        <translation>Повторить (Ctrl+Shift+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="294"/>
