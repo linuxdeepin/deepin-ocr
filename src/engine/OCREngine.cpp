@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "OCREngine.h"
+#include <QFileInfo>
 #include <DOcr>
 
 OCREngine *OCREngine::instance()
@@ -25,7 +26,10 @@ OCREngine::OCREngine()
     ocrDriver = new Dtk::Ocr::DOcr;
     ocrDriver->loadDefaultPlugin();
     ocrDriver->setUseMaxThreadsCount(2);
-    ocrDriver->setUseHardware({{Dtk::Ocr::HardwareID::GPU_Vulkan, 0}});
+    QFileInfo mtfi("/dev/mtgpu.0");
+    if (mtfi.exists()) {
+        ocrDriver->setUseHardware({{Dtk::Ocr::HardwareID::GPU_Vulkan, 0}});
+    }
 }
 
 void OCREngine::setImage(const QImage &image)
