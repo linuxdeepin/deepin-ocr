@@ -117,6 +117,7 @@ void MainWidget::setupUi(QWidget *Widget)
     m_noResult->setAlignment(Qt::AlignCenter);
     m_noResult->setText(tr("No text recognized"));
     m_resultWidget->addWidget(m_noResult);
+    m_noResult->setVisible(false);
 
     connect(m_loadingOcr, &loadingWidget::sigChangeSize, [ = ] {
         loadingUi();
@@ -196,6 +197,7 @@ void MainWidget::setupUi(QWidget *Widget)
         }
         ocrSetting->setValue("language", resultLanguage);
         runRec(false);
+        m_noResult->setVisible(false);
     });
 
     m_buttonHorizontalLayout->addWidget(recLabel, 0, Qt::AlignRight);
@@ -509,6 +511,7 @@ void MainWidget::loadString(const QString &string)
         }
     } else {
         resultEmpty();
+        m_noResult->setVisible(true);
     }
 }
 
