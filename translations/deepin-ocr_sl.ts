@@ -1,63 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sl">
 <context>
     <name>MainWidget</name>
     <message>
         <location filename="../src/mainwidget.cpp" line="115"/>
         <source>No text recognized</source>
-        <translation type="unfinished"></translation>
+        <translation>Nista je oznakovano</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>Recognize language</source>
-        <translation type="unfinished"></translation>
+        <translation>Označi jezik</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Simplified Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Poostopljeno češko</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Angleški</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Traditional Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Staročesko češko</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="204"/>
         <source>Copy text</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiraj tekst</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="210"/>
         <source>Save as TXT</source>
-        <translation type="unfinished"></translation>
+        <translation>Shrani kot TXT</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="236"/>
         <source>Undo (Ctrl+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Povrni nazad (Ctrl+Z</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="247"/>
         <source>Redo (Ctrl+Shift+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponovno izvajaj (Ctrl+Shift+Z</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="294"/>
         <location filename="../src/mainwidget.cpp" line="335"/>
         <source>Recognizing</source>
-        <translation type="unfinished"></translation>
+        <translation>Označevanje</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="563"/>
         <source>Copied</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopirano</translation>
     </message>
 </context>
 <context>
@@ -65,7 +63,7 @@
     <message>
         <location filename="../src/main.cpp" line="75"/>
         <source>OCR Tool</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavitve OCR</translation>
     </message>
 </context>
 <context>
@@ -73,22 +71,22 @@
     <message>
         <location filename="../src/resulttextview.cpp" line="22"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiraj</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="24"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Izreži</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="27"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Izberi vse</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="29"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Vključi</translation>
     </message>
 </context>
 <context>
@@ -96,7 +94,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="283"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomembno:越清晰的图像，文字识别越准确</translation>
     </message>
 </context>
 </TS>
