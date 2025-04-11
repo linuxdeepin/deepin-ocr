@@ -81,7 +81,7 @@
     <message>
         <location filename="../src/resulttextview.cpp" line="27"/>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Markera allt</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="29"/>
