@@ -1,3 +1,11 @@
+deepin-ocr (6.5.1) unstable; urgency=medium
+
+  * fix: Fixed the COR recognition crash
+  * i18n: Updates for project Deepin OCR (#39)
+  * chore: update translations.
+
+ -- renbin <renbin@uniontech.com>  Thu, 17 Apr 2025 10:14:32 +0800
+
 deepin-ocr (6.5.0) unstable; urgency=medium
 
   * feat: enable Qt6 build and switch to Qt6.8
