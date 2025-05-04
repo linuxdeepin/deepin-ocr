@@ -9,7 +9,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>Recognize language</source>
-        <translation>Detectar el lenguaje</translation>
+        <translation>Detectar el idioma</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
