@@ -60,11 +60,13 @@ include_directories(.)
 include_directories(view)
 include_directories(service)
 include_directories(engine)
+include_directories(util)
 
 aux_source_directory(. allSource)
 aux_source_directory(./view allSource)
 aux_source_directory(./service allSource)
 aux_source_directory(./engine allSource)
+aux_source_directory(./util allSource)
 
 # translation
 file(GLOB TargetTsFiles LIST_DIRECTORIES false ../translations/${PROJECT_NAME}*.ts)

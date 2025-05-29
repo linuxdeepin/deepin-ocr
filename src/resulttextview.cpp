@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "resulttextview.h"
+#include "util/log.h"
 #include <QDebug>
 #include <QScroller>
 #include <QClipboard>
@@ -204,7 +205,6 @@ bool ResultTextView::gestureEvent(QGestureEvent *event)
 
 void ResultTextView::tapGestureTriggered(QTapGesture *tap)
 {
-
     switch (tap->state()) {
     case Qt::GestureStarted: {
         m_gestureAction = GA_tap;
@@ -220,10 +220,10 @@ void ResultTextView::tapGestureTriggered(QTapGesture *tap)
         if (timeSpace < TAP_MOVE_DELAY || m_slideContinue) {
             m_slideContinue = false;
             m_gestureAction = GA_slide;
-            qDebug() << "slide start" << timeSpace;
+            qCDebug(dmOcr) << "Gesture changed to slide, time:" << timeSpace;
         } else {
             m_gestureAction = GA_null;
-            qDebug() << "null start" << timeSpace;
+            qCDebug(dmOcr) << "Gesture canceled, time:" << timeSpace;
         }
         break;
     }
@@ -284,12 +284,14 @@ void ResultTextView::pinchTriggered(QPinchGesture *pinch)
         if (static_cast<int>(m_scaleFactor) != m_fontSize) {
             m_scaleFactor = m_fontSize;
         }
+        qCDebug(dmOcr) << "Pinch gesture started, initial scale:" << m_scaleFactor;
         break;
     }
     case Qt::GestureUpdated: {
         QPinchGesture::ChangeFlags changeFlags = pinch->changeFlags();
         if (changeFlags & QPinchGesture::ScaleFactorChanged) {
             m_currentStepScaleFactor = pinch->totalScaleFactor();
+            qCDebug(dmOcr) << "Scale factor updated:" << m_currentStepScaleFactor;
         }
         break;
     }
@@ -301,6 +303,7 @@ void ResultTextView::pinchTriggered(QPinchGesture *pinch)
         m_gestureAction = GA_null;
         m_scaleFactor *= m_currentStepScaleFactor;
         m_currentStepScaleFactor = 1;
+        qCDebug(dmOcr) << "Pinch gesture finished, final scale:" << m_scaleFactor;
         break;
     }
     default: {

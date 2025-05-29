@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "imageview.h"
+#include "util/log.h"
 
 #include <QPaintDevice>
 #include <QGraphicsPixmapItem>
@@ -43,8 +44,8 @@ ImageView::~ImageView()
 
 void ImageView::openImage(const QString &path)
 {
+    qCInfo(dmOcr) << "Opening image from path:" << path;
     if (scene()) {
-
         if (m_currentImage) {
             delete m_currentImage;
             m_currentImage = nullptr;
@@ -53,6 +54,7 @@ void ImageView::openImage(const QString &path)
 
         if (!m_currentImage->isNull()) {
             QPixmap pic = QPixmap::fromImage(*m_currentImage);
+            qCDebug(dmOcr) << "Image loaded successfully, size:" << m_currentImage->size();
 
             scene()->clear();
             m_pixmapItem = new QGraphicsPixmapItem(pic);
@@ -63,7 +65,7 @@ void ImageView::openImage(const QString &path)
             fitWindow();
             m_currentPath = path;
         } else {
-            //       App->setStackWidget(0);
+            qCWarning(dmOcr) << "Failed to load image from path:" << path;
         }
         m_FilterImage = image();
     }
@@ -71,6 +73,7 @@ void ImageView::openImage(const QString &path)
 
 void ImageView::openFilterImage(QImage img)
 {
+    qCInfo(dmOcr) << "Opening filtered image, size:" << img.size();
     if (!img.isNull() && scene()) {
         m_FilterImage = img;
     }
@@ -83,9 +86,9 @@ void ImageView::openFilterImage(QImage img)
         setSceneRect(rect);
         scene()->addItem(m_pixmapItem);
         fitWindow();
+    } else {
+        qCWarning(dmOcr) << "Failed to convert filtered image to pixmap";
     }
-
-
 }
 qreal ImageView::windowRelativeScale() const
 {
@@ -120,7 +123,11 @@ void ImageView::fitImage()
 
 void ImageView::RotateImage(const int &index)
 {
-    if (!m_pixmapItem && scene()) return;
+    if (!m_pixmapItem && scene()) {
+        qCWarning(dmOcr) << "Cannot rotate: no image loaded";
+        return;
+    }
+    qCInfo(dmOcr) << "Rotating image by" << index << "degrees";
     QPixmap pixmap = m_pixmapItem->pixmap();
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QTransform rotate;
@@ -142,10 +149,9 @@ void ImageView::RotateImage(const int &index)
 
     autoFit();
     m_rotateAngel += index;
+    qCDebug(dmOcr) << "Image rotation completed, total angle:" << m_rotateAngel;
 
     m_FilterImage = image();
-
-
 }
 
 
@@ -172,12 +178,13 @@ qreal ImageView::imageRelativeScale() const
 }
 void ImageView::autoFit()
 {
-    if (image().isNull())
+    if (image().isNull()) {
+        qCWarning(dmOcr) << "Cannot auto-fit: no image loaded";
         return;
+    }
 
     QSize image_size = image().size();
-
-    // change some code in graphicsitem.cpp line100.
+    qCDebug(dmOcr) << "Auto-fitting image, size:" << image_size;
 
     if ((image_size.width() >= width() || image_size.height() >= height() - 150) && width() > 0 &&
             height() > 0) {
@@ -185,7 +192,6 @@ void ImageView::autoFit()
     } else {
         fitImage();
     }
-
 }
 
 void ImageView::mouseReleaseEvent(QMouseEvent *e)

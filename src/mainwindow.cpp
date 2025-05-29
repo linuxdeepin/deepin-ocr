@@ -5,6 +5,7 @@
 #include "mainwindow.h"
 #include "mainwidget.h"
 #include "service/dbusocr_adaptor.h"
+#include "util/log.h"
 
 #include <QLabel>
 #include <QDBusConnection>
@@ -28,15 +29,20 @@ MainWindow::~MainWindow()
 
 }
 
-
 bool MainWindow::openFile(const QString &filePaths)
 {
+    qCInfo(dmOcr) << "Opening file in main window:" << filePaths;
     //更改打开判断文件是否是图片文件
-    return m_mainWidget->openImage(filePaths);;
+    bool success = m_mainWidget->openImage(filePaths);
+    if (!success) {
+        qCWarning(dmOcr) << "Failed to open file in main window:" << filePaths;
+    }
+    return success;
 }
 
 bool MainWindow::openImage(const QImage &image, const QString &name)
 {
+    qCInfo(dmOcr) << "Opening image in main window, size:" << image.size() << "name:" << name;
     m_mainWidget->openImage(image, name);
     return true;
 }
