@@ -16,7 +16,7 @@
 #include <QCoreApplication>
 #include <QDBusConnection>
 #include <QDBusInterface>
-
+#include "util/log.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -43,6 +43,8 @@ int main(int argc, char *argv[])
     app->setProductName(QObject::tr("OCR Tool"));
     app->setApplicationVersion("1.0");
 
+    qCInfo(dmOcr) << "Starting Deepin OCR Tool version 1.0";
+
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
 
@@ -56,11 +58,11 @@ int main(int argc, char *argv[])
 
     app->loadTranslator();
 
-
     OcrApplication instance;
     QDBusConnection dbus = QDBusConnection::sessionBus();
 
     if (dbus.registerService("com.deepin.Ocr")) {
+        qCInfo(dmOcr) << "Registered as primary DBus service";
         // 第一次启动
         // 注册Dbus服务和对象
         dbus.registerObject("/com/deepin/Ocr", &instance);
@@ -69,12 +71,13 @@ int main(int argc, char *argv[])
 
         if (cmdParser.isSet(dbusOption)) {
             // 第一调用已 --dbus参数启动
-            qDebug() << "dbus register waiting!";
+            qCInfo(dmOcr) << "Started in DBus mode, waiting for connections";
             return app->exec();
         }
 
         instance.openFile(QString(argv[1]));
     } else {
+        qCInfo(dmOcr) << "Another instance is running, forwarding request";
         // 第二次运行此应用，
         // 调用DBus接口，处理交给第一次调用的进程
         // 本进程退退出

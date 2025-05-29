@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QWidget>
 #include <QDebug>
+#include "util/log.h"
 
 DbusOcrAdaptor::DbusOcrAdaptor(QObject *parent)
     : QDBusAbstractAdaptor(parent)
@@ -25,34 +26,42 @@ DbusOcrAdaptor::~DbusOcrAdaptor()
     // destructor
 }
 
-
 bool DbusOcrAdaptor::openFile(QString filePath)
 {
-    qDebug() << __FUNCTION__ << __LINE__;
+    qCInfo(dmOcr) << "Opening file via DBus:" << filePath;
     QMetaObject::invokeMethod(parent(), "openFile", Q_ARG(QString, filePath));
     return true;
 }
 
-void DbusOcrAdaptor::openImageAndName(QByteArray images,QString imageName)
+void DbusOcrAdaptor::openImageAndName(QByteArray images, QString imageName)
 {
-    qDebug() << __FUNCTION__ << __LINE__;
+    qCInfo(dmOcr) << __FUNCTION__ << __LINE__;
     QByteArray data = images;
     QString tmp_data = QString::fromLatin1(data.data(), data.size());
     QByteArray srcData = QByteArray::fromBase64(tmp_data.toLatin1());
     data = qUncompress(srcData);
     QImage image;
-    image.loadFromData(data);
+    if (!image.loadFromData(data)) {
+        qCWarning(dmOcr) << "Failed to load image data for:" << imageName;
+        return;
+    }
+    qCDebug(dmOcr) << "Image loaded successfully, size:" << image.size();
     QMetaObject::invokeMethod(parent(), "openImageAndName", Q_ARG(QImage, image), Q_ARG(QString, imageName));
 }
+
 void DbusOcrAdaptor::openImage(QByteArray images)
 {
-    qDebug() << __FUNCTION__ << __LINE__;
+    qCInfo(dmOcr) << "Opening image via DBus";
     QByteArray data = images;
     QString tmp_data = QString::fromLatin1(data.data(), data.size());
     QByteArray srcData = QByteArray::fromBase64(tmp_data.toLatin1());
     data = qUncompress(srcData);
     QImage image;
-    image.loadFromData(data);
+    if (!image.loadFromData(data)) {
+        qCWarning(dmOcr) << "Failed to load image data";
+        return;
+    }
+    qCDebug(dmOcr) << "Image loaded successfully, size:" << image.size();
     QMetaObject::invokeMethod(parent(), "openImage", Q_ARG(QImage, image));
 }
 
