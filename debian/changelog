@@ -1,3 +1,9 @@
+deepin-ocr (6.5.3) unstable; urgency=medium
+
+  * chore: update build dependencies in debian/control
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Thu, 19 Jun 2025 22:17:22 +0800
+
 deepin-ocr (6.5.2) unstable; urgency=medium
 
   * chore: update build dependencies and CMake configuration
