@@ -9,7 +9,7 @@ Build-Depends: debhelper (>= 11),
  qt6-tools-dev,
  qt6-tools-dev-tools,
  libdtk6widget-dev,
- libdtk6ocr-dev
+ libdtk6ocr-dev,
  libncnn-dev,
  libopencv-mobile-dev
 Standards-Version: 4.1.3
