@@ -147,9 +147,9 @@ endif()
 # for dtk
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(ocr_lib REQUIRED dtk6ocr)
+pkg_check_modules(InferenceEngine REQUIRED ncnn opencv_mobile)
 target_include_directories(${PROJECT_NAME} PUBLIC ${ocr_lib_INCLUDE_DIRS})
 find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Core Widget)
-
 if(NOT SUPPORT_QT6)
     qt5_use_modules(${PROJECT_NAME} ${QtModule})
 endif()
@@ -164,6 +164,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt${QT_VERSION_MAJOR}::Widgets
     Dtk${DTK_VERSION_MAJOR}::Core
     Dtk${DTK_VERSION_MAJOR}::Widget
+    ${InferenceEngine_LIBRARIES}
     ${ocr_lib_LIBRARIES}
     pthread
 )
