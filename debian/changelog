@@ -1,3 +1,9 @@
+deepin-ocr (6.5.2) unstable; urgency=medium
+
+  * chore: update build dependencies and CMake configuration
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Thu, 19 Jun 2025 21:58:59 +0800
+
 deepin-ocr (6.5.1) unstable; urgency=medium
 
   * fix: Fixed the COR recognition crash

@@ -1,7 +1,7 @@
 package:
   id: org.deepin.ocr
   name: "deepin-ocr"
-  version: 6.5.0.1
+  version: 6.5.1.1
   kind: app
   description: |
     Ocr is a text recognition software.
