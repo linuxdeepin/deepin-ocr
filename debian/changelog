@@ -1,3 +1,9 @@
+deepin-ocr (6.5.5) unstable; urgency=medium
+
+  * chore: clean up CMake configuration by removing unnecessary compiler flags
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Fri, 20 Jun 2025 17:45:00 +0800
+
 deepin-ocr (6.5.4) unstable; urgency=medium
 
   * chore: update CMake configuration for non-sw_64 architectures
