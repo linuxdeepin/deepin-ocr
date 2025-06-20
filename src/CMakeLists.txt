@@ -44,6 +44,13 @@ if(DOTEST)
     endif()
 endif()
 
+if (NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "sw_64")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wl,--as-need -fPIE")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-error=incompatible-pointer-types -fPIC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wl,--as-need -fPIE -Wno-error=incompatible-pointer-types")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pie")
+endif()
+
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED ${QtModule})
 
 add_definitions(${QT_DEFINITIONS})
