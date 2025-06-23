@@ -5,80 +5,80 @@
     <name>MainWidget</name>
     <message>
         <source>Recognizing</source>
-        <translation type="unfinished"></translation>
+        <translation>الإدراك</translation>
     </message>
     <message>
         <source>Copied</source>
-        <translation type="unfinished"></translation>
+        <translation>تم نسخه</translation>
     </message>
     <message>
         <source>No text recognized</source>
-        <translation type="unfinished"></translation>
+        <translation>لا يوجد نص تم إدراكه</translation>
     </message>
     <message>
         <source>Copy text</source>
-        <translation type="unfinished"></translation>
+        <translation>نسخ النص</translation>
     </message>
     <message>
         <source>Save as TXT</source>
-        <translation type="unfinished"></translation>
+        <translation>الحفظ ك TXT</translation>
     </message>
     <message>
         <source>Recognize language</source>
-        <translation type="unfinished"></translation>
+        <translation>تعرف على اللغة</translation>
     </message>
     <message>
         <source>Simplified Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>الصينية البسيطة</translation>
     </message>
     <message>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>الإنجليزية</translation>
     </message>
     <message>
         <source>Traditional Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>الصينية التقليدية</translation>
     </message>
     <message>
         <source>Undo (Ctrl+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>الاستعادة (Ctrl+Z)</translation>
     </message>
     <message>
         <source>Redo (Ctrl+Shift+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>إعادة الاستعادة (Ctrl+Shift+Z)</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>OCR Tool</source>
-        <translation type="unfinished"></translation>
+        <translation>أداة التعرف على النص</translation>
     </message>
 </context>
 <context>
     <name>ResultTextView</name>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>نسخ</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>قص</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>لصق</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>اختر كل شيء</translation>
     </message>
 </context>
 <context>
     <name>Widget</name>
     <message>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation type="unfinished"></translation>
+        <translation>نصائح: كلما كانت الصورة أوضح، زادت دقة النص</translation>
     </message>
 </context>
 </TS>

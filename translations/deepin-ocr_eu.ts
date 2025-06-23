@@ -1,60 +1,62 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hi_IN">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="eu">
 <context>
     <name>MainWidget</name>
     <message>
         <location filename="../src/mainwidget.cpp" line="115"/>
         <source>No text recognized</source>
-        <translation>लेख की पहचान करना विफल</translation>
+        <translation>Ez da testu bat ezagutzen</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>Recognize language</source>
-        <translation>भाषा पहचानें</translation>
+        <translation>Hizkuntza ezagutu</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Simplified Chinese</source>
-        <translation>सरल चीनी</translation>
+        <translation>Chinera errazatua</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>English</source>
-        <translation>अंग्रेजी</translation>
+        <translation>Ingelesa</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="169"/>
         <source>Traditional Chinese</source>
-        <translation>पारंपरिक चीनी</translation>
+        <translation>Chinera tradizionala</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="204"/>
         <source>Copy text</source>
-        <translation>लेख कॉपी करें</translation>
+        <translation>Kopiatu testua</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="210"/>
         <source>Save as TXT</source>
-        <translation>TXT के रूप में संचित करें</translation>
+        <translation>Gorde TXT moduan</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="236"/>
         <source>Undo (Ctrl+Z)</source>
-        <translation>उत्तर लेना (Ctrl+Z)</translation>
+        <translation>Berritu (Ctrl+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="247"/>
         <source>Redo (Ctrl+Shift+Z)</source>
-        <translation>दोबारा करें (Ctrl+Shift+Z)</translation>
+        <translation>Berrabiarazi (Ctrl+Shift+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="294"/>
         <source>Recognizing</source>
-        <translation>पहचानना जारी</translation>
+        <translation>Ezagutzen</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="563"/>
         <source>Copied</source>
-        <translation>कॉपी करना सफल</translation>
+        <translation>Kopiatua</translation>
     </message>
 </context>
 <context>
@@ -62,7 +64,7 @@
     <message>
         <location filename="../src/main.cpp" line="75"/>
         <source>OCR Tool</source>
-        <translation>ओसीआर साधन</translation>
+        <translation>OCR tresna</translation>
     </message>
 </context>
 <context>
@@ -70,22 +72,22 @@
     <message>
         <location filename="../src/resulttextview.cpp" line="22"/>
         <source>Copy</source>
-        <translation>कॉपी</translation>
+        <translation>Kopiatu</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="24"/>
         <source>Cut</source>
-        <translation>कट</translation>
+        <translation>Mugitu</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="27"/>
         <source>Select All</source>
-        <translation>सभी चुनें</translation>
+        <translation>Aukeratu dena</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="29"/>
         <source>Paste</source>
-        <translation>पेस्ट</translation>
+        <translation>Itsatsi</translation>
     </message>
 </context>
 <context>
@@ -93,7 +95,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="283"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation>सहायक निर्देश : चित्र गुणवत्ता उच्च होने पर पहचाना गया लेख भी सटीक होगा</translation>
+        <translation>Adierazpena: Bildetik osoa da, testua osoa da</translation>
     </message>
 </context>
 </TS>

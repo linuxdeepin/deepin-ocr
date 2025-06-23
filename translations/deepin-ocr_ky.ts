@@ -1,31 +1,30 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ky" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ky">
 <context>
     <name>MainWidget</name>
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>No text recognized</source>
-        <translation type="unfinished"/>
+        <translation>Мәтін танилмады</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="214"/>
         <source>Copy text</source>
-        <translation type="unfinished"/>
+        <translation>Мәтін көчөрөө</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="221"/>
         <source>Save as TXT</source>
-        <translation type="unfinished"/>
+        <translation>TXT форматына сақлау</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="273"/>
-        <location filename="../src/mainwidget.cpp" line="314"/>
         <source>Recognizing</source>
-        <translation type="unfinished"/>
+        <translation>Танилды</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="514"/>
         <source>Copied</source>
-        <translation type="unfinished"/>
+        <translation>Көчөрүү</translation>
     </message>
 </context>
 <context>
@@ -33,7 +32,7 @@
     <message>
         <location filename="../src/main.cpp" line="56"/>
         <source>OCR Tool</source>
-        <translation type="unfinished"/>
+        <translation>OCR ыңгай</translation>
     </message>
 </context>
 <context>
@@ -41,22 +40,22 @@
     <message>
         <location filename="../src/resulttextview.cpp" line="15"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>Көчөрөө</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="17"/>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>Жылыҡтау</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="20"/>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Барлығын таңлоо</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="22"/>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>Көпкөрөө</translation>
     </message>
 </context>
 <context>
@@ -64,7 +63,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="262"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation type="unfinished"/>
+        <translation>Мәлүмәт: Көршеңгәрәк күрүнгән сурәт, мәтінге үлкән дәлдәләк болар</translation>
     </message>
 </context>
 </TS>

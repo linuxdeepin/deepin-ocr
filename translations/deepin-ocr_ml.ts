@@ -1,31 +1,30 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ml" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ml">
 <context>
     <name>MainWidget</name>
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>No text recognized</source>
-        <translation type="unfinished"/>
+        <translation>എന്തെങ്കിലും പാലിച്ചിട്ടില്ല</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="214"/>
         <source>Copy text</source>
-        <translation type="unfinished"/>
+        <translation>ടെക്സ്റ്റ് കോപ്പി</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="221"/>
         <source>Save as TXT</source>
-        <translation type="unfinished"/>
+        <translation>TXT ആകാരത്തിൽ സേവ് ചെയ്യുക</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="273"/>
-        <location filename="../src/mainwidget.cpp" line="314"/>
         <source>Recognizing</source>
-        <translation type="unfinished"/>
+        <translation>ഓഫ് റെകെഗ്നിസ്</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="514"/>
         <source>Copied</source>
-        <translation type="unfinished"/>
+        <translation>കോപ്പി ചെയ്തിട്ടുണ്ട്</translation>
     </message>
 </context>
 <context>
@@ -33,7 +32,7 @@
     <message>
         <location filename="../src/main.cpp" line="56"/>
         <source>OCR Tool</source>
-        <translation type="unfinished"/>
+        <translation>OCR ടൂൾ</translation>
     </message>
 </context>
 <context>
@@ -41,22 +40,22 @@
     <message>
         <location filename="../src/resulttextview.cpp" line="15"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>കോപ്പി</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="17"/>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>കട്ട്</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="20"/>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>എല്ലാവരെയും തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="22"/>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>പേസ്റ്റ്</translation>
     </message>
 </context>
 <context>
@@ -64,7 +63,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="262"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation type="unfinished"/>
+        <translation>ടിപ്പ്: ചിത്രം കൂടുതൽ വ്യക്തമാണെങ്കിൽ, ടെക്സ്റ്റ് കൂടുതൽ ശരിയായിരിക്കും</translation>
     </message>
 </context>
 </TS>

@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="115"/>
         <source>No text recognized</source>
-        <translation type="unfinished"/>
+        <translation>Nema prepoznatog teksta</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
@@ -39,16 +39,15 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="236"/>
         <source>Undo (Ctrl+Z)</source>
-        <translation type="unfinished"/>
+        <translation>Povuči (Ctrl+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="247"/>
         <source>Redo (Ctrl+Shift+Z)</source>
-        <translation type="unfinished"/>
+        <translation>Ponovi (Ctrl+Shift+Z)</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="294"/>
-        <location filename="../src/mainwidget.cpp" line="335"/>
         <source>Recognizing</source>
         <translation>Prepoznavanje</translation>
     </message>
@@ -94,7 +93,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="283"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation type="unfinished"/>
+        <translation>Savjet: Češća je slika, tačnija je tekst</translation>
     </message>
 </context>
 </TS>

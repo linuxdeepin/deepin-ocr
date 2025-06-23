@@ -1,3 +1,9 @@
+deepin-ocr (6.5.6) unstable; urgency=medium
+
+  * update version to 6.5.6 
+
+ -- Tian ShiLin <tianshilin@uniontech.com>  Mon, 23 Jun 2025 15:06:46 +0800
+
 deepin-ocr (6.5.5) unstable; urgency=medium
 
   * chore: clean up CMake configuration by removing unnecessary compiler flags

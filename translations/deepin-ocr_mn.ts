@@ -1,31 +1,30 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="mn" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="mn">
 <context>
     <name>MainWidget</name>
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>No text recognized</source>
-        <translation type="unfinished"/>
+        <translation>Текст олдоггүй</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="214"/>
         <source>Copy text</source>
-        <translation type="unfinished"/>
+        <translation>Текст хураах</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="221"/>
         <source>Save as TXT</source>
-        <translation type="unfinished"/>
+        <translation>TXT-р хадгалах</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="273"/>
-        <location filename="../src/mainwidget.cpp" line="314"/>
         <source>Recognizing</source>
-        <translation type="unfinished"/>
+        <translation>Онлойх</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="514"/>
         <source>Copied</source>
-        <translation type="unfinished"/>
+        <translation>Хураагдсан</translation>
     </message>
 </context>
 <context>
@@ -33,7 +32,7 @@
     <message>
         <location filename="../src/main.cpp" line="56"/>
         <source>OCR Tool</source>
-        <translation type="unfinished"/>
+        <translation>OCR-ын үзүүлбэр</translation>
     </message>
 </context>
 <context>
@@ -41,22 +40,22 @@
     <message>
         <location filename="../src/resulttextview.cpp" line="15"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>Хураах</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="17"/>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>Хурааж устгах</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="20"/>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Бүхийг сонгох</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="22"/>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>Нууцах</translation>
     </message>
 </context>
 <context>
@@ -64,7 +63,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="262"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation type="unfinished"/>
+        <translation>Албан ёсны: Өгөж байгаа үзүүлбэрийн тодорхойлолт нь текстийн тодорхойлолтыг нэмэгдүүлнэ</translation>
     </message>
 </context>
 </TS>
