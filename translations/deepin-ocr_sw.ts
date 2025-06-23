@@ -1,31 +1,30 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sw" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sw">
 <context>
     <name>MainWidget</name>
     <message>
         <location filename="../src/mainwidget.cpp" line="166"/>
         <source>No text recognized</source>
-        <translation type="unfinished"/>
+        <translation>Hakikati siku kujitambua</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="214"/>
         <source>Copy text</source>
-        <translation type="unfinished"/>
+        <translation>Kopia kifungu</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="221"/>
         <source>Save as TXT</source>
-        <translation type="unfinished"/>
+        <translation>Tuma kama TXT</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="273"/>
-        <location filename="../src/mainwidget.cpp" line="314"/>
         <source>Recognizing</source>
-        <translation type="unfinished"/>
+        <translation>Kutambua</translation>
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="514"/>
         <source>Copied</source>
-        <translation type="unfinished"/>
+        <translation>Kilichopiaji</translation>
     </message>
 </context>
 <context>
@@ -33,7 +32,7 @@
     <message>
         <location filename="../src/main.cpp" line="56"/>
         <source>OCR Tool</source>
-        <translation type="unfinished"/>
+        <translation>Vipengele ya OCR</translation>
     </message>
 </context>
 <context>
@@ -41,22 +40,22 @@
     <message>
         <location filename="../src/resulttextview.cpp" line="15"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>Kopia</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="17"/>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>Vuta</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="20"/>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Jisikia wote</translation>
     </message>
     <message>
         <location filename="../src/resulttextview.cpp" line="22"/>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>Lipisha</translation>
     </message>
 </context>
 <context>
@@ -64,7 +63,7 @@
     <message>
         <location filename="../src/mainwidget.cpp" line="262"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation type="unfinished"/>
+        <translation>Matokeo: Sembe kubwa kifungu, kifungu kubwa kujitambua</translation>
     </message>
 </context>
 </TS>

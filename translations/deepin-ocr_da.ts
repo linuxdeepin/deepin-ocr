@@ -5,80 +5,80 @@
     <name>MainWidget</name>
     <message>
         <source>Recognizing</source>
-        <translation type="unfinished"></translation>
+        <translation>Genkognisering</translation>
     </message>
     <message>
         <source>Copied</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieret</translation>
     </message>
     <message>
         <source>No text recognized</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen tekst genkendt</translation>
     </message>
     <message>
         <source>Copy text</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier tekst</translation>
     </message>
     <message>
         <source>Save as TXT</source>
-        <translation type="unfinished"></translation>
+        <translation>Gem som TXT</translation>
     </message>
     <message>
         <source>Recognize language</source>
-        <translation type="unfinished"></translation>
+        <translation>Genkend sprog</translation>
     </message>
     <message>
         <source>Simplified Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Forenklet kinesisk</translation>
     </message>
     <message>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Engelsk</translation>
     </message>
     <message>
         <source>Traditional Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Traditionelt kinesisk</translation>
     </message>
     <message>
         <source>Undo (Ctrl+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fortryd (Ctrl+Z)</translation>
     </message>
     <message>
         <source>Redo (Ctrl+Shift+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gentag (Ctrl+Shift+Z)</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>OCR Tool</source>
-        <translation type="unfinished"></translation>
+        <translation>OCR-Værktøj</translation>
     </message>
 </context>
 <context>
     <name>ResultTextView</name>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Klip</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Indsæt</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Vælg alt</translation>
     </message>
 </context>
 <context>
     <name>Widget</name>
     <message>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
-        <translation type="unfinished"></translation>
+        <translation>Tip: Jo bedre billedet er, jo mere præcis er teksten</translation>
     </message>
 </context>
 </TS>
