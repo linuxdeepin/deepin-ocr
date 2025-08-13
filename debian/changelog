@@ -1,3 +1,9 @@
+deepin-ocr (6.5.9) unstable; urgency=medium
+
+  * chore: Add new Lao translation file (#67)
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Wed, 13 Aug 2025 13:58:09 +0800
+
 deepin-ocr (6.5.8) unstable; urgency=medium
 
   * chore: Add new Lao translation file
