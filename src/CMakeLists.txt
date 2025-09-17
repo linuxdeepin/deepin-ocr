@@ -174,3 +174,6 @@ install(FILES ${LangSrcs} DESTINATION ${TranslationDir})
 install(FILES ../deepin-ocr.desktop DESTINATION ${DesktopDir})
 install(FILES ../assets/deepin-ocr.svg DESTINATION ${AppIconDir})
 install(FILES ../com.deepin.Ocr.service DESTINATION ${DBusServiceDir})
+
+include(${CMAKE_SOURCE_DIR}/install_dconfig.cmake)
+INSTALL_DCONFIG("deepin-ocr.common.json")

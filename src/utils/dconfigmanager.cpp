@@ -16,7 +16,7 @@ DCORE_USE_NAMESPACE
 DConfigManager::DConfigManager(QObject *parent)
     : QObject(parent), d(new DConfigManagerPrivate(this))
 {
-
+    addConfig(COMMON_GROUP);
 }
 
 DConfigManager *DConfigManager::instance()

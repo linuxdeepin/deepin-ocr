@@ -8,6 +8,9 @@
 #include <QObject>
 #include <QVariant>
 
+#define COMMON_GROUP "deepin-ocr.common"
+#define COMMON_ISGPUENABLE "IsGpuEnable"
+
 class DConfigManagerPrivate;
 class DConfigManager : public QObject
 {
