@@ -6,6 +6,8 @@
 #include <DOcr>
 #include <QProcess>
 #include <QFileInfo>
+#include <QDebug>
+#include <dconfigmanager.h>
 
 OCREngine *OCREngine::instance()
 {
@@ -27,6 +29,11 @@ OCREngine::OCREngine()
     ocrDriver = new Dtk::Ocr::DOcr;
     ocrDriver->loadDefaultPlugin();
     ocrDriver->setUseMaxThreadsCount(2);
+    if (!isGpuEnable()) {
+        qWarning() << "GPU is not enabled";
+        return;
+    }
+
     QProcess kxProc;
     kxProc.setProgram("bash");
     kxProc.setArguments({"-c", "lscpu | grep name"});
@@ -62,4 +69,9 @@ bool OCREngine::setLanguage(const QString &language)
     }
 
     return ocrDriver->setLanguage(language);
+}
+
+bool OCREngine::isGpuEnable()
+{
+    return DConfigManager::instance()->value(COMMON_GROUP, COMMON_ISGPUENABLE, true).toBool();
 }

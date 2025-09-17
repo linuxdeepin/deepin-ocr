@@ -1,0 +1,17 @@
+{
+    "magic": "dsg.config.meta",
+    "version": "1.0",
+    "contents": {
+        "IsGpuEnable": {
+            "value": true,
+            "serial": 0,
+            "flags": ["global"],
+            "name": "Using GPU acceleration on special machine",
+            "name[zh_CN]": "在特殊机型上是否使用GPU加速",
+            "description": "Using GPU acceleration on special machine",
+            "description[zh_CN]":"在特殊机型上是否使用GPU加速",
+            "permissions": "readwrite",
+            "visibility": "private"
+        }
+    }
+}
