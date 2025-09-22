@@ -42,6 +42,19 @@ MainWidget::~MainWidget()
 {
     //程序即将结束,线程标志结束
     m_isEndThread = 0;
+
+    // 等待线程结束
+    if (m_loadImagethread) {
+        m_loadImagethread->requestInterruption(); // 请求线程中断
+        if (!m_loadImagethread->wait(3000)) { // 等待线程结束，超时时间为3秒
+            qWarning() << "OCR thread TIMEOUT";
+            m_loadImagethread->terminate(); // 如果线程没有结束，强制终止线程
+            m_loadImagethread->deleteLater(); // 删除线程对象
+            m_loadImagethread = nullptr;
+        }
+        // 正常结束的情况下delete操作在槽函数中执行
+    }
+
 //    m_mainGridLayout->addLayout(m_buttonHorizontalLayout, 1, 0, 1, 1);
     if (m_mainGridLayout && m_buttonHorizontalLayout) {
         m_mainGridLayout->removeItem(m_buttonHorizontalLayout);
@@ -393,7 +406,10 @@ void MainWidget::openImage(const QImage &img, const QString &name)
             }
         });
     }
-    connect(m_loadImagethread, &QThread::finished, m_loadImagethread, &QObject::deleteLater);
+    connect(m_loadImagethread, &QThread::finished, [this]() {
+        m_loadImagethread->deleteLater();
+        m_loadImagethread = nullptr;
+    });
     m_loadImagethread->start();
 }
 
