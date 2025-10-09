@@ -377,7 +377,14 @@ void MainWidget::openImage(const QImage &img, const QString &name)
     setIcons(themeType);
     if (m_imageview) {
         m_imageview->openFilterImage(img);
+        // 使用 QPointer 检查对象是否还存在
+        QPointer<ImageView> imgSelf(m_imageview);
         QTimer::singleShot(100, [ = ] {
+            if (imgSelf.isNull()) {
+                qWarning() << "ImageView obj is destroyed";
+                return; // 对象已被销毁
+            }
+
             //分辨率大于window的采用适应窗口，没超过，则适应图片
             QRect rect1 = m_imageview->image().rect();
             if ((rect1.width() >= m_imageview->width() || rect1.height() >= m_imageview->height() - 150) && m_imageview->width() > 0 &&
