@@ -152,6 +152,7 @@ if(DOTEST)
 endif()
 
 # for dtk
+find_package(PkgConfig REQUIRED)
 pkg_check_modules(ocr_lib REQUIRED dtk6ocr)
 pkg_check_modules(InferenceEngine REQUIRED ncnn opencv_mobile)
 target_include_directories(${PROJECT_NAME} PUBLIC ${ocr_lib_INCLUDE_DIRS})
