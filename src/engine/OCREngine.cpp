@@ -25,8 +25,27 @@ OCREngine::OCREngine()
     //此处存在产品设计缺陷: 无法选择插件，无鉴权入口，无性能方面的高级设置入口
     //因此此处直接硬编码使用默认插件
     qCInfo(dmOcr) << "Initializing OCR driver";
+    
     ocrDriver = new Dtk::Ocr::DOcr;
-    ocrDriver->loadDefaultPlugin();
+    const QString ocrV5 = "PPOCR_V5";
+    bool load = false;
+
+    auto plugins = ocrDriver->installedPluginNames();
+    if (plugins.contains(ocrV5, Qt::CaseInsensitive)) {
+        if(ocrDriver->loadPlugin(ocrV5)) {
+            load = true;
+            qCInfo(dmOcr) << "OCR V5 plugin loaded";
+        }
+        else {
+            qCWarning(dmOcr) << "Failed to load OCR V5 plugin";
+        }
+    }
+
+    if(!load) {
+        ocrDriver->loadDefaultPlugin();
+        qCInfo(dmOcr) << "Default OCR plugin loaded";
+    }
+ 
     ocrDriver->setUseMaxThreadsCount(2);
     QFileInfo mtfi("/dev/mtgpu.0");
     if (mtfi.exists()) {
