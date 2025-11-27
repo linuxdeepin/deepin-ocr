@@ -72,12 +72,14 @@ include_directories(view)
 include_directories(service)
 include_directories(engine)
 include_directories(util)
+include_directories(utils)
 
 aux_source_directory(. allSource)
 aux_source_directory(./view allSource)
 aux_source_directory(./service allSource)
 aux_source_directory(./engine allSource)
 aux_source_directory(./util allSource)
+aux_source_directory(./utils allSource)
 
 # translation
 file(GLOB TargetTsFiles LIST_DIRECTORIES false ../translations/${PROJECT_NAME}*.ts)
@@ -157,7 +159,11 @@ endif()
 
 # for dtk
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(ocr_lib REQUIRED dtk6ocr)
+if(SUPPORT_QT6)
+    pkg_check_modules(ocr_lib REQUIRED dtk6ocr)
+else()
+    pkg_check_modules(ocr_lib REQUIRED dtkocr)
+endif()
 pkg_check_modules(InferenceEngine REQUIRED ncnn opencv_mobile)
 target_include_directories(${PROJECT_NAME} PUBLIC ${ocr_lib_INCLUDE_DIRS})
 find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Core Widget)

@@ -1,59 +1,61 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_CN">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>MainWidget</name>
     <message>
-        <location filename="../src/mainwidget.cpp" line="118"/>
+        <location filename="../src/mainwidget.cpp" line="129"/>
         <source>No text recognized</source>
         <translation>未识别到文字</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="169"/>
+        <location filename="../src/mainwidget.cpp" line="181"/>
         <source>Recognize language</source>
         <translation>识别语言</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="172"/>
+        <location filename="../src/mainwidget.cpp" line="184"/>
         <source>Simplified Chinese</source>
         <translation>简体中文</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="172"/>
+        <location filename="../src/mainwidget.cpp" line="184"/>
         <source>English</source>
         <translation>英文</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="172"/>
+        <location filename="../src/mainwidget.cpp" line="184"/>
         <source>Traditional Chinese</source>
         <translation>繁体中文</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="207"/>
+        <location filename="../src/mainwidget.cpp" line="220"/>
         <source>Copy text</source>
         <translation>复制文字</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="213"/>
+        <location filename="../src/mainwidget.cpp" line="226"/>
         <source>Save as TXT</source>
         <translation>保存为TXT</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="239"/>
+        <location filename="../src/mainwidget.cpp" line="252"/>
         <source>Undo (Ctrl+Z)</source>
         <translation>撤销 (Ctrl+Z)</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="250"/>
+        <location filename="../src/mainwidget.cpp" line="263"/>
         <source>Redo (Ctrl+Shift+Z)</source>
         <translation>重做 (Ctrl+Shift+Z)</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="320"/>
-        <location filename="../src/mainwidget.cpp" line="361"/>
+        <location filename="../src/mainwidget.cpp" line="344"/>
+        <location filename="../src/mainwidget.cpp" line="385"/>
         <source>Recognizing</source>
         <translation>正在识别</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="589"/>
+        <location filename="../src/mainwidget.cpp" line="614"/>
         <source>Copied</source>
         <translation>已复制</translation>
     </message>
@@ -92,7 +94,7 @@
 <context>
     <name>Widget</name>
     <message>
-        <location filename="../src/mainwidget.cpp" line="309"/>
+        <location filename="../src/mainwidget.cpp" line="333"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
         <translation>温馨提示：图像越简洁清晰，识别越准确</translation>
     </message>

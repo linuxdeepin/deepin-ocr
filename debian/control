@@ -11,7 +11,8 @@ Build-Depends: debhelper (>= 11),
  libdtk6widget-dev [!mipsel !mips64el] | libdtkwidget-dev,
  libdtk6core-dev [!mipsel !mips64el] | libdtkcore-dev,
  libncnn-dev,
- libopencv-mobile-dev, libdtkocr-dev
+ libopencv-mobile-dev, 
+ libdtk6ocr-dev | libdtkocr-dev
 Standards-Version: 4.1.3
 Homepage: http://www.deepin.org/
 
