@@ -3,8 +3,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "OCREngine.h"
-#include <QFileInfo>
 #include <DOcr>
+#include <QProcess>
+#include <QFileInfo>
+#include <QDebug>
+#include <dconfigmanager.h>
 #include "util/log.h"
 
 OCREngine *OCREngine::instance()
@@ -25,7 +28,7 @@ OCREngine::OCREngine()
     //此处存在产品设计缺陷: 无法选择插件，无鉴权入口，无性能方面的高级设置入口
     //因此此处直接硬编码使用默认插件
     qCInfo(dmOcr) << "Initializing OCR driver";
-    
+
     ocrDriver = new Dtk::Ocr::DOcr;
     const QString ocrV5 = "PPOCR_V5";
     bool load = false;
@@ -47,8 +50,19 @@ OCREngine::OCREngine()
     }
  
     ocrDriver->setUseMaxThreadsCount(2);
+    if (!isGpuEnable()) {
+        qWarning() << "GPU is not enabled";
+        return;
+    }
+
+    QProcess kxProc;
+    kxProc.setProgram("bash");
+    kxProc.setArguments({"-c", "lscpu | grep name"});
+    kxProc.start();
+    kxProc.waitForFinished();
+    QString cpuInfo = kxProc.readAllStandardOutput();
     QFileInfo mtfi("/dev/mtgpu.0");
-    if (mtfi.exists()) {
+    if (mtfi.exists() | !cpuInfo.contains("KX-7000")) {
         qCInfo(dmOcr) << "GPU device found, enabling Vulkan hardware acceleration";
         ocrDriver->setUseHardware({{Dtk::Ocr::HardwareID::GPU_Vulkan, 0}});
     }
@@ -67,9 +81,8 @@ QString OCREngine::getRecogitionResult()
     m_isRunning = true;
 
     ocrDriver->analyze();
-
-    m_isRunning = false;
     QString result = ocrDriver->simpleResult();
+    m_isRunning = false;
     qCInfo(dmOcr) << "OCR recognition completed";
     return result;
 }
@@ -87,4 +100,9 @@ bool OCREngine::setLanguage(const QString &language)
         qCWarning(dmOcr) << "Failed to set language:" << language;
     }
     return success;
+}
+
+bool OCREngine::isGpuEnable()
+{
+    return DConfigManager::instance()->value(COMMON_GROUP, COMMON_ISGPUENABLE, true).toBool();
 }

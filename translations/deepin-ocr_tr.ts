@@ -93,6 +93,7 @@
     <name>Widget</name>
     <message>
         <location filename="../src/mainwidget.cpp" line="283"/>
+        <location filename="../src/mainwidget.cpp" line="283"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
         <translation>İpuçları: Görüntü ne kadar net olursa, metin o kadar doğru olur.</translation>
     </message>

@@ -3,6 +3,7 @@
     <name>MainWidget</name>
     <message>
         <location filename="../src/mainwidget.cpp" line="115"/>
+        <location filename="../src/mainwidget.cpp" line="115"/>
         <source>No text recognized</source>
         <translation>تېكىستنى تونىيالمىدى</translation>
     </message>
@@ -33,6 +34,7 @@
     </message>
     <message>
         <location filename="../src/mainwidget.cpp" line="210"/>
+        <location filename="../src/mainwidget.cpp" line="210"/>
         <source>Save as TXT</source>
         <translation>TXT ھالىتىدە ساقلاش</translation>
     </message>
@@ -53,6 +55,7 @@
         <translation>تونۇۋاتىدۇ</translation>
     </message>
     <message>
+        <location filename="../src/mainwidget.cpp" line="563"/>
         <location filename="../src/mainwidget.cpp" line="563"/>
         <source>Copied</source>
         <translation>كۆچۈرۈلدى</translation>
@@ -92,6 +95,7 @@
 <context>
     <name>Widget</name>
     <message>
+        <location filename="../src/mainwidget.cpp" line="283"/>
         <location filename="../src/mainwidget.cpp" line="283"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
         <translation>سەمىمىي ئەسكەرتىش: سۈرەت قانچە ئېنىق بولسا تونۇش توغرىلىقى شۇنچە يۇقىرى بولىدۇ</translation>

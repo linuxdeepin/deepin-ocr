@@ -57,6 +57,30 @@
         <source>Copied</source>
         <translation>Copiouse</translation>
     </message>
+    <message>
+        <source>Recognize language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simplified Chinese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Traditional Chinese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undo (Ctrl+Z)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Redo (Ctrl+Shift+Z)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>

@@ -5,6 +5,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(deepin-ocr)
 
+#玲珑构建依赖目录
+include_directories(${CMAKE_INSTALL_PREFIX}/include)
+
 set(ENABLE_Qt6 ON CACHE BOOL "Build with Qt6")
 find_package(Qt6 QUIET)
 
@@ -23,6 +26,7 @@ include_directories(${CMAKE_INSTALL_PREFIX}/include)
 
 # for Qt
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -193,6 +197,11 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX /usr)
 endif()
 
+#dde项目，期望CMAKE_INSTALL_PREFIX为/usr
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX /usr)
+endif ()
+
 # install
 set(PREFIX ${CMAKE_INSTALL_PREFIX})
 set(TranslationDir ${PREFIX}/share/${PROJECT_NAME}/translations)
@@ -211,3 +220,6 @@ install(FILES ${LangSrcs} DESTINATION ${TranslationDir})
 install(FILES ../deepin-ocr.desktop DESTINATION ${DesktopDir})
 install(FILES ../assets/deepin-ocr.svg DESTINATION ${AppIconDir})
 install(FILES ../com.deepin.Ocr.service DESTINATION ${DBusServiceDir})
+
+include(${CMAKE_SOURCE_DIR}/install_dconfig.cmake)
+INSTALL_DCONFIG("deepin-ocr.common.json")
