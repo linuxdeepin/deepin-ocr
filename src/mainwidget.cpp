@@ -128,6 +128,7 @@ void MainWidget::setupUi(QWidget *Widget)
     m_noResult->setAlignment(Qt::AlignCenter);
     m_noResult->setText(tr("No text recognized"));
     m_resultWidget->addWidget(m_noResult);
+    m_noResult->setVisible(false);
 
     connect(m_loadingOcr, &loadingWidget::sigChangeSize, [ = ] {
         loadingUi();
@@ -207,6 +208,7 @@ void MainWidget::setupUi(QWidget *Widget)
         }
         ocrSetting->setValue("language", resultLanguage);
         runRec(false);
+        m_noResult->setVisible(false);
     });
 
     m_buttonHorizontalLayout->addWidget(recLabel, 0, Qt::AlignRight);
@@ -251,7 +253,7 @@ void MainWidget::setupUi(QWidget *Widget)
     undoBtn->setIcon(DDciIcon(QString(":/assets/icon_return.dci")));
     undoBtn->setMaximumSize(36, 36);
     undoBtn->setIconSize(QSize(14, 14));
-    mainWindow->titlebar()->addWidget(undoBtn, Qt::AlignRight);
+    // mainWindow->titlebar()->addWidget(undoBtn, Qt::AlignRight);
     connect(undoBtn, &QPushButton::clicked, m_plainTextEdit, &QPlainTextEdit::undo);
     connect(m_plainTextEdit, &QPlainTextEdit::undoAvailable, undoBtn, &QPushButton::setEnabled);
     undoBtn->setEnabled(false);
@@ -262,10 +264,21 @@ void MainWidget::setupUi(QWidget *Widget)
     redoBtn->setIcon(DDciIcon(QString(":/assets/icon_advance.dci")));
     redoBtn->setMaximumSize(36, 36);
     redoBtn->setIconSize(QSize(14, 14));
-    mainWindow->titlebar()->addWidget(redoBtn, Qt::AlignRight);
+    // mainWindow->titlebar()->addWidget(redoBtn, Qt::AlignRight);
     connect(redoBtn, &QPushButton::clicked, m_plainTextEdit, &QPlainTextEdit::redo);
     connect(m_plainTextEdit, &QPlainTextEdit::redoAvailable, redoBtn, &QPushButton::setEnabled);
     redoBtn->setEnabled(false);
+
+    QWidget *pWidget = new QWidget;
+    QHBoxLayout *pLay = new QHBoxLayout;
+    pWidget->setWindowFlags(pWidget->windowFlags() | Qt::FramelessWindowHint);
+    pWidget->setContentsMargins(0, 0, 0, 0);
+    pLay->setContentsMargins(0, 0, 0, 0);
+    pWidget->setLayout(pLay);
+    pLay->addWidget(undoBtn);
+    pLay->addSpacing(10);
+    pLay->addWidget(redoBtn);
+    mainWindow->titlebar()->addWidget(pWidget, Qt::AlignRight);
 
     if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode) {
         languageSelectBox->setFixedSize(160, 24);
@@ -509,6 +522,7 @@ void MainWidget::loadString(const QString &string)
         }
     } else {
         resultEmpty();
+        m_noResult->setVisible(true);
     }
 }
 

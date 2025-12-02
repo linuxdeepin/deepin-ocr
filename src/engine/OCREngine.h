@@ -33,6 +33,12 @@ public:
 private:
     OCREngine();
     ~OCREngine() = default;
+    // 删除拷贝构造函数和赋值运算符，防止拷贝实例
+    OCREngine(const OCREngine &) = delete;
+    OCREngine &operator=(const OCREngine &) = delete;
+
+    // 某些机型，使用GPU进行OCR识别，会导致OCR崩溃
+    bool isGpuEnable();
 
     Dtk::Ocr::DOcr *ocrDriver;
     std::atomic_bool m_isRunning;

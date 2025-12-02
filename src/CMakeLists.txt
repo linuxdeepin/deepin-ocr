@@ -5,6 +5,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(deepin-ocr)
 
+#玲珑构建依赖目录
+include_directories(${CMAKE_INSTALL_PREFIX}/include)
+
 set(ENABLE_Qt6 ON CACHE BOOL "Build with Qt6")
 find_package(Qt6 QUIET)
 
@@ -23,6 +26,7 @@ include_directories(${CMAKE_INSTALL_PREFIX}/include)
 
 # for Qt
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -68,12 +72,14 @@ include_directories(view)
 include_directories(service)
 include_directories(engine)
 include_directories(util)
+include_directories(utils)
 
 aux_source_directory(. allSource)
 aux_source_directory(./view allSource)
 aux_source_directory(./service allSource)
 aux_source_directory(./engine allSource)
 aux_source_directory(./util allSource)
+aux_source_directory(./utils allSource)
 
 # translation
 file(GLOB TargetTsFiles LIST_DIRECTORIES false ../translations/${PROJECT_NAME}*.ts)
@@ -153,7 +159,11 @@ endif()
 
 # for dtk
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(ocr_lib REQUIRED dtk6ocr)
+if(SUPPORT_QT6)
+    pkg_check_modules(ocr_lib REQUIRED dtk6ocr)
+else()
+    pkg_check_modules(ocr_lib REQUIRED dtkocr)
+endif()
 pkg_check_modules(InferenceEngine REQUIRED ncnn opencv_mobile)
 target_include_directories(${PROJECT_NAME} PUBLIC ${ocr_lib_INCLUDE_DIRS})
 find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Core Widget)
@@ -193,6 +203,11 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX /usr)
 endif()
 
+#dde项目，期望CMAKE_INSTALL_PREFIX为/usr
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX /usr)
+endif ()
+
 # install
 set(PREFIX ${CMAKE_INSTALL_PREFIX})
 set(TranslationDir ${PREFIX}/share/${PROJECT_NAME}/translations)
@@ -211,3 +226,6 @@ install(FILES ${LangSrcs} DESTINATION ${TranslationDir})
 install(FILES ../deepin-ocr.desktop DESTINATION ${DesktopDir})
 install(FILES ../assets/deepin-ocr.svg DESTINATION ${AppIconDir})
 install(FILES ../com.deepin.Ocr.service DESTINATION ${DBusServiceDir})
+
+include(${CMAKE_SOURCE_DIR}/install_dconfig.cmake)
+INSTALL_DCONFIG("deepin-ocr.common.json")
