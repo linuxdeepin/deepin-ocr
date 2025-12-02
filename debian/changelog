@@ -1,3 +1,9 @@
+deepin-ocr (6.5.14) unstable; urgency=medium
+
+  * merge release/eagle to master 
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Tue, 02 Dec 2025 14:27:14 +0800
+
 deepin-ocr (6.5.13) unstable; urgency=medium
 
   * chore: Update compiler flags for security enhancements
