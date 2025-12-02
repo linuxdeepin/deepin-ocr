@@ -26,6 +26,11 @@ public:
         return m_isRunning;
     }
 
+    bool isV5() const
+    {
+        return m_isV5;
+    }
+
     bool setLanguage(const QString &language);
     void setImage(const QImage &image);
     QString getRecogitionResult();
@@ -43,4 +48,5 @@ private:
     Dtk::Ocr::DOcr *ocrDriver;
     std::atomic_bool m_isRunning;
     QSettings *ocrSetting;
+    bool m_isV5 {false};
 };

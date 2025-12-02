@@ -35,11 +35,11 @@ OCREngine::OCREngine()
 
     auto plugins = ocrDriver->installedPluginNames();
     if (plugins.contains(ocrV5, Qt::CaseInsensitive)) {
-        if(ocrDriver->loadPlugin(ocrV5)) {
+        if (ocrDriver->loadPlugin(ocrV5)) {
             load = true;
+            m_isV5 = true;
             qCInfo(dmOcr) << "OCR V5 plugin loaded";
-        }
-        else {
+        } else {
             qCWarning(dmOcr) << "Failed to load OCR V5 plugin";
         }
     }

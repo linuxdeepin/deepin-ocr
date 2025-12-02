@@ -172,47 +172,56 @@ void MainWidget::setupUi(QWidget *Widget)
     //配置文件读写
     ocrSetting = new QSettings(Dtk::Core::DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/config.conf", QSettings::IniFormat);
 
-    //语种读写设置
-    //目前仅支持默认插件，默认插件支持的语种字符串：zh-Hans_en，zh-Hant_en，en
-    auto currentLanguage = ocrSetting->value("language", "zh-Hans_en").toString();
-    OCREngine::instance()->setLanguage(currentLanguage);
+    // 使用 V5 插件时，不显示语言选择控件，只设置一次默认语言
+    if (OCREngine::instance()->isV5()) {
+        OCREngine::instance()->setLanguage("zh-Hans_en");
+    } else {
+        //语种读写设置
+        //目前仅支持默认插件，默认插件支持的语种字符串：zh-Hans_en，zh-Hant_en，en
+        auto currentLanguage = ocrSetting->value("language", "zh-Hans_en").toString();
+        OCREngine::instance()->setLanguage(currentLanguage);
 
-    //设置语种选择框
-    auto recLabel = new DLabel(tr("Recognize language"));
-    languageSelectBox = new DComboBox(this);
-    languageSelectBox->setFixedSize(160, 36);
-    languageSelectBox->addItems({tr("Simplified Chinese"), tr("English"), tr("Traditional Chinese")});
-    static std::map<QString, int> languageIndexMap{ {"zh-Hans_en", 0},
-                                                    {"en", 1},
-                                                    {"zh-Hant_en", 2}
-                                                  };
-    languageSelectBox->setCurrentIndex(languageIndexMap[currentLanguage]);
-    connect(languageSelectBox, static_cast<void(DComboBox::*)(int)>(&DComboBox::currentIndexChanged), [this](int index) {
-        QString resultLanguage;
-        switch(index) {
-        default:
-            resultLanguage = "zh-Hans_en";
-            break;
-        case 0:
-            resultLanguage = "zh-Hans_en";
-            break;
-        case 1:
-            resultLanguage = "en";
-            break;
-        case 2:
-            resultLanguage = "zh-Hant_en";
-            break;
-        };
-        if(!OCREngine::instance()->setLanguage(resultLanguage)) {
-            return;
+        //设置语种选择框
+        auto recLabel = new DLabel(tr("Recognize language"));
+        languageSelectBox = new DComboBox(this);
+        languageSelectBox->setFixedSize(160, 36);
+        languageSelectBox->addItems({tr("Simplified Chinese"), tr("English"), tr("Traditional Chinese")});
+        static std::map<QString, int> languageIndexMap{ {"zh-Hans_en", 0},
+                                                        {"en", 1},
+                                                        {"zh-Hant_en", 2}
+                                                      };
+        if (languageIndexMap.find(currentLanguage) != languageIndexMap.end()) {
+            languageSelectBox->setCurrentIndex(languageIndexMap[currentLanguage]);
+        } else {
+            languageSelectBox->setCurrentIndex(0);
         }
-        ocrSetting->setValue("language", resultLanguage);
-        runRec(false);
-        m_noResult->setVisible(false);
-    });
+        connect(languageSelectBox, static_cast<void(DComboBox::*)(int)>(&DComboBox::currentIndexChanged), [this](int index) {
+            QString resultLanguage;
+            switch(index) {
+            default:
+                resultLanguage = "zh-Hans_en";
+                break;
+            case 0:
+                resultLanguage = "zh-Hans_en";
+                break;
+            case 1:
+                resultLanguage = "en";
+                break;
+            case 2:
+                resultLanguage = "zh-Hant_en";
+                break;
+            };
+            if(!OCREngine::instance()->setLanguage(resultLanguage)) {
+                return;
+            }
+            ocrSetting->setValue("language", resultLanguage);
+            runRec(false);
+            m_noResult->setVisible(false);
+        });
 
-    m_buttonHorizontalLayout->addWidget(recLabel, 0, Qt::AlignRight);
-    m_buttonHorizontalLayout->addWidget(languageSelectBox, 0, Qt::AlignRight);
+        m_buttonHorizontalLayout->addWidget(recLabel, 0, Qt::AlignRight);
+        m_buttonHorizontalLayout->addWidget(languageSelectBox, 0, Qt::AlignRight);
+    }
 
     m_copyBtn = new DIconButton(Widget);
     m_copyBtn->setObjectName(QStringLiteral("Copy text"));
