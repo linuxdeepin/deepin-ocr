@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+# SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 #
 # SPDX-License-Identifier: CC0-1.0
 
@@ -201,6 +201,9 @@ if(DOTEST)
         pthread
     )
 endif()
+
+# 启用位置无关可执行文件，提高安全性
+target_link_options(${PROJECT_NAME} PRIVATE -pie)
 
 # dde项目，期望CMAKE_INSTALL_PREFIX为/usr
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
