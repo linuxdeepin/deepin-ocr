@@ -1,3 +1,10 @@
+deepin-ocr (6.5.16) unstable; urgency=medium
+
+  * chore: Update compiler flags for security enhancements
+  * fix: Fix sw64 gcc not support pie by default
+
+ -- wangrong <wangrong@uniontech.com>  Thu, 22 Jan 2026 19:29:37 +0800
+
 deepin-ocr (6.5.15) unstable; urgency=medium
 
   * fix: Hide language selector when using OCR V5 plugin 
