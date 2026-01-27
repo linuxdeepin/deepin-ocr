@@ -1,12 +1,31 @@
 #!/usr/bin/make -f
+include /usr/share/dpkg/default.mk
 
 export QT_SELECT=5
-include /usr/share/dpkg/default.mk
+
+# 检测当前安装的Qt版本，优先使用Qt6，否则使用Qt5
+define detect_qt_version
+ifneq (,$(shell which qmake6 2>/dev/null))
+    QT_DIR="/usr/lib/$(DEB_HOST_MULTIARCH)/cmake/Qt6"
+else
+    QT_DIR="/usr/lib/$(DEB_HOST_MULTIARCH)/cmake/Qt5"
+endif
+endef
+
+# 调用检测Qt版本的命令
+$(eval $(call detect_qt_version))
+
+# hardcode this if want to force build with sepecific Qt version
+# QT_DIR="/usr/lib/$(DEB_HOST_MULTIARCH)/cmake/Qt5"
+
+DH_AUTO_ARGS = --parallel --buildsystem=cmake
 
 %:
 	dh $@
 
-
 override_dh_auto_configure:
-	dh_auto_configure -- VERSION=$(VERSION) LIB_INSTALL_DIR=/usr/lib/$(DEB_HOST_MULTIARCH) DEFINES+="VERSION=$(DEB_VERSION_UPSTREAM)"
-
+	dh_auto_configure -- \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DVERSION=$(DEB_VERSION_UPSTREAM) \
+	-DCMAKE_INSTALL_LIBDIR=/usr/lib/$(DEB_HOST_MULTIARCH) \
+	-DQT_DIR=$(QT_DIR)

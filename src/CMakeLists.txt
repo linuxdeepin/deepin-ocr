@@ -8,18 +8,20 @@ project(deepin-ocr)
 #玲珑构建依赖目录
 include_directories(${CMAKE_INSTALL_PREFIX}/include)
 
-set(ENABLE_Qt6 ON CACHE BOOL "Build with Qt6")
-find_package(Qt6 QUIET)
+# Auto-detect Qt version (tries Qt6 first, falls back to Qt5)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 
-if(ENABLE_Qt6 AND Qt6_FOUND)
+# Map to DTK version (Qt6→DTK6, Qt5→DTK5)
+if (QT_VERSION_MAJOR MATCHES 6)
     set(DTK_VERSION_MAJOR 6)
-    set(QT_VERSION_MAJOR 6)
     set(SUPPORT_QT6 TRUE)
 else()
-    set(QT_VERSION_MAJOR 5)
+    set(DTK_VERSION_MAJOR "")
+    set(SUPPORT_QT6 FALSE)
 endif()
 
-message(STATUS "--- Current Qt verison: ${QT_VERSION_MAJOR}")
+message(STATUS "Found Qt version: ${QT_VERSION_MAJOR}")
+message(STATUS "Build with DTK: ${DTK_VERSION_MAJOR}")
 
 # 玲珑构建依赖目录
 include_directories(${CMAKE_INSTALL_PREFIX}/include)
@@ -171,13 +173,6 @@ endif()
 pkg_check_modules(InferenceEngine REQUIRED ncnn opencv_mobile)
 target_include_directories(${PROJECT_NAME} PUBLIC ${ocr_lib_INCLUDE_DIRS})
 find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Core Widget)
-if(NOT SUPPORT_QT6)
-    qt5_use_modules(${PROJECT_NAME} ${QtModule})
-endif()
-
-if(DOTEST AND NOT SUPPORT_QT6)
-    qt5_use_modules(${PROJECT_NAME_TEST} ${QtModule})
-endif()
 
 target_link_libraries(${PROJECT_NAME}
     Qt${QT_VERSION_MAJOR}::Core
