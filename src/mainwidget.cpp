@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -287,7 +287,8 @@ void MainWidget::setupUi(QWidget *Widget)
     pLay->addWidget(undoBtn);
     pLay->addSpacing(10);
     pLay->addWidget(redoBtn);
-    mainWindow->titlebar()->addWidget(pWidget, Qt::AlignRight);
+    if (mainWindow)
+        mainWindow->titlebar()->addWidget(pWidget, Qt::AlignRight);
 
     if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode) {
         languageSelectBox->setFixedSize(160, 24);
@@ -315,7 +316,8 @@ void MainWidget::setupUi(QWidget *Widget)
     //占位用空白控件
     m_emptyWidget = new QWidget;
     m_emptyWidget->setMinimumSize(36 * 2, 36 * 2);
-    mainWindow->titlebar()->addWidget(m_emptyWidget, Qt::AlignRight);
+    if (mainWindow)
+        mainWindow->titlebar()->addWidget(m_emptyWidget, Qt::AlignRight);
 }
 
 void MainWidget::setupConnect()

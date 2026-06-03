@@ -118,8 +118,9 @@ if(DOTEST)
     aux_source_directory(./../tests/ allTestSource)
     aux_source_directory(./view allTestSource)
     aux_source_directory(./service allTestSource)
-    aux_source_directory(./paddleocr-ncnn allTestSource)
-    aux_source_directory(../3rdparty/clipper allTestSource)
+    aux_source_directory(./engine allTestSource)
+    aux_source_directory(./util allTestSource)
+    aux_source_directory(./utils allTestSource)
 
     FILE(GLOB allTestSource1
         "./frame.cpp"
@@ -186,13 +187,18 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 if(DOTEST)
+    target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${ocr_lib_INCLUDE_DIRS})
+    target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${InferenceEngine_INCLUDE_DIRS})
     target_link_libraries(${PROJECT_NAME_TEST}
         Qt${QT_VERSION_MAJOR}::Core
         Qt${QT_VERSION_MAJOR}::Gui
         Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::Test
+        Qt${QT_VERSION_MAJOR}::DBus
         Dtk${DTK_VERSION_MAJOR}::Core
         Dtk${DTK_VERSION_MAJOR}::Widget
         ${ocr_lib_LIBRARIES}
+        ${InferenceEngine_LIBRARIES}
         pthread
     )
 endif()

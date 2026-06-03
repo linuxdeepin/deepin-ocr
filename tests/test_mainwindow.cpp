@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -13,6 +13,7 @@
 #define protected public
 
 #include "ocrapplication.h"
+#include "engine/OCREngine.h"
 #include "mainwidget.h"
 #include "view/imageview.h"
 //初始拉起主界面
@@ -32,7 +33,7 @@ TEST(MainWindow, mainwindow_openFile)
     instance.openFile(picPath);
     bool bRet = false;
     while (!bRet) {
-        if (!PaddleOCRApp::instance()->isRunning()) {
+        if (!OCREngine::instance()->isRunning()) {
             bRet = true;
             QTest::qWait(1000);
         }
@@ -42,7 +43,7 @@ TEST(MainWindow, mainwindow_openFile)
 
     bRet = false;
     while (!bRet) {
-        if (!PaddleOCRApp::instance()->isRunning()) {
+        if (!OCREngine::instance()->isRunning()) {
             bRet = true;
             QTest::qWait(1000);
         }

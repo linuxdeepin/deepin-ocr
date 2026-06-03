@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -25,20 +25,13 @@ using namespace Dtk::Core;
 using namespace Dtk::Widget;
 
 #define QMYTEST_MAIN(TestObject) \
-    QT_BEGIN_NAMESPACE \
-    QTEST_ADD_GPU_BLACKLIST_SUPPORT_DEFS \
-    QT_END_NAMESPACE \
     int main(int argc, char *argv[]) \
     { \
         DApplication *dAppNew = new DApplication(argc, argv); \
-        dAppNew->setAttribute(Qt::AA_UseHighDpiPixmaps); \
         dAppNew->setOrganizationName("deepin"); \
         dAppNew->setApplicationName("deepin-ocr"); \
         dAppNew->loadTranslator(QList<QLocale>() << QLocale::system()); \
-        QTEST_DISABLE_KEYPAD_NAVIGATION \
-        QTEST_ADD_GPU_BLACKLIST_SUPPORT \
         TestObject tc; \
-        QTEST_SET_MAIN_SOURCE_PATH \
         return QTest::qExec(&tc, argc, argv); \
     } \
 

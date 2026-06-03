@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -13,6 +13,7 @@
 #include <QGesture>
 #include <QTapAndHoldGesture>
 #include <QMenu>
+#include <QtGlobal>
 
 #define private public
 #define protected public
@@ -61,7 +62,11 @@ TEST(ResultTextView, mainwindow)
         QResizeEvent resizeEvent(QSize(500, 200), QSize(500, 400));
         reTextView->resizeEvent(&resizeEvent);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QMouseEvent *ev = new QMouseEvent(QEvent::MouseMove, QPoint(15,36), QPoint(25,40), QPoint(60,80), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+#else
         QMouseEvent *ev = new QMouseEvent(QEvent::MouseMove, QPoint(15,36), QPoint(25,40), QPoint(60,80), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier, Qt::MouseEventSynthesizedByQt);
+#endif
         reTextView->m_gestureAction = ResultTextView::GA_slide;
         reTextView->mouseMoveEvent(ev);
         delete ev;
@@ -72,11 +77,19 @@ TEST(ResultTextView, mainwindow)
         reTextView->contextMenuEvent(nullptr);
         stub.reset((QAction*(QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec));
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QMouseEvent *evPress = new QMouseEvent(QEvent::MouseButtonPress, QPoint(15,36), QPoint(25,40), QPoint(60,80), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+#else
         QMouseEvent *evPress = new QMouseEvent(QEvent::MouseButtonPress, QPoint(15,36), QPoint(25,40), QPoint(60,80), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier, Qt::MouseEventSynthesizedByQt);
+#endif
         reTextView->mousePressEvent(evPress);
         delete evPress;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QMouseEvent *evRele = new QMouseEvent(QEvent::MouseButtonRelease, QPoint(15,36), QPoint(25,40), QPoint(60,80), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+#else
         QMouseEvent *evRele = new QMouseEvent(QEvent::MouseButtonRelease, QPoint(15,36), QPoint(25,40), QPoint(60,80), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier, Qt::MouseEventSynthesizedByQt);
+#endif
         reTextView->mouseReleaseEvent(evRele);
         delete evRele;
 
