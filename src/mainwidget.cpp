@@ -30,6 +30,7 @@
 #include <DFloatingWidget>
 #include <DAnchors>
 #include <DFontSizeManager>
+#include <DPalette>
 #include <DHiDPIHelper>
 #include <DDciIcon>
 #include <QSettings>
@@ -161,6 +162,14 @@ void MainWidget::setupUi(QWidget *Widget)
 
     m_tiplabel = new DLabel(Widget);
     m_tiplabel->setObjectName(QStringLiteral("tiplabel"));
+    // 提示文字使用 DTK 标准的辅助提示字号与颜色，随主题统一刷新
+    DFontSizeManager::instance()->bind(m_tiplabel, DFontSizeManager::T7);
+    {
+        DPalette dp = DGuiApplicationHelper::instance()->applicationPalette();
+        QPalette pe;
+        pe.setColor(QPalette::WindowText, dp.color(DPalette::TextTips));
+        m_tiplabel->setPalette(pe);
+    }
 
     m_tipHorizontalLayout->setSpacing(4);
     m_tipHorizontalLayout->addWidget(m_tiplabel);
@@ -720,8 +729,9 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_frame->setPalette(pal);
         }
         if (m_tiplabel) {
+            DPalette dp = DGuiApplicationHelper::instance()->applicationPalette();
             QPalette pe;
-            pe.setColor(QPalette::WindowText, QColor(109, 124, 136));
+            pe.setColor(QPalette::WindowText, dp.color(DPalette::TextTips));
             m_tiplabel->setPalette(pe);
         }
         if (m_noResult) {
@@ -775,8 +785,9 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_frame->setPalette(pal);
         }
         if (m_tiplabel) {
+            DPalette dp = DGuiApplicationHelper::instance()->applicationPalette();
             QPalette pe;
-            pe.setColor(QPalette::WindowText, QColor(138, 161, 180));
+            pe.setColor(QPalette::WindowText, dp.color(DPalette::TextTips));
             m_tiplabel->setPalette(pe);
         }
         if (m_noResult) {
