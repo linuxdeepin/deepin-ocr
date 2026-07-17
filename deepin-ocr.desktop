@@ -10,6 +10,7 @@ NoDisplay=true
 X-Deepin-ManualID=deepin-ocr
 X-Deepin-Vendor=deepin
 X-Deepin-TurboType=dtkwidget
+X-Deepin-Singleton=true
 
 # Translations:
 # Do not manually modify!
