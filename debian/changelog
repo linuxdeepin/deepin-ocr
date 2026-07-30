@@ -1,3 +1,16 @@
+deepin-ocr (6.5.17) unstable; urgency=medium
+
+  * chore: Update version to 6.5.17
+  * chore: Sync by https://github.com/linuxdeepin/.github/commit/826bedc64f009f4d9ebb5fba0ffe1637f1f02667
+  * fix: remove deepin prefix from Chinese translations in desktop file
+  * fix(tiplabel): use DTK TextTips color and T7 font
+  * test: migrate unit tests from Qt5 to Qt6 compatibility
+  * [skip CI] Translate deepin-ocr.ts in ru (#87)
+  * chore(CI): add debian check workflow
+  * build(cmake): refactor Qt version compatibility
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Thu, 30 Jul 2026 15:16:52 +0800
+
 deepin-ocr (6.5.16) unstable; urgency=medium
 
   * chore: Update compiler flags for security enhancements
