@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -21,6 +21,8 @@
 #include <QTimer>
 #include <QShortcut>
 #include <QPushButton>
+#include <QClipboard>
+#include <QGuiApplication>
 
 #include <DGuiApplicationHelper>
 #include <DMainWindow>
@@ -337,8 +339,14 @@ void MainWidget::setupConnect()
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this, &MainWidget::setIcons);
     connect(m_exportBtn, &DIconButton::clicked, this, &MainWidget::slotExport);
     connect(m_copyBtn, &DIconButton::clicked, this, &MainWidget::slotCopy);
-    connect(this, &MainWidget::sigResult, this, [ = ](const QString & result) {
-        loadString(result);
+    connect(m_imageview, &ImageView::selectionRangesChanged, this, &MainWidget::syncSelectionFromImage);
+    connect(m_imageview, &ImageView::copyRequested, this, &MainWidget::copyCurrentSelection);
+    connect(m_plainTextEdit, &ResultTextView::textSelectionChanged, this, &MainWidget::syncSelectionFromText);
+    connect(m_plainTextEdit, &ResultTextView::textSelectionChanged, this, &MainWidget::updateCopyActionState);
+    connect(m_plainTextEdit, &QPlainTextEdit::selectionChanged, this, &MainWidget::updateCopyActionState);
+    connect(m_imageview, &ImageView::selectionRangesChanged, this, &MainWidget::updateCopyActionState);
+    connect(this, &MainWidget::sigResult, this, [ = ](const OcrResult &result) {
+        applyOcrResult(result);
         deleteLoadingUi();
         if(m_needReRunRec) {
             m_needReRunRec = false;
@@ -416,7 +424,11 @@ void MainWidget::loadingUi()
 
 void MainWidget::initShortcut()
 {
-    m_scAddView = new QShortcut(QKeySequence("Ctrl+="), this);
+    // V-2325 v4: Ctrl'+' (QKeySequence::ZoomIn) + Ctrl '=' double binding so
+    // both Ctrl'+' and Ctrl'=' enlarge the image. Reference only bound Ctrl'=',
+    // which misses Ctrl'+' (Shift+= on US layouts) — ZoomIn covers that.
+    m_scAddView = new QShortcut(this);
+    m_scAddView->setKeys({QKeySequence::ZoomIn, QKeySequence("Ctrl+=")});
     m_scAddView->setContext(Qt::WindowShortcut);
     connect(m_scAddView, &QShortcut::activated, this, [ = ] {
         if (m_imageview)
@@ -425,7 +437,8 @@ void MainWidget::initShortcut()
         }
     });
 
-    m_scReduceView = new QShortcut(QKeySequence("Ctrl+-"), this);
+    m_scReduceView = new QShortcut(this);
+    m_scReduceView->setKeys({QKeySequence::ZoomOut, QKeySequence("Ctrl+-")});
     m_scReduceView->setContext(Qt::WindowShortcut);
     connect(m_scReduceView, &QShortcut::activated, this, [ = ] {
         if (m_imageview)
@@ -488,15 +501,19 @@ void MainWidget::runRec(bool needSetImage)
 
     createLoadingUi();
     m_plainTextEdit->clear();
+    m_ocrResult = {};
+    if (m_imageview) {
+        m_imageview->clearOcrResult();
+    }
     if(needSetImage) {
         OCREngine::instance()->setImage(*m_currentImg);
     }
     if (!m_loadImagethread) {
         m_loadImagethread = QThread::create([ = ]() {
-            m_result = OCREngine::instance()->getRecogitionResult();
+            const OcrResult result = OCREngine::instance()->getRecognitionResult();
             //判断程序是否退出
             if (1 == m_isEndThread) {
-                emit sigResult(m_result);
+                emit sigResult(result);
             }
         });
     }
@@ -521,26 +538,24 @@ void MainWidget::loadHtml(const QString &html)
     }
 }
 
-void MainWidget::loadString(const QString &string)
+void MainWidget::applyOcrResult(const OcrResult &result)
 {
-    if (!string.isEmpty()) {
+    m_ocrResult = result;
+    m_result = result.plainText;
+    if (!result.plainText.isEmpty()) {
         m_plainTextEdit->setUndoRedoEnabled(false);
         m_frameStackLayout->setContentsMargins(20, 0, 5, 0);
         m_resultWidget->setCurrentWidget(m_plainTextEdit);
-        m_plainTextEdit->appendPlainText(string);
-//        m_plainTextEdit->setText(string);
-        //读取完了显示在最上方
-        m_plainTextEdit->moveCursor(QTextCursor::Start) ;
-        m_plainTextEdit->ensureCursorVisible();
+        m_plainTextEdit->setPlainTextResult(result.plainText);
         m_plainTextEdit->setUndoRedoEnabled(true);
-        //新增识别完成按钮恢复
-        if (m_copyBtn) {
-            m_copyBtn->setEnabled(true);
-        }
+        m_imageview->setOcrResult(result);
+        m_imageview->setFocus();
         if (m_exportBtn) {
             m_exportBtn->setEnabled(true);
         }
+        updateCopyActionState();
     } else {
+        m_imageview->clearOcrResult();
         resultEmpty();
         m_noResult->setVisible(true);
     }
@@ -555,6 +570,8 @@ void MainWidget::resultEmpty()
     //修复未识别到文字没有居中对齐的问题
     m_frameStackLayout->setContentsMargins(20, 0, 20, 0);
     m_resultWidget->setCurrentWidget(m_noResult);
+    m_imageview->clearOcrResult();
+    m_ocrResult = {};
     //新增如果未识别到，按钮置灰
     if (m_copyBtn) {
         m_copyBtn->setEnabled(false);
@@ -615,18 +632,26 @@ void MainWidget::paintEvent(QPaintEvent *event)
 
 void MainWidget::slotCopy()
 {
-    //选中内容则复制，未选中内容则不复制
-    if (!m_plainTextEdit->textCursor().selectedText().isEmpty()) {
-        m_plainTextEdit->copy();
-    } else {
-        QTextDocument *document = m_plainTextEdit->document();
-        QPlainTextEdit *tempTextEdit = new QPlainTextEdit(this);
-        tempTextEdit->setDocument(document);
-        tempTextEdit->selectAll();
-        tempTextEdit->copy();
-        tempTextEdit->deleteLater();
-        tempTextEdit = nullptr;
+    copyCurrentSelection();
+}
+
+void MainWidget::copyCurrentSelection()
+{
+    QString copiedText;
+    if (m_imageview && m_imageview->hasSelection()) {
+        copiedText = m_imageview->selectedText();
+    } else if (m_plainTextEdit) {
+        const auto textRange = m_plainTextEdit->plainTextSelectionRange();
+        if (textRange.first != textRange.second) {
+            copiedText = m_ocrResult.textInRange(textRange.first, textRange.second);
+        }
     }
+
+    if (copiedText.isEmpty()) {
+        return;
+    }
+
+    QApplication::clipboard()->setText(copiedText);
 
     QIcon icon(":/assets/icon_toast_sucess_new.svg");
     DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, m_pwidget);
@@ -635,7 +660,44 @@ void MainWidget::slotCopy()
     pDFloatingMessage->setIcon(icon);
     pDFloatingMessage->raise();
     DMessageManager::instance()->sendMessage(m_pwidget, pDFloatingMessage);
+}
 
+void MainWidget::updateCopyActionState()
+{
+    if (!m_copyBtn) {
+        return;
+    }
+
+    const bool hasImageSelection = m_imageview && m_imageview->hasSelection();
+    const auto textRange = m_plainTextEdit ? m_plainTextEdit->plainTextSelectionRange() : QPair<int, int>{-1, -1};
+    const bool hasTextSelection = textRange.first != textRange.second;
+    m_copyBtn->setEnabled(hasImageSelection || hasTextSelection);
+}
+
+void MainWidget::syncSelectionFromImage(const QList<QPair<int, int>> &ranges)
+{
+    if (m_syncingSelection) {
+        return;
+    }
+    m_syncingSelection = true;
+    m_plainTextEdit->selectPlainTextRanges(ranges);
+    m_syncingSelection = false;
+    updateCopyActionState();
+}
+
+void MainWidget::syncSelectionFromText(int start, int end)
+{
+    if (m_syncingSelection) {
+        return;
+    }
+    m_syncingSelection = true;
+    if (start >= 0 && end > start) {
+        m_imageview->selectRange(start, end);
+    } else {
+        m_imageview->selectRange(-1, -1);
+    }
+    m_syncingSelection = false;
+    updateCopyActionState();
 }
 
 void MainWidget::slotExport()
