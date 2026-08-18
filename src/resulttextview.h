@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -41,6 +41,11 @@ private slots:
     void onSelectionArea();
 signals:
     void sigChangeSize();
+    void textSelectionChanged(int start, int end);
+public:
+    void setPlainTextResult(const QString &text);
+    QPair<int, int> plainTextSelectionRange() const;
+    void selectPlainTextRanges(const QList<QPair<int, int>> &ranges);
 private:
     QMenu *m_Menu{nullptr};
     QAction *m_actCopy{nullptr};
@@ -79,6 +84,7 @@ private:
     qreal m_currentStepScaleFactor = 1;
     Qt::GestureState m_tapStatus = Qt::NoGesture;
     int m_fontSize = 16;
+    bool m_blockSelectionSignal = false;
 };
 
 #endif // RESULTTEXTVIEW_H
