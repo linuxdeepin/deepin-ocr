@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -17,6 +17,9 @@
 #include <QDBusConnection>
 #include <QDBusInterface>
 #include "util/log.h"
+#include "engine/OcrResult.h"
+
+#include <QMetaType>
 
 DWIDGET_USE_NAMESPACE
 
@@ -42,6 +45,8 @@ int main(int argc, char *argv[])
     app->setApplicationName("deepin-ocr");
     app->setProductName(QObject::tr("OCR Tool"));
     app->setApplicationVersion("1.0");
+
+    qRegisterMetaType<OcrResult>("OcrResult");
 
     qCInfo(dmOcr) << "Starting Deepin OCR Tool version 1.0";
 

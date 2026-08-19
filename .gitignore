@@ -39,3 +39,9 @@ debian/deepin-image-viewer.substvars
 !debian/control
 !debian/compat
 !debian/source/*
+
+#AI tools
+.npm-cache
+.specstory
+.cursor
+.codegraph
