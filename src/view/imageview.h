@@ -9,6 +9,7 @@
 #define IMAGEVIEW_H
 
 #include <QGraphicsView>
+#include <QTimer>
 
 class QGraphicsPixmapItem;
 class QGestureEvent;
@@ -61,6 +62,8 @@ protected:
 signals:
     void scaled(qreal perc);
     void showScaleLabel();
+private slots:
+    void onWheelTimerTimeout();
 private:
     QString m_currentPath;//当前图片路径
     QGraphicsPixmapItem *m_pixmapItem{nullptr};//当前图像的item
@@ -71,6 +74,10 @@ private:
     QImage *m_currentImage{nullptr};//当前原始图像
     QImage m_FilterImage{nullptr};//当前处理的图像
     QImage m_lightContrastImage{nullptr};//亮度曝光度图像
+    QTimer *m_wheelTimer{nullptr};
+    qreal m_accumulatedFactor = 1.0;
+    QPoint m_wheelPos;
+    bool m_isZooming = false;
 
 };
 
