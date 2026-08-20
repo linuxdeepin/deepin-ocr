@@ -16,6 +16,7 @@
 #include <QObject>
 #include <QGestureEvent>
 #include <QPinchGesture>
+#include <QTimer>
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.029;
@@ -32,6 +33,11 @@ ImageView::ImageView(QWidget *parent):
     this->grabGesture(Qt::PinchGesture);
     setAttribute(Qt::WA_AcceptTouchEvents);
     viewport()->setCursor(Qt::ArrowCursor);
+
+    m_wheelTimer = new QTimer(this);
+    m_wheelTimer->setSingleShot(true);
+    m_wheelTimer->setInterval(50);
+    connect(m_wheelTimer, &QTimer::timeout, this, &ImageView::onWheelTimerTimeout);
 }
 
 ImageView::~ImageView()
@@ -243,10 +249,39 @@ void ImageView::resizeEvent(QResizeEvent *event)
 
 void ImageView::wheelEvent(QWheelEvent *event)
 {
-    qreal factor = qPow(1.2, event->delta() / 240.0);
-    scaleAtPoint(event->pos(), factor);
+    const int delta = event->angleDelta().y();
+    if (delta == 0) {
+        event->accept();
+        return;
+    }
+
+    // Accumulate wheel events and defer the repaint to a timer to avoid
+    // per-event full repaint that overloads weak GPUs.
+    m_accumulatedFactor *= qPow(1.2, delta / 240.0);
+    m_wheelPos = event->position().toPoint();
+
+    if (!m_isZooming) {
+        m_isZooming = true;
+        if (m_pixmapItem)
+            m_pixmapItem->setTransformationMode(Qt::FastTransformation);
+    }
+    m_wheelTimer->start();
 
     event->accept();
+}
+
+void ImageView::onWheelTimerTimeout()
+{
+    if (!m_isZooming)
+        return;
+
+    scaleAtPoint(m_wheelPos, m_accumulatedFactor);
+    m_accumulatedFactor = 1.0;
+    m_isZooming = false;
+
+    // Restore smooth rendering once the zoom interaction settles.
+    if (m_pixmapItem)
+        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
 }
 
 void ImageView::handleGestureEvent(QGestureEvent *gesture)
@@ -271,9 +306,14 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
 }
 void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 {
+    if (!qIsFinite(factor) || factor <= 0.0)
+        return;
+
     // Remember zoom anchor point.
     const QPointF targetPos = pos;
     const QPointF targetScenePos = mapToScene(targetPos.toPoint());
+    if (!qIsFinite(targetScenePos.x()) || !qIsFinite(targetScenePos.y()))
+        return;
 
     // Do the scaling.
     setScaleValue(factor);
@@ -285,38 +325,29 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
     const QPointF curPos = mapFromScene(targetScenePos);
     const QPointF centerPos = QPointF(width() / 2.0, height() / 2.0) + (curPos - targetPos);
     const QPointF centerScenePos = mapToScene(centerPos.toPoint());
+    if (!qIsFinite(centerScenePos.x()) || !qIsFinite(centerScenePos.y()))
+        return;
     centerOn(static_cast<int>(centerScenePos.x()), static_cast<int>(centerScenePos.y()));
 }
 void ImageView::setScaleValue(qreal v)
 {
     //由于矩阵被旋转，通过矩阵获取缩放因子，计算缩放比例错误，因此记录过程中的缩放因子来判断缩放比例
+    // Clamp the factor before applying scale() to avoid overshoot and the
+    // extra repaint caused by the previous apply-then-rollback approach.
+    const qreal projected = m_scal * v;
+    if (projected < MIN_SCALE_FACTOR) {
+        v = MIN_SCALE_FACTOR / m_scal;
+    } else if (projected > MAX_SCALE_FACTOR) {
+        v = MAX_SCALE_FACTOR / m_scal;
+    }
+
     m_scal *= v;
     qDebug() << m_scal;
     scale(v, v);
-    //const qreal irs = imageRelativeScale() * devicePixelRatioF();
-    // Rollback
-    if (v < 1 && /*irs <= MIN_SCALE_FACTOR)*/m_scal < 0.03) {
-        const qreal minv = MIN_SCALE_FACTOR / m_scal;
-        // if (minv < 1.09) return;
-        scale(minv, minv);
-        m_scal *= minv;
-    } else if (v > 1 && /*irs >= MAX_SCALE_FACTOR*/m_scal > 20) {
-        const qreal maxv = MAX_SCALE_FACTOR / m_scal;
-        scale(maxv, maxv);
-        m_scal *= maxv;
-    } else {
-        m_isFitImage = false;
-        m_isFitWindow = false;
-    }
+    m_isFitImage = false;
+    m_isFitWindow = false;
 
-//    qreal rescale = imageRelativeScale() * devicePixelRatioF();
-    //    if (rescale - 1 > -0.01 && rescale - 1 < 0.01) {
-    //        emit checkAdaptImageBtn();
-    //    } else {
-    //        emit disCheckAdaptImageBtn();
-    //    }
     emit scaled(m_scal * 100);
     emit showScaleLabel();
-
 }
 
