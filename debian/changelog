@@ -1,3 +1,12 @@
+deepin-ocr (6.6.0) unstable; urgency=medium
+
+  * chore: Update version to 6.6.0
+  * feat: enhance OCR text extraction with char-level selection and linkage
+  * [skip CI] Translate deepin-ocr.ts in pt
+  * chore: Sync by https://github.com/linuxdeepin/.github/commit/a300f8523d4876677112edab6a0772f7ad112976
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Sat, 24 Oct 2026 14:11:36 +0800
+
 deepin-ocr (6.5.17) unstable; urgency=medium
 
   * chore: Update version to 6.5.17
