@@ -1,61 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ja">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ja">
+<context>
+    <name>ImageView</name>
+    <message>
+        <location filename="../src/view/imageview.cpp" line="52"/>
+        <source>Select All</source>
+        <translation>すべて選択</translation>
+    </message>
+    <message>
+        <location filename="../src/view/imageview.cpp" line="53"/>
+        <source>Copy</source>
+        <translation>コピー</translation>
+    </message>
+</context>
 <context>
     <name>MainWidget</name>
     <message>
-        <location filename="../src/mainwidget.cpp" line="129"/>
+        <location filename="../src/mainwidget.cpp" line="132"/>
         <source>No text recognized</source>
-        <translation>テキストが認識されませんでした</translation>
+        <translation>テキストを認識できませんでした</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="181"/>
+        <location filename="../src/mainwidget.cpp" line="196"/>
         <source>Recognize language</source>
         <translation>認識言語</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="184"/>
+        <location filename="../src/mainwidget.cpp" line="199"/>
         <source>Simplified Chinese</source>
         <translation>簡体中国語</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="184"/>
+        <location filename="../src/mainwidget.cpp" line="199"/>
         <source>English</source>
         <translation>英語</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="184"/>
+        <location filename="../src/mainwidget.cpp" line="199"/>
         <source>Traditional Chinese</source>
         <translation>繫体中国語</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="220"/>
+        <location filename="../src/mainwidget.cpp" line="240"/>
         <source>Copy text</source>
         <translation>テキストをコピー</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="226"/>
+        <location filename="../src/mainwidget.cpp" line="246"/>
         <source>Save as TXT</source>
         <translation>TXTで保存</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="252"/>
+        <location filename="../src/mainwidget.cpp" line="272"/>
         <source>Undo (Ctrl+Z)</source>
         <translation>元に戻す (Ctrl+Z)</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="263"/>
+        <location filename="../src/mainwidget.cpp" line="283"/>
         <source>Redo (Ctrl+Shift+Z)</source>
         <translation>やり直す (Ctrl+Shift+Z)</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="344"/>
-        <location filename="../src/mainwidget.cpp" line="385"/>
+        <location filename="../src/mainwidget.cpp" line="372"/>
+        <location filename="../src/mainwidget.cpp" line="413"/>
         <source>Recognizing</source>
         <translation>認識中</translation>
     </message>
     <message>
-        <location filename="../src/mainwidget.cpp" line="614"/>
+        <location filename="../src/mainwidget.cpp" line="659"/>
         <source>Copied</source>
         <translation>コピーしました</translation>
     </message>
@@ -63,7 +74,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="43"/>
+        <location filename="../src/main.cpp" line="46"/>
         <source>OCR Tool</source>
         <translation>OCRツール</translation>
     </message>
@@ -71,22 +82,22 @@
 <context>
     <name>ResultTextView</name>
     <message>
-        <location filename="../src/resulttextview.cpp" line="27"/>
+        <location filename="../src/resulttextview.cpp" line="32"/>
         <source>Copy</source>
         <translation>コピー</translation>
     </message>
     <message>
-        <location filename="../src/resulttextview.cpp" line="29"/>
+        <location filename="../src/resulttextview.cpp" line="34"/>
         <source>Cut</source>
         <translation>切り取り</translation>
     </message>
     <message>
-        <location filename="../src/resulttextview.cpp" line="32"/>
+        <location filename="../src/resulttextview.cpp" line="37"/>
         <source>Select All</source>
         <translation>すべて選択</translation>
     </message>
     <message>
-        <location filename="../src/resulttextview.cpp" line="34"/>
+        <location filename="../src/resulttextview.cpp" line="39"/>
         <source>Paste</source>
         <translation>貼り付け</translation>
     </message>
@@ -94,7 +105,7 @@
 <context>
     <name>Widget</name>
     <message>
-        <location filename="../src/mainwidget.cpp" line="333"/>
+        <location filename="../src/mainwidget.cpp" line="361"/>
         <source>Tips: The clearer the image is, the more accurate the text is</source>
         <translation>ヒント: 画像が鮮明なほど認識制度が高くなります</translation>
     </message>
