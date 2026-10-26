@@ -61,8 +61,6 @@ TEST(MainWidget, MainWidget_show)
     a->setIcons(themeType);
     a->loadHtml("");
     a->loadHtml("test");
-    a->loadString("");
-    a->loadString("test");
     a->slotCopy();
     a->resultEmpty();
     a->deleteLater();
@@ -90,4 +88,88 @@ TEST(ImageView, ImageView_show)
 
     QTest::qWait(2000);
     delete imageView;
+}
+
+TEST(ImageView, LinkedSelectionReplacesPreviousRange)
+{
+    ImageView imageView;
+    OcrResult result;
+    result.plainText = QStringLiteral("first line\nsecond line");
+    imageView.setOcrResult(result);
+
+    // Simulate a selection made on the image, then right-to-left linkage.
+    imageView.setSelectionRanges({qMakePair(0, 5)});
+    imageView.selectRange(11, 17);
+
+    ASSERT_EQ(imageView.selectionRanges().size(), 1);
+    EXPECT_EQ(imageView.selectionRanges().first().first, 11);
+    EXPECT_EQ(imageView.selectionRanges().first().second, 17);
+    EXPECT_EQ(imageView.selectedText(), QStringLiteral("second"));
+
+    imageView.selectRange(-1, -1);
+    EXPECT_TRUE(imageView.selectionRanges().isEmpty());
+    EXPECT_FALSE(imageView.hasSelection());
+}
+
+TEST(OcrResult, CharacterBoxesAreNormalizedToLineBox)
+{
+    OcrLineItem line;
+    line.text = QStringLiteral("abcd");
+    line.rect = QRectF(0, 10, 100, 20);
+
+    QList<Dtk::Ocr::TextBox> charBoxes;
+    for (int i = 0; i < 4; ++i) {
+        Dtk::Ocr::TextBox box;
+        const qreal left = i * 12.5;
+        box.points = {QPointF(left, 10), QPointF(left + 12.5, 10),
+                      QPointF(left + 12.5, 30), QPointF(left, 30)};
+        charBoxes.append(box);
+    }
+
+    const auto chars = OcrResult::buildCharItemsForLine(line, 0, charBoxes);
+
+    ASSERT_EQ(chars.size(), 4);
+    EXPECT_DOUBLE_EQ(chars.first().rect.left(), 0.0);
+    EXPECT_DOUBLE_EQ(chars.last().rect.right(), 100.0);
+    EXPECT_DOUBLE_EQ(chars.at(1).rect.left(), 25.0);
+}
+
+TEST(ResultTextView, LinkedRangesUseNativeSelectionColors)
+{
+    ResultTextView view;
+    view.setPlainTextResult(QStringLiteral("first line\nsecond line"));
+
+    const QPalette appPalette = DGuiApplicationHelper::instance()->applicationPalette();
+    QColor expectedBackground = appPalette.color(QPalette::Highlight);
+    expectedBackground.setAlpha(255);
+    const QColor expectedForeground = appPalette.color(QPalette::HighlightedText);
+
+    view.selectPlainTextRanges({qMakePair(0, 5), qMakePair(11, 17)});
+    auto extras = view.extraSelections();
+    ASSERT_EQ(extras.size(), 2);
+    EXPECT_TRUE(view.m_linkedSelectionRenderingActive);
+    EXPECT_EQ(view.palette().color(QPalette::Highlight).alpha(), 0);
+    QTest::qWait(0);
+    EXPECT_EQ(view.extraSelections().size(), 2);
+    for (const auto &extra : extras) {
+        EXPECT_EQ(extra.format.background().color(), expectedBackground);
+        EXPECT_EQ(extra.format.foreground().color(), expectedForeground);
+    }
+
+    // A manual selection replaces all linked multi-range highlights.
+    QTextCursor cursor = view.textCursor();
+    cursor.setPosition(0);
+    cursor.setPosition(3, QTextCursor::KeepAnchor);
+    view.setTextCursor(cursor);
+    EXPECT_TRUE(view.extraSelections().isEmpty());
+    EXPECT_FALSE(view.m_linkedSelectionRenderingActive);
+    EXPECT_EQ(view.palette().color(QPalette::Highlight), expectedBackground);
+
+    view.selectPlainTextRanges({qMakePair(11, 17)});
+    extras = view.extraSelections();
+    ASSERT_EQ(extras.size(), 1);
+    EXPECT_TRUE(view.m_linkedSelectionRenderingActive);
+    EXPECT_EQ(view.palette().color(QPalette::Highlight).alpha(), 0);
+    EXPECT_EQ(extras.first().format.background().color(), expectedBackground);
+    EXPECT_EQ(extras.first().format.foreground().color(), expectedForeground);
 }

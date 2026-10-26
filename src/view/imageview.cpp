@@ -453,7 +453,6 @@ void ImageView::setOcrResult(const OcrResult &result)
 {
     m_ocrResult = result;
     m_selRanges.clear();
-    m_focusRanges.clear();
     setDragMode(QGraphicsView::NoDrag);
     viewport()->update();
 }
@@ -462,7 +461,6 @@ void ImageView::clearOcrResult()
 {
     m_ocrResult = {};
     m_selRanges.clear();
-    m_focusRanges.clear();
     setDragMode(QGraphicsView::ScrollHandDrag);
     viewport()->update();
 }
@@ -478,16 +476,14 @@ void ImageView::selectAllText()
 
 void ImageView::selectRange(int start, int end)
 {
-    // V-2325 v4 D3: right→left linkage sets the FOCUS tier (α55), distinct from
-    // the user's own left selection (m_selRanges, α90). emitSignal=false to
-    // avoid retriggering left→right (anti-loop via m_syncingSelection in
-    // MainWidget).
+    // Right->left linkage replaces the same selection state used by left-side
+    // gestures. Keeping a separate focus range leaves stale highlights visible
+    // and also makes copy/selection state disagree with the left highlight.
     if (start < 0 || end <= start) {
-        m_focusRanges.clear();
+        setSelectionRanges({}, false);
     } else {
-        m_focusRanges = {qMakePair(start, end)};
+        setSelectionRanges({qMakePair(start, end)}, false);
     }
-    viewport()->update();
 }
 
 bool ImageView::hasSelection() const
@@ -546,20 +542,8 @@ void ImageView::drawForeground(QPainter *painter, const QRectF &rect)
     const QColor highlight = DGuiApplicationHelper::instance()
         ->applicationPalette().color(QPalette::Highlight);
 
-    // Focus tier (right→left linkage): α55, drawn first (lower z).
-    if (!m_focusRanges.isEmpty()) {
-        const auto focusAreas = m_ocrResult.highlightRectsForRanges(m_focusRanges);
-        QColor focusColor = highlight;
-        focusColor.setAlpha(55);
-        painter->setBrush(focusColor);
-        for (const QRectF &area : focusAreas) {
-            if (!area.isEmpty()) {
-                painter->drawRect(area);
-            }
-        }
-    }
-
-    // Selection tier (user left lasso/double-click/select-all): α90, on top.
+    // A single selection tier is shared by left gestures and right-side text
+    // selection, so both views always show exactly the same text region.
     if (hasSelection()) {
         const auto highlightAreas = m_ocrResult.highlightRectsForRanges(m_selRanges);
         QColor selColor = highlight;

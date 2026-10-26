@@ -61,6 +61,11 @@ ResultTextView::ResultTextView(QWidget *parent)
         if (m_blockSelectionSignal) {
             return;
         }
+        // A linked selection can be rendered as multiple ExtraSelections. Once
+        // the user makes a new selection in this view, those linked ranges must
+        // be discarded so they do not remain highlighted alongside the new one.
+        setLinkedSelectionRenderingActive(false);
+        setExtraSelections({});
         const int start = textCursor().selectionStart();
         const int end = textCursor().selectionEnd();
         emit textSelectionChanged(start, end);
@@ -370,6 +375,8 @@ void ResultTextView::onSelectionArea()
 void ResultTextView::setPlainTextResult(const QString &text)
 {
     m_blockSelectionSignal = true;
+    setLinkedSelectionRenderingActive(false);
+    setExtraSelections({});
     setPlainText(text);
     moveCursor(QTextCursor::Start);
     m_blockSelectionSignal = false;
@@ -383,39 +390,23 @@ QPair<int, int> ResultTextView::plainTextSelectionRange() const
 void ResultTextView::selectPlainTextRanges(const QList<QPair<int, int>> &ranges)
 {
     m_blockSelectionSignal = true;
-    if (ranges.isEmpty()) {
-        QTextCursor cursor = textCursor();
-        cursor.clearSelection();
-        setTextCursor(cursor);
-        setExtraSelections({});
-        QTimer::singleShot(0, this, [this]() { m_blockSelectionSignal = false; });
-        return;
-    }
-
-    if (ranges.size() == 1) {
-        const auto &range = ranges.first();
-        QTextCursor cursor = textCursor();
-        cursor.setPosition(range.first);
-        cursor.setPosition(range.second, QTextCursor::KeepAnchor);
-        setTextCursor(cursor);
-        setExtraSelections({});
-        QTimer::singleShot(0, this, [this]() { m_blockSelectionSignal = false; });
-        return;
-    }
 
     QList<QTextEdit::ExtraSelection> extras;
     extras.reserve(ranges.size());
-    // V-2325 v4 D3: theme color QPalette::Highlight (overrides reference fixed
-    // blue) for consistency with the left overlay highlight.
-    QColor highlightColor = DGuiApplicationHelper::instance()
-        ->applicationPalette().color(QPalette::Highlight);
-    highlightColor.setAlpha(80);
+    QList<QPair<int, int>> validRanges;
+    validRanges.reserve(ranges.size());
+    const QPalette appPalette = DGuiApplicationHelper::instance()->applicationPalette();
+    QColor highlightColor = appPalette.color(QPalette::Highlight);
+    highlightColor.setAlpha(255);
+    const QColor highlightedText = appPalette.color(QPalette::HighlightedText);
     for (const auto &range : ranges) {
         if (range.first < 0 || range.second <= range.first) {
             continue;
         }
+        validRanges.append(range);
         QTextEdit::ExtraSelection selection;
         selection.format.setBackground(highlightColor);
+        selection.format.setForeground(highlightedText);
         selection.cursor = textCursor();
         selection.cursor.setPosition(range.first);
         selection.cursor.setPosition(range.second, QTextCursor::KeepAnchor);
@@ -423,10 +414,42 @@ void ResultTextView::selectPlainTextRanges(const QList<QPair<int, int>> &ranges)
     }
 
     QTextCursor cursor = textCursor();
-    const auto &firstRange = ranges.first();
-    cursor.setPosition(firstRange.first);
-    cursor.setPosition(firstRange.second, QTextCursor::KeepAnchor);
+    if (validRanges.isEmpty()) {
+        cursor.clearSelection();
+        setLinkedSelectionRenderingActive(false);
+    } else {
+        const auto &firstRange = validRanges.first();
+        cursor.setPosition(firstRange.first);
+        cursor.setPosition(firstRange.second, QTextCursor::KeepAnchor);
+        // Native selection and ExtraSelection use different painting paths in
+        // some styles. Keep the cursor selection for copy/cut semantics but
+        // hide its native painting; all visible linked ranges are then drawn by
+        // the same ExtraSelection list and therefore have one exact color.
+        setLinkedSelectionRenderingActive(true);
+    }
     setTextCursor(cursor);
     setExtraSelections(extras);
     QTimer::singleShot(0, this, [this]() { m_blockSelectionSignal = false; });
+}
+
+void ResultTextView::setLinkedSelectionRenderingActive(bool active)
+{
+    if (active) {
+        if (!m_linkedSelectionRenderingActive) {
+            m_nativeHighlightColor = palette().color(QPalette::Highlight);
+            m_linkedSelectionRenderingActive = true;
+        }
+        QPalette linkedPalette = palette();
+        linkedPalette.setColor(QPalette::Highlight, Qt::transparent);
+        setPalette(linkedPalette);
+        return;
+    }
+
+    if (!m_linkedSelectionRenderingActive) {
+        return;
+    }
+    QPalette restoredPalette = palette();
+    restoredPalette.setColor(QPalette::Highlight, m_nativeHighlightColor);
+    setPalette(restoredPalette);
+    m_linkedSelectionRenderingActive = false;
 }

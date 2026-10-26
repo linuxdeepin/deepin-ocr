@@ -10,6 +10,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QGestureEvent>
+#include <QColor>
 
 class ResultTextView : public QPlainTextEdit
 {
@@ -47,6 +48,8 @@ public:
     QPair<int, int> plainTextSelectionRange() const;
     void selectPlainTextRanges(const QList<QPair<int, int>> &ranges);
 private:
+    void setLinkedSelectionRenderingActive(bool active);
+
     QMenu *m_Menu{nullptr};
     QAction *m_actCopy{nullptr};
     QAction *m_actCut{nullptr};
@@ -85,6 +88,8 @@ private:
     Qt::GestureState m_tapStatus = Qt::NoGesture;
     int m_fontSize = 16;
     bool m_blockSelectionSignal = false;
+    bool m_linkedSelectionRenderingActive = false;
+    QColor m_nativeHighlightColor;
 };
 
 #endif // RESULTTEXTVIEW_H
