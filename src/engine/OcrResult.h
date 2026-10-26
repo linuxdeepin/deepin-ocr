@@ -51,6 +51,9 @@ struct OcrResult
     }
 
     static OcrResult fromDOcr(Dtk::Ocr::DOcr *ocr);
+    static QList<OcrCharItem> buildCharItemsForLine(const OcrLineItem &line,
+                                                     int lineIndex,
+                                                     const QList<Dtk::Ocr::TextBox> &charBoxes);
 
     int charIndexAt(const QPointF &imagePos) const;
     QString textInRange(int start, int end) const;

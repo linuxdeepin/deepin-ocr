@@ -55,71 +55,6 @@ qreal characterDisplayWeight(QChar ch)
     return 2.0;
 }
 
-QList<OcrCharItem> buildCharItems(const OcrLineItem &line, int lineIndex, const QList<Dtk::Ocr::TextBox> &charBoxes)
-{
-    QList<OcrCharItem> chars;
-    if (line.text.isEmpty()) {
-        return chars;
-    }
-
-    const QRectF lineRect = line.rect;
-    const int textLen = line.text.size();
-    chars.reserve(textLen);
-
-    const bool useRealBoxes = (charBoxes.size() == textLen);
-
-    // Equal-length fast path: each recognized char already has its real
-    // polygon from the engine — use it verbatim so highlight/click positions
-    // align with the actual glyphs in the image (V-2325 v7 problem 1). Only
-    // when the counts mismatch do we fall back to weight-based synthesis,
-    // distributing the line rect across the chars proportionally. Each char's
-    // bounding rect is precomputed and cached in OcrCharItem::rect so the hot
-    // paths (draw/lasso/click) never recompute it (V-2325 v8 perf).
-    if (useRealBoxes) {
-        for (int charIndex = 0; charIndex < textLen; ++charIndex) {
-            OcrCharItem item;
-            item.box = charBoxes.at(charIndex);
-            item.rect = OcrResult::textBoxRect(item.box);
-            item.lineIndex = lineIndex;
-            item.charIndexInLine = charIndex;
-            item.character = line.text.at(charIndex);
-            chars.append(item);
-        }
-        return chars;
-    }
-
-    QVector<qreal> weights(textLen);
-    qreal totalWeight = 0.0;
-    for (int charIndex = 0; charIndex < textLen; ++charIndex) {
-        weights[charIndex] = characterDisplayWeight(line.text.at(charIndex));
-        totalWeight += weights[charIndex];
-    }
-    if (totalWeight <= 0.0) {
-        totalWeight = textLen;
-        weights.fill(1.0, textLen);
-    }
-
-    qreal x = lineRect.left();
-    for (int charIndex = 0; charIndex < textLen; ++charIndex) {
-        const qreal charWidth = lineRect.width() * weights.at(charIndex) / totalWeight;
-        OcrCharItem item;
-        Dtk::Ocr::TextBox box;
-        box.angle = 0;
-        box.points.push_back(QPointF(x, lineRect.top()));
-        box.points.push_back(QPointF(x + charWidth, lineRect.top()));
-        box.points.push_back(QPointF(x + charWidth, lineRect.bottom()));
-        box.points.push_back(QPointF(x, lineRect.bottom()));
-        item.box = box;
-        item.rect = QRectF(x, lineRect.top(), charWidth, lineRect.height());
-        item.lineIndex = lineIndex;
-        item.charIndexInLine = charIndex;
-        item.character = line.text.at(charIndex);
-        chars.append(item);
-        x += charWidth;
-    }
-    return chars;
-}
-
 QList<QList<int>> groupIntoVisualLines(QList<OcrLineItem> &rawLines)
 {
     QList<int> order;
@@ -218,7 +153,7 @@ OcrResult OcrResult::fromDOcr(Dtk::Ocr::DOcr *ocr)
         if (line.text.isEmpty()) {
             continue;
         }
-        line.chars = buildCharItems(line, rawLines.size(), ocr->charBoxes(i));
+        line.chars = buildCharItemsForLine(line, rawLines.size(), ocr->charBoxes(i));
         rawLines.append(line);
     }
 
@@ -259,6 +194,90 @@ OcrResult OcrResult::fromDOcr(Dtk::Ocr::DOcr *ocr)
     }
 
     return result;
+}
+
+QList<OcrCharItem> OcrResult::buildCharItemsForLine(const OcrLineItem &line,
+                                                     int lineIndex,
+                                                     const QList<Dtk::Ocr::TextBox> &charBoxes)
+{
+    QList<OcrCharItem> chars;
+    if (line.text.isEmpty()) {
+        return chars;
+    }
+
+    const QRectF lineRect = line.rect;
+    const int textLen = line.text.size();
+    chars.reserve(textLen);
+
+    if (charBoxes.size() == textLen) {
+        QRectF charBounds;
+        for (const auto &box : charBoxes) {
+            const QRectF rect = textBoxRect(box);
+            if (!rect.isEmpty()) {
+                charBounds = charBounds.isNull() ? rect : charBounds.united(rect);
+            }
+        }
+
+        // Some OCR plugins return character boxes in a different horizontal
+        // coordinate space than textBoxes (PPOCR_V5 currently returns half-width
+        // x coordinates). Treat the line box as authoritative and normalize the
+        // character union onto it so a full-line selection covers the full line.
+        if (!charBounds.isEmpty() && !lineRect.isEmpty()) {
+            const qreal xScale = lineRect.width() / charBounds.width();
+            const qreal yScale = lineRect.height() / charBounds.height();
+            auto normalizeBox = [&](Dtk::Ocr::TextBox box) {
+                for (auto &point : box.points) {
+                    point.setX(lineRect.left() + (point.x() - charBounds.left()) * xScale);
+                    point.setY(lineRect.top() + (point.y() - charBounds.top()) * yScale);
+                }
+                return box;
+            };
+
+            for (int charIndex = 0; charIndex < textLen; ++charIndex) {
+                OcrCharItem item;
+                item.box = normalizeBox(charBoxes.at(charIndex));
+                item.rect = textBoxRect(item.box);
+                item.lineIndex = lineIndex;
+                item.charIndexInLine = charIndex;
+                item.character = line.text.at(charIndex);
+                chars.append(item);
+            }
+            return chars;
+        }
+    }
+
+    // Count mismatch or unusable character geometry: distribute the line box
+    // across characters using display width (CJK/full-width = 2, Latin = 1).
+    QVector<qreal> weights(textLen);
+    qreal totalWeight = 0.0;
+    for (int charIndex = 0; charIndex < textLen; ++charIndex) {
+        weights[charIndex] = characterDisplayWeight(line.text.at(charIndex));
+        totalWeight += weights[charIndex];
+    }
+    if (totalWeight <= 0.0) {
+        totalWeight = textLen;
+        weights.fill(1.0, textLen);
+    }
+
+    qreal x = lineRect.left();
+    for (int charIndex = 0; charIndex < textLen; ++charIndex) {
+        const qreal charWidth = lineRect.width() * weights.at(charIndex) / totalWeight;
+        OcrCharItem item;
+        Dtk::Ocr::TextBox box;
+        box.angle = 0;
+        box.points.push_back(QPointF(x, lineRect.top()));
+        box.points.push_back(QPointF(x + charWidth, lineRect.top()));
+        box.points.push_back(QPointF(x + charWidth, lineRect.bottom()));
+        box.points.push_back(QPointF(x, lineRect.bottom()));
+        item.box = box;
+        item.rect = QRectF(x, lineRect.top(), charWidth, lineRect.height());
+        item.lineIndex = lineIndex;
+        item.charIndexInLine = charIndex;
+        item.character = line.text.at(charIndex);
+        chars.append(item);
+        x += charWidth;
+    }
+    return chars;
 }
 
 int OcrResult::charIndexAt(const QPointF &imagePos) const

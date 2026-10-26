@@ -92,8 +92,7 @@ private:
     QImage m_lightContrastImage{nullptr};//亮度曝光度图像
 
     OcrResult m_ocrResult;
-    QList<QPair<int, int>> m_selRanges;     // V-2325 v4: user left selection (α90)
-    QList<QPair<int, int>> m_focusRanges;   // V-2325 v4 D3: right→left linked focus (α55)
+    QList<QPair<int, int>> m_selRanges;     // Shared left/right selection ranges.
     QPointF m_dragAnchorPos;
     bool m_isTextSelecting = false;
     bool m_isPanning = false;
