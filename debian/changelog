@@ -1,3 +1,9 @@
+deepin-ocr (6.6.1) unstable; urgency=medium
+
+  * fix: correct OCR selection mapping and linked highlight rendering
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Mon, 26 Oct 2026 13:54:21 +0800
+
 deepin-ocr (6.6.0) unstable; urgency=medium
 
   * chore: Update version to 6.6.0
