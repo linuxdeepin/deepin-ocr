@@ -1,9 +1,10 @@
-// SPDX-FileCopyrightText: 2022 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "dconfigmanager.h"
 #include "private/dconfigmanager_p.h"
+#include "util/log.h"
 
 #include <DConfig>
 
@@ -108,7 +109,7 @@ QVariant DConfigManager::value(const QString &config, const QString &key, const 
     if (d->configs.contains(config)) {
         // 如果DConfig没刷新，存在有config但没key的情况
         if (!this->contains(config, key)) {
-            qWarning() << "DConfig has no key:" << key << "in config:" << config << "REBOOT may fix it";
+            qCWarning(dmOcr) << "DConfig has no key:" << key << "in config:" << config << "REBOOT may fix it";
             return fallback;
         }
 
@@ -116,7 +117,7 @@ QVariant DConfigManager::value(const QString &config, const QString &key, const 
         return d->configs.value(config)->value(key, fallback);
     }
     else
-        qWarning() << "Config:" << config << "is not registered!!!";
+        qCWarning(dmOcr) << "Config:" << config << "is not registered!!!";
     return fallback;
 #else
     return fallback;
@@ -131,14 +132,14 @@ void DConfigManager::setValue(const QString &config, const QString &key, const Q
     if (d->configs.contains(config)) {
         // 如果DConfig没刷新，存在有config但没key的情况
         if (!this->contains(config, key)) {
-            qWarning() << "DConfig has no key:" << key << "in config:" << config << "REBOOT may fix it";
+            qCWarning(dmOcr) << "DConfig has no key:" << key << "in config:" << config << "REBOOT may fix it";
             return;
         }
 
-        qInfo() << "dconfig:" << config << "key:" << key << "value:" << value;
+        qCInfo(dmOcr) << "dconfig:" << config << "key:" << key << "value:" << value;
         d->configs.value(config)->setValue(key, value);
     } else {
-        qWarning() << "Config:" << config << "is not registered!!!";
+        qCWarning(dmOcr) << "Config:" << config << "is not registered!!!";
     }
 #endif
 }

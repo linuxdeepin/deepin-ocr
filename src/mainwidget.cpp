@@ -6,6 +6,7 @@
 #include "view/imageview.h"
 #include "loadingwidget.h"
 #include "frame.h"
+#include "util/log.h"
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -55,7 +56,7 @@ MainWidget::~MainWidget()
     if (m_loadImagethread) {
         m_loadImagethread->requestInterruption(); // 请求线程中断
         if (!m_loadImagethread->wait(3000)) { // 等待线程结束，超时时间为3秒
-            qWarning() << "OCR thread TIMEOUT";
+            qCWarning(dmOcr) << "OCR thread TIMEOUT";
             m_loadImagethread->terminate(); // 如果线程没有结束，强制终止线程
             m_loadImagethread->deleteLater(); // 删除线程对象
             m_loadImagethread = nullptr;
@@ -396,10 +397,10 @@ void MainWidget::loadingUi()
     if (m_loadingWidget && m_loadingTip && m_frameStack) {
         int x = this->width() - m_frameStack->width() / 2;
         int y = this->height() / 2 - 50;
-        qDebug() << m_loadingWidget->width();
+        qCDebug(dmOcr) << m_loadingWidget->width();
         m_loadingWidget->setFixedSize(QSize(24, 24));
         m_loadingWidget->move(x - m_loadingWidget->width() / 2, y);
-        qDebug() << m_loadingTip->width();
+        qCDebug(dmOcr) << m_loadingTip->width();
 //        m_loadingTip->setAlignment(Qt::AlignCenter);
         QFontMetrics fm(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         int mPoint = fm.boundingRect(tr("Recognizing")).width();
@@ -659,7 +660,7 @@ void MainWidget::slotExport()
     }
 
     QString file_path = QFileDialog::getSaveFileName(this, "save as", download + "/" + fileName, "*.txt");
-    qDebug() << file_path;
+    qCDebug(dmOcr) << file_path;
 
     //这里不应该增加一个.txt，会导致有两个后缀
     QString path = file_path;

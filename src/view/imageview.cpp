@@ -1,4 +1,4 @@
-﻿// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+﻿// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -266,20 +266,20 @@ void ImageView::wheelEvent(QWheelEvent *event)
 
 void ImageView::handleGestureEvent(QGestureEvent *gesture)
 {
-    qDebug() << "------" << __FUNCTION__ << "";
+    qCDebug(dmOcr) << "------" << __FUNCTION__ << "";
     if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
         pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
 
 void ImageView::pinchTriggered(QPinchGesture *gesture)
 {
-    qDebug() << "------" << __FUNCTION__ << "";
+    qCDebug(dmOcr) << "------" << __FUNCTION__ << "";
     QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
     //缩放手势
     if (changeFlags & QPinchGesture::ScaleFactorChanged) {
         QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
         if (abs(gesture->scaleFactor() - 1) > 0.006) {
-            qDebug() << "scaleFactor" << gesture->scaleFactor();
+            qCDebug(dmOcr) << "scaleFactor" << gesture->scaleFactor();
             scaleAtPoint(pos, gesture->scaleFactor());
         }
     }
@@ -306,7 +306,7 @@ void ImageView::setScaleValue(qreal v)
 {
     //由于矩阵被旋转，通过矩阵获取缩放因子，计算缩放比例错误，因此记录过程中的缩放因子来判断缩放比例
     m_scal *= v;
-    qDebug() << m_scal;
+    qCDebug(dmOcr) << m_scal;
     scale(v, v);
     //const qreal irs = imageRelativeScale() * devicePixelRatioF();
     // Rollback
