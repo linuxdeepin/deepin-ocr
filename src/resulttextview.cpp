@@ -189,7 +189,7 @@ void ResultTextView::mouseReleaseEvent(QMouseEvent *e)
 {
     //修复一指滑动导致了ocr无法选择任何文本
     if (e->type() == QEvent::MouseButtonRelease && e->source() == Qt::MouseEventSynthesizedByQt) {
-        qDebug() << "action is over" << m_gestureAction;
+        qCDebug(dmOcr) << "action is over" << m_gestureAction;
 
         m_gestureAction = GA_null;
     }
