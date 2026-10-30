@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -15,6 +15,7 @@
 #include <QtDBus/QtDBus>
 #include <QImage>
 #include <QBuffer>
+#include "util/log.h"
 #include <QDebug>
 
 class OcrInterface: public QDBusAbstractInterface
@@ -55,7 +56,7 @@ public Q_SLOTS: // METHODS
     */
     inline QDBusPendingReply<> openImage(const QImage &image)
     {
-        qDebug() << __FUNCTION__;
+        qCDebug(dmOcr) << __FUNCTION__;
         QByteArray data;
         QBuffer buf(&data);
         if (image.save(&buf, "PNG")) {
@@ -74,7 +75,7 @@ public Q_SLOTS: // METHODS
     */
     inline QDBusPendingReply<> openImageAndName(const QImage &image, const QString &imageName)
     {
-        qDebug() << __FUNCTION__;
+        qCDebug(dmOcr) << __FUNCTION__;
         QByteArray data;
         QBuffer buf(&data);
         if (image.save(&buf, "PNG")) {

@@ -20,14 +20,19 @@
 #include "engine/OcrResult.h"
 
 #include <QMetaType>
+#include "util/logger.h"
 
 DWIDGET_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
+    // 动态日志监听必须在任何日志打印之前创建（置空环境变量才能生效），
+    // 且实例需存活整个进程以持续监听 DConfig 变更；
+    // 必须在 Application 实例化之前，否则 QApplication 内部日志打印会抢先应用规则
+    MLogger logger;
 
     if (argc < 2) {
-        qDebug() << "Cant open a null file";
+        qCDebug(dmOcr) << "Cant open a null file";
         return 0;
     }
 
@@ -87,7 +92,7 @@ int main(int argc, char *argv[])
         // 调用DBus接口，处理交给第一次调用的进程
         // 本进程退退出
         OcrInterface *pOcr = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), &instance);
-        qDebug() << __FUNCTION__ << __LINE__;
+        qCDebug(dmOcr) << __FUNCTION__ << __LINE__;
         pOcr->openFile(QString(argv[1]));
         delete pOcr;
         return 0;

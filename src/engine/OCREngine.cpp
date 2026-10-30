@@ -52,7 +52,7 @@ OCREngine::OCREngine()
  
     ocrDriver->setUseMaxThreadsCount(2);
     if (!isGpuEnable()) {
-        qWarning() << "GPU is not enabled";
+        qCWarning(dmOcr) << "GPU is not enabled";
         return;
     }
 
