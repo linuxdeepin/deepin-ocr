@@ -237,3 +237,5 @@ install(FILES ../com.deepin.Ocr.service DESTINATION ${DBusServiceDir})
 
 include(${CMAKE_SOURCE_DIR}/install_dconfig.cmake)
 INSTALL_DCONFIG("deepin-ocr.common.json")
+# 调试模式动态日志规则的 DConfig meta，appId 与 shell/监听代码保持一致
+INSTALL_DCONFIG("org.deepin.ocr.json" APPID "org.deepin.ocr")
