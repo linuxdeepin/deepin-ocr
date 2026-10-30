@@ -1,12 +1,19 @@
-# SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+# SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 #
 # SPDX-License-Identifier: CC0-1.0
 
 # expect that all dconfigs of plugin is saved in ./assets/configs
+# usage: INSTALL_DCONFIG(<config.json> [APPID <appId>])
+#        不传 APPID 时默认使用 deepin-ocr
 function(INSTALL_DCONFIG CONFIG_NAME)
+    cmake_parse_arguments(DCFG "" "APPID" "" ${ARGN})
     set(DConfigPath ${CMAKE_SOURCE_DIR}/assets/configs)
     message("DConfigPath: ${DConfigPath}")
-    set(AppId "deepin-ocr")
+    if(DCFG_APPID)
+        set(AppId ${DCFG_APPID})
+    else()
+        set(AppId "deepin-ocr")
+    endif()
     set(ConfigName ${CONFIG_NAME})
 
     if (DEFINED DSG_DATA_DIR)
