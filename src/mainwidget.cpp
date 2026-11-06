@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -685,14 +685,19 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_frameStack->setPalette(pal);
         }
         if (m_tipIconLabel) {
-            QPixmap m_tipImage = DDciIcon(QString(":/assets/icon_tips.dci")).pixmap(App->devicePixelRatio(), 16, DDciIcon::Theme::Dark);
+            QPixmap m_tipImage = DDciIcon(QString(":/assets/icon_tips.dci")).pixmap(App->devicePixelRatioF(), 16, DDciIcon::Theme::Dark);
             m_tipIconLabel->setPixmap(m_tipImage);
             m_tipIconLabel->setFixedSize(QSize(16, 16));
         }
-        App->setWindowIcon(QIcon(":/assets/appicon_dark.svg"));
+        // Pre-render SVG at fractional DPR to avoid aliasing under Wayland fractional scaling.
+        // QIcon(svg) goes through DTK SI_QIcon which does not pass devicePixelRatioF(),
+        // so we rasterize the SVG ourselves at the correct DPR and wrap the pixmap in QIcon.
+        qreal dpr = App->devicePixelRatioF();
+        QPixmap appIconPixmap = QIcon(":/assets/appicon_dark.svg").pixmap(QSize(32, 32), dpr);
+        App->setWindowIcon(QIcon(appIconPixmap));
         DMainWindow *mainWindow = static_cast<DMainWindow *>(this->parent());
         if (mainWindow) {
-            mainWindow->titlebar()->setIcon(QIcon(":/assets/appicon_dark.svg"));
+            mainWindow->titlebar()->setIcon(QIcon(appIconPixmap));
         }
         if (m_isLoading && m_imageview) {
             m_imageview->setForegroundBrush(QColor(0, 0, 0, 127)); //设置场景的前景色，类似于遮罩
@@ -739,14 +744,19 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_frameStack->setPalette(pal);
         }
         if (m_tipIconLabel) {
-            QPixmap m_tipImage = DDciIcon(QString(":/assets/icon_tips.dci")).pixmap(App->devicePixelRatio(), 16, DDciIcon::Theme::Light);
+            QPixmap m_tipImage = DDciIcon(QString(":/assets/icon_tips.dci")).pixmap(App->devicePixelRatioF(), 16, DDciIcon::Theme::Light);
             m_tipIconLabel->setPixmap(m_tipImage);
             m_tipIconLabel->setFixedSize(QSize(16, 16));
         }
-        App->setWindowIcon(QIcon(":/assets/appicon_light.svg"));
+        // Pre-render SVG at fractional DPR to avoid aliasing under Wayland fractional scaling.
+        // QIcon(svg) goes through DTK SI_QIcon which does not pass devicePixelRatioF(),
+        // so we rasterize the SVG ourselves at the correct DPR and wrap the pixmap in QIcon.
+        qreal dpr = App->devicePixelRatioF();
+        QPixmap appIconPixmap = QIcon(":/assets/appicon_light.svg").pixmap(QSize(32, 32), dpr);
+        App->setWindowIcon(QIcon(appIconPixmap));
         DMainWindow *mainWindow = static_cast<DMainWindow *>(this->parent());
         if (mainWindow) {
-            mainWindow->titlebar()->setIcon(QIcon(":/assets/appicon_light.svg"));
+            mainWindow->titlebar()->setIcon(QIcon(appIconPixmap));
         }
         if (m_isLoading && m_imageview) {
             m_imageview->setForegroundBrush(QColor(0, 0, 0, 77)); //设置场景的前景色，类似于遮罩
