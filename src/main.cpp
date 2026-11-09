@@ -15,6 +15,7 @@
 #include <DApplication>
 
 #include <QCoreApplication>
+#include <QApplication>
 #include <QDBusConnection>
 #include <QDBusInterface>
 
@@ -29,6 +30,8 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     DGuiApplicationHelper::setUseInactiveColorGroup(false);
 #if(DTK_VERSION < DTK_VERSION_CHECK(5,4,0,0))
     DApplication::loadDXcbPlugin();
