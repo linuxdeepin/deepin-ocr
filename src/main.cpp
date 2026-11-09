@@ -1,10 +1,11 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "ocrapplication.h"
 #include "service/ocrinterface.h"
 #include "service/dbusocr_adaptor.h"
+#include "engine/OCREngine.h"
 
 #include <DWidget>
 #include <DLog>
@@ -67,7 +68,9 @@ int main(int argc, char *argv[])
         if (cmdParser.isSet(dbusOption)) {
             // 第一调用已 --dbus参数启动
             qDebug() << "dbus register waiting!";
-            return app->exec();
+            int ret = app->exec();
+            OCREngine::shutdown();
+            return ret;
         }
 
         instance.openFile(QString(argv[1]));
@@ -82,7 +85,9 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    return app->exec();
+    int ret = app->exec();
+    OCREngine::shutdown();
+    return ret;
 }
 
 

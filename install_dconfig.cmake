@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2025-2026 UnionTech Software Technology Co., Ltd.
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # expect that all dconfigs of plugin is saved in ./assets/configs
 function(INSTALL_DCONFIG CONFIG_NAME)
     set(DConfigPath ${CMAKE_SOURCE_DIR}/assets/configs)
