@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -21,6 +21,9 @@ class OCREngine
 public:
     static OCREngine *instance();
 
+    // 进程退出前释放 OCR 驱动并销毁 ncnn 全局 Vulkan GPU 实例
+    static void shutdown();
+
     bool isRunning() const
     {
         return m_isRunning;
@@ -39,6 +42,8 @@ private:
 
     // 某些机型，使用GPU进行OCR识别，会导致OCR崩溃
     bool isGpuEnable();
+
+    static OCREngine *s_instance;
 
     Dtk::Ocr::DOcr *ocrDriver;
     std::atomic_bool m_isRunning;

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -7,15 +7,45 @@
 #include <QProcess>
 #include <QFileInfo>
 #include <QDebug>
+#include <QLibrary>
 #include <dconfigmanager.h>
+
+namespace {
+// ncnn::destroy_gpu_instance() 的导出符号（声明见 ncnn/gpu.h）。
+// 这里通过符号解析调用，避免为维护分支新增 libncnn 的编译/链接依赖。
+constexpr char kNcnnDestroyGpuInstance[] = "_ZN4ncnn20destroy_gpu_instanceEv";
+}
+
+OCREngine *OCREngine::s_instance = nullptr;
 
 OCREngine *OCREngine::instance()
 {
-    static OCREngine *ocr_detail = nullptr;
-    if (ocr_detail == nullptr) {
-        ocr_detail = new OCREngine;
+    if (s_instance == nullptr) {
+        s_instance = new OCREngine;
     }
-    return ocr_detail;
+    return s_instance;
+}
+
+void OCREngine::shutdown()
+{
+    if (s_instance == nullptr)
+        return;
+
+    // 先释放 OCR 驱动，其内部 ncnn Net/Mat 持有 GPU 资源，必须在 GPU 实例销毁前释放
+    delete s_instance->ocrDriver;
+    s_instance->ocrDriver = nullptr;
+
+    // 在进程退出前显式销毁 ncnn 全局 Vulkan GPU 实例。若留到进程退出阶段，
+    // Vulkan ICD 可能已经先卸载，vkDestroyImageView() 会使用失效的 VkDevice 导致崩溃。
+    QLibrary ncnnLib(QStringLiteral("libncnn.so.1"));
+    using DestroyGpuInstance = void (*)();
+    auto destroyGpuInstance = reinterpret_cast<DestroyGpuInstance>(
+                ncnnLib.resolve(kNcnnDestroyGpuInstance));
+    if (destroyGpuInstance != nullptr) {
+        destroyGpuInstance();
+    } else {
+        qWarning() << "Failed to resolve ncnn::destroy_gpu_instance";
+    }
 }
 
 OCREngine::OCREngine()
