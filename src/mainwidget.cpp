@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -689,10 +689,11 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_tipIconLabel->setPixmap(m_tipImage);
             m_tipIconLabel->setFixedSize(QSize(16, 16));
         }
-        App->setWindowIcon(QIcon(":/assets/appicon_dark.svg"));
+        DDciIcon appDci(QStringLiteral(":/assets/appicon.dci"));
+        App->setWindowIcon(QIcon(appDci.pixmap(App->devicePixelRatioF(), 32, DDciIcon::Theme::Dark)));
         DMainWindow *mainWindow = static_cast<DMainWindow *>(this->parent());
         if (mainWindow) {
-            mainWindow->titlebar()->setIcon(QIcon(":/assets/appicon_dark.svg"));
+            mainWindow->titlebar()->setIcon(QIcon(appDci.pixmap(App->devicePixelRatioF(), 32, DDciIcon::Theme::Dark)));
         }
         if (m_isLoading && m_imageview) {
             m_imageview->setForegroundBrush(QColor(0, 0, 0, 127)); //设置场景的前景色，类似于遮罩
@@ -743,10 +744,11 @@ void MainWidget::setIcons(DGuiApplicationHelper::ColorType themeType)
             m_tipIconLabel->setPixmap(m_tipImage);
             m_tipIconLabel->setFixedSize(QSize(16, 16));
         }
-        App->setWindowIcon(QIcon(":/assets/appicon_light.svg"));
+        DDciIcon appDci(QStringLiteral(":/assets/appicon.dci"));
+        App->setWindowIcon(QIcon(appDci.pixmap(App->devicePixelRatioF(), 32, DDciIcon::Theme::Light)));
         DMainWindow *mainWindow = static_cast<DMainWindow *>(this->parent());
         if (mainWindow) {
-            mainWindow->titlebar()->setIcon(QIcon(":/assets/appicon_light.svg"));
+            mainWindow->titlebar()->setIcon(QIcon(appDci.pixmap(App->devicePixelRatioF(), 32, DDciIcon::Theme::Light)));
         }
         if (m_isLoading && m_imageview) {
             m_imageview->setForegroundBrush(QColor(0, 0, 0, 77)); //设置场景的前景色，类似于遮罩
