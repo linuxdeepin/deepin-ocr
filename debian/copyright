@@ -11,7 +11,7 @@ Files: debian/*
 Copyright: 2022 Deepin.Inc <support@deepin.com>
 License: Expat
 
-Files: 3rdparty/stub_linux/*
+Files: tests/stub_linux/*
 Copyright: 2020 Zhang Yu
 License: MIT
 

@@ -113,7 +113,7 @@ if(DOTEST)
     SET(PROJECT_NAME_TEST ${PROJECT_NAME}_test)
 
     include_directories(./../tests/)
-    include_directories(./../3rdparty/stub_linux/)
+    include_directories(./../tests/stub_linux/)
 
     aux_source_directory(./../tests/ allTestSource)
     aux_source_directory(./view allTestSource)
