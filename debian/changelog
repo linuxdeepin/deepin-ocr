@@ -1,3 +1,9 @@
+deepin-ocr (6.6.2) unstable; urgency=medium
+
+  * chore: move stub_linux from 3rdparty to tests
+
+ -- wangrong <wangrong@uniontech.com>  Tue, 17 Nov 2026 19:54:48 +0800
+
 deepin-ocr (6.6.1) unstable; urgency=medium
 
   * fix: correct OCR selection mapping and linked highlight rendering
