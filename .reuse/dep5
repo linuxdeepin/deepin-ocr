@@ -54,7 +54,7 @@ Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3.0-or-later
 
 # tests
-Files: tests/*
+Files: tests/test*
 Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3.0-or-later
 
@@ -68,7 +68,7 @@ Files: deepin-ocr.desktop
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
 
-# 3rdparty/stub_linux
-Files: 3rdparty/stub_linux/*
+# tests/stub_linux
+Files: tests/stub_linux/*
 Copyright: coolxv 2019
 License: MIT

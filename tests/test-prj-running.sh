@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+# SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 #
 # SPDX-License-Identifier: CC0-1.0
 
@@ -43,7 +43,7 @@ lcov --directory ./src/CMakeFiles/deepin-ocr_test.dir --zerocounters
 
 lcov --directory . --capture --output-file ./coverageResult/deepin-ocr_Coverage.info
 echo \ ===================\ do\ filter\ begin\ ====================\ 
-lcov --remove ./coverageResult/deepin-ocr_Coverage.info '*/3rdparty/*' '*/deepin-ocr_test_autogen/*' '*/deepin-ocr_autogen/*' '*/usr/include/*' '*/usr/local/*' '*/tests/*' '*/googletest/*' -o ./coverageResult/deepin-ocr_Coverage.info
+lcov --remove ./coverageResult/deepin-ocr_Coverage.info '*/deepin-ocr_test_autogen/*' '*/deepin-ocr_autogen/*' '*/usr/include/*' '*/usr/local/*' '*/tests/*' '*/googletest/*' -o ./coverageResult/deepin-ocr_Coverage.info
 echo \ ===================\ do\ filter\ end\ ====================\ 
 genhtml -o ./coverageResult/report ./coverageResult/deepin-ocr_Coverage.info
 
@@ -51,7 +51,7 @@ sleep 2
 
 lcov --directory . --capture --output-file ./coverageResult/deepin-ocr_Coverage.info
 echo \ ===================\ do\ filter\ begin\ ====================\ 
-lcov --remove ./coverageResult/deepin-ocr_Coverage.info '*/3rdparty/*' '*/deepin-ocr_test_autogen/*' '*/deepin-ocr_autogen/*' '*/usr/include/*' '*/usr/local/*' '*/tests/*' '*/googletest/*' -o ./coverageResult/deepin-ocr_Coverage.info
+lcov --remove ./coverageResult/deepin-ocr_Coverage.info '*/deepin-ocr_test_autogen/*' '*/deepin-ocr_autogen/*' '*/usr/include/*' '*/usr/local/*' '*/tests/*' '*/googletest/*' -o ./coverageResult/deepin-ocr_Coverage.info
 echo \ ===================\ do\ filter\ end\ ====================\ 
 genhtml -o ./coverageResult/report ./coverageResult/deepin-ocr_Coverage.info
 
